@@ -1,0 +1,201 @@
+/* FIT2179 Data Visualisation 2 — page styles.
+   Tokens and scale derive from wiki/design/visual-language.md.
+   Final duotone/bivariate hexes and typefaces are locked in module #5 (interactions & polish);
+   the values here are the provisional, CVD-safe defaults the shell renders against. */
+
+:root {
+  /* Signature duotone — metro vs regional. CVD-safe (ColorBrewer Dark2 teal/orange):
+     separates on hue AND luminance. Carries the payoff. */
+  --metro: #1b9e77;
+  --regional: #d95f02;
+
+  /* Neutrals / ink */
+  --ink: #1a1a1a;
+  --muted: #5b5b5b;
+  --faint: #8a8a8a;
+  --line: #e4e2dd;
+  --bg: #ffffff;
+  --bg-soft: #f7f6f2;
+
+  /* Layout */
+  --maxw: 900px;     /* single centred column */
+  --measure: 68ch;   /* body line length ~60–75 chars */
+  --gap: 1.25rem;
+
+  /* Typography: zero web-font payload, system fallbacks only.
+     Display (serif) for the claim headings; sans body for reading. */
+  --font-display: Georgia, "Iowan Old Style", "Times New Roman", serif;
+  --font-body: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  /* hard requirement: no horizontal scroll on a small laptop */
+  overflow-x: hidden;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+.page {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 2.5rem 1.25rem 4rem;
+}
+
+/* ---- Type scale: page title > section claim > chart title > annotation > axis ---- */
+
+.page-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 2.9rem);
+  line-height: 1.12;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin: 0 0 0.4rem;
+  max-width: 22ch;
+}
+
+.deck {
+  font-size: 1.15rem;
+  color: var(--muted);
+  max-width: var(--measure);
+  margin: 0 0 0.75rem;
+}
+
+.byline {
+  font-size: 0.85rem;
+  color: var(--faint);
+  margin: 0;
+}
+
+.section-claim {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 3.2vw, 1.75rem);
+  line-height: 1.2;
+  font-weight: 700;
+  margin: 0 0 0.35rem;
+  max-width: 24ch;
+}
+
+.kicker {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--faint);
+  margin: 0 0 0.4rem;
+}
+
+.prose {
+  max-width: var(--measure);
+  color: var(--ink);
+}
+
+.prose p { margin: 0 0 1rem; }
+
+/* ---- Sections ---- */
+
+.section {
+  padding: 2.25rem 0;
+  border-top: 1px solid var(--line);
+}
+
+.section:first-of-type { border-top: 0; }
+
+/* The hero (§4) gets the most vertical room. */
+.section--hero {
+  background: var(--bg-soft);
+  margin: 0 -1.25rem;
+  padding: 2.75rem 1.25rem 3rem;
+}
+
+/* ---- Chart mounts ---- */
+
+.chart {
+  width: 100%;
+  margin: 1.25rem 0;
+}
+
+.chart-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin: 0 0 0.15rem;
+}
+
+.chart-note {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin: 0.4rem 0 0;
+  max-width: var(--measure);
+}
+
+/* Mount point: holds a vega-embed view. Placeholder look until a spec lands. */
+.chart-mount {
+  width: 100%;
+  min-height: 80px;
+}
+
+.chart-mount[data-pending="true"] {
+  min-height: 220px;
+  border: 1px dashed var(--line);
+  border-radius: 6px;
+  background: repeating-linear-gradient(
+    45deg, transparent, transparent 10px,
+    rgba(0, 0, 0, 0.015) 10px, rgba(0, 0, 0, 0.015) 20px
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--faint);
+  font-size: 0.85rem;
+}
+
+/* Keep all rendered output inside the column — guards against horizontal scroll. */
+.chart-mount canvas,
+.chart-mount svg,
+.chart-mount img {
+  max-width: 100%;
+  height: auto;
+}
+
+.vega-embed { width: 100%; }
+.vega-embed details,
+.vega-embed summary { font-family: var(--font-body); }
+
+/* ---- Scaffold smoke-test banner (remove once chart-01 lands) ---- */
+
+.scaffold {
+  border: 2px dashed var(--regional);
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  margin: 0 0 2.5rem;
+  background: #fff8f2;
+}
+
+.scaffold__label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--regional);
+  margin: 0 0 0.5rem;
+}
+
+/* ---- Footer ---- */
+
+.page-footer {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--line);
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.page-footer a { color: var(--muted); }

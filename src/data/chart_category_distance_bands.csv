@@ -1,0 +1,41 @@
+venue_category_group,distance_band,distance_band_order,venue_count
+BYO permit,0-200m,1,424
+BYO permit,200-400m,2,109
+BYO permit,400-800m,3,67
+BYO permit,800m+,4,86
+Club,0-200m,1,483
+Club,200-400m,2,398
+Club,400-800m,3,270
+Club,800m+,4,292
+General and late-night general,0-200m,1,1668
+General and late-night general,200-400m,2,392
+General and late-night general,400-800m,3,124
+General and late-night general,800m+,4,267
+Limited licence,0-200m,1,1768
+Limited licence,200-400m,2,921
+Limited licence,400-800m,3,632
+Limited licence,800m+,4,766
+On-premises,0-200m,1,1639
+On-premises,200-400m,2,334
+On-premises,400-800m,3,144
+On-premises,800m+,4,188
+Packaged liquor,0-200m,1,1806
+Packaged liquor,200-400m,2,320
+Packaged liquor,400-800m,3,80
+Packaged liquor,800m+,4,72
+Pre-retail,0-200m,1,44
+Pre-retail,200-400m,2,18
+Pre-retail,400-800m,3,16
+Pre-retail,800m+,4,27
+Producer,0-200m,1,151
+Producer,200-400m,2,133
+Producer,400-800m,3,93
+Producer,800m+,4,668
+Remote seller,0-200m,1,316
+Remote seller,200-400m,2,230
+Remote seller,400-800m,3,162
+Remote seller,800m+,4,208
+Restaurant and cafe,0-200m,1,5219
+Restaurant and cafe,200-400m,2,875
+Restaurant and cafe,400-800m,3,171
+Restaurant and cafe,800m+,4,151
