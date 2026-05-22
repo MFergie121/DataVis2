@@ -17,12 +17,6 @@
 <body>
   <main class="page">
 
-    <!-- ===== Scaffold smoke-test — remove once chart-01 lands (module #2 acceptance check) ===== -->
-    <section class="scaffold" aria-label="Build scaffold smoke test">
-      <p class="scaffold__label">🔧 Scaffold — runtime smoke test</p>
-      <div id="smoke-test" class="chart-mount"></div>
-    </section>
-
     <!-- ===== Page header ===== -->
     <header>
       <h1 class="page-title">Near, not served</h1>
@@ -169,17 +163,16 @@
     // Manifest: mount id -> spec path. null = not built yet (mount stays a placeholder).
     // Fill these in as modules #3 / #4 land their .vl.json specs.
     const CHARTS = {
-      "smoke-test": "specs/_smoke-test.vl.json",
       "chart-01": "specs/chart-01-venue-point-map.vl.json",
-      "chart-02": null,
+      "chart-02": "specs/chart-02-distance-histogram.vl.json",
       "chart-03": "specs/chart-03-access-choropleth.vl.json",
-      "chart-04": null,
+      "chart-04": "specs/chart-04-category-mode-heatmap.vl.json",
       "chart-05": "specs/chart-05-bivariate-access-seifa-map.vl.json",
-      "chart-06": null,
-      "chart-07": null,
-      "chart-08": null,
-      "chart-09": null,
-      "chart-10": null
+      "chart-06": "specs/chart-06-paradox-reveal-scatter.vl.json",
+      "chart-07": "specs/chart-07-metro-regional-comparison.vl.json",
+      "chart-08": "specs/chart-08-sa2-rankings-lollipop.vl.json",
+      "chart-09": "specs/chart-09-category-distance-bands.vl.json",
+      "chart-10": "specs/chart-10-late-night-coda.vl.json"
     };
 
     function renderChart(id, spec) {

@@ -1,0 +1,66 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Chart 07 — Metro vs regional, head-on. The real divide stated plainly across two metrics: the share of all venues within 400 m of a stop (89% vs 60%, a ~29-point gap) and the median walking distance to the nearest stop (117 m vs 277 m). Note this is the pooled venue-level share; the hero (chart-06) instead averages per-SA2 rates (~86% vs ~57%), so the two sections cite slightly different figures for the same divide. Teal = metro, orange = regional. Data: chart_metro_regional_summary.csv (2 rows).",
+  "title": {
+    "text": "The real divide is the city limits: 89% vs 60% within 400 m of a stop",
+    "anchor": "start"
+  },
+  "data": { "url": "data/chart_metro_regional_summary.csv" },
+  "config": { "view": { "stroke": null } },
+  "hconcat": [
+    {
+      "width": 240,
+      "height": 280,
+      "title": "Venues within 400 m of a stop",
+      "layer": [
+        {
+          "mark": { "type": "bar", "cornerRadiusEnd": 2 },
+          "encoding": {
+            "x": { "field": "metro_regional_label", "type": "nominal", "title": null, "axis": { "labelAngle": 0 } },
+            "y": { "field": "share_within_400m_pt", "type": "quantitative", "title": "Share within 400 m", "axis": { "format": ".0%" }, "scale": { "domain": [0, 1] } },
+            "color": { "field": "metro_regional_label", "type": "nominal", "scale": { "domain": ["Metro", "Regional"], "range": ["#1b9e77", "#d95f02"] }, "legend": null },
+            "tooltip": [
+              { "field": "metro_regional_label", "type": "nominal", "title": "Region" },
+              { "field": "share_within_400m_pt", "type": "quantitative", "title": "Within 400 m", "format": ".1%" }
+            ]
+          }
+        },
+        {
+          "mark": { "type": "text", "dy": -6, "fontWeight": "bold" },
+          "encoding": {
+            "x": { "field": "metro_regional_label", "type": "nominal" },
+            "y": { "field": "share_within_400m_pt", "type": "quantitative" },
+            "text": { "field": "share_within_400m_pt", "type": "quantitative", "format": ".0%" }
+          }
+        }
+      ]
+    },
+    {
+      "width": 240,
+      "height": 280,
+      "title": "Median walk to nearest stop",
+      "layer": [
+        {
+          "mark": { "type": "bar", "cornerRadiusEnd": 2 },
+          "encoding": {
+            "x": { "field": "metro_regional_label", "type": "nominal", "title": null, "axis": { "labelAngle": 0 } },
+            "y": { "field": "median_nearest_stop_distance_m", "type": "quantitative", "title": "Metres" },
+            "color": { "field": "metro_regional_label", "type": "nominal", "scale": { "domain": ["Metro", "Regional"], "range": ["#1b9e77", "#d95f02"] }, "legend": null },
+            "tooltip": [
+              { "field": "metro_regional_label", "type": "nominal", "title": "Region" },
+              { "field": "median_nearest_stop_distance_m", "type": "quantitative", "title": "Median distance (m)", "format": ".0f" }
+            ]
+          }
+        },
+        {
+          "mark": { "type": "text", "dy": -6, "fontWeight": "bold" },
+          "encoding": {
+            "x": { "field": "metro_regional_label", "type": "nominal" },
+            "y": { "field": "median_nearest_stop_distance_m", "type": "quantitative" },
+            "text": { "field": "median_nearest_stop_distance_m", "type": "quantitative", "format": ".0f" }
+          }
+        }
+      ]
+    }
+  ]
+}

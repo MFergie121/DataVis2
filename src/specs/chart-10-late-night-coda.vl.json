@@ -1,0 +1,46 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Chart 10 — Late-night coda. Where transport matters most after dark: do late-opening venues sit any closer to a stop than the rest? For metro venues, late-night and other venues are near a stop at almost the same high rate. In regional Victoria the proximity drops away for both. Honesty note: late_night_flag is a VENUE attribute (the venue opens late); proximity to a stop is not the same as a service running late — train/bus timetables (GTFS) are out of scope. Aggregated in-spec from venues_web.csv.",
+  "title": {
+    "text": "After dark, proximity holds in the metro — and thins out in the regions",
+    "subtitle": "Distance band of late-opening vs other venues. Proximity to a stop ≠ a service running late.",
+    "anchor": "start",
+    "subtitleFontStyle": "italic"
+  },
+  "data": { "url": "data/venues_web.csv" },
+  "transform": [
+    { "filter": "datum.metro_regional_label == 'Metro' || datum.metro_regional_label == 'Regional'" },
+    { "calculate": "datum.late_night_flag == 'True' ? 'Late-night' : 'Other'", "as": "venue_kind" },
+    { "calculate": "datum.access_class == 'high_access_0_400m' ? 'Within 400 m' : (datum.access_class == 'moderate_access_400_800m' ? '400–800 m' : 'Beyond 800 m')", "as": "access_label" },
+    { "calculate": "datum.access_class == 'high_access_0_400m' ? 0 : (datum.access_class == 'moderate_access_400_800m' ? 1 : 2)", "as": "access_order" }
+  ],
+  "facet": {
+    "column": { "field": "metro_regional_label", "title": null, "sort": ["Metro", "Regional"], "header": { "labelFontSize": 13, "labelFontWeight": "bold" } }
+  },
+  "spec": {
+    "width": 180,
+    "height": 300,
+    "mark": { "type": "bar" },
+    "encoding": {
+      "x": { "field": "venue_kind", "type": "nominal", "title": null, "sort": ["Late-night", "Other"], "axis": { "labelAngle": 0 } },
+      "y": { "aggregate": "count", "type": "quantitative", "title": "Share of venues", "stack": "normalize", "axis": { "format": ".0%" } },
+      "color": {
+        "field": "access_label",
+        "type": "nominal",
+        "title": "Distance to nearest stop",
+        "sort": ["Within 400 m", "400–800 m", "Beyond 800 m"],
+        "scale": {
+          "domain": ["Within 400 m", "400–800 m", "Beyond 800 m"],
+          "range": ["#0b4f4a", "#7bb5b0", "#dce8e6"]
+        }
+      },
+      "order": { "field": "access_order", "type": "ordinal" },
+      "tooltip": [
+        { "field": "metro_regional_label", "type": "nominal", "title": "Region" },
+        { "field": "venue_kind", "type": "nominal", "title": "Venue" },
+        { "field": "access_label", "type": "nominal", "title": "Distance" },
+        { "aggregate": "count", "type": "quantitative", "title": "Venues", "format": "," }
+      ]
+    }
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Chart 02 — Distance-to-stop histogram. Count of Victoria's licensed venues by their distance band to the nearest public-transport stop, in the four ordered bands. The hook: most venues sit very close. Bars are split by whether they fall within the 400 m access threshold used elsewhere on the page. Data: venues_web.csv (23,658 venues).",
+  "title": {
+    "text": "Most venues are a short walk from a stop",
+    "subtitle": "14,342 venues — 61% — are within 200 m; three-quarters are within 400 m.",
+    "anchor": "start",
+    "subtitleFontStyle": "italic"
+  },
+  "width": "container",
+  "height": 300,
+  "data": { "url": "data/venues_web.csv" },
+  "transform": [
+    { "calculate": "datum.distance_band_order <= 2 ? 'Within 400 m' : 'Beyond 400 m'", "as": "access_threshold" }
+  ],
+  "mark": { "type": "bar", "cornerRadiusEnd": 2 },
+  "encoding": {
+    "x": {
+      "field": "distance_band",
+      "type": "nominal",
+      "title": "Distance to nearest stop",
+      "sort": ["0-200m", "200-400m", "400-800m", "800m+"],
+      "axis": { "labelAngle": 0 }
+    },
+    "y": {
+      "aggregate": "count",
+      "type": "quantitative",
+      "title": "Venues"
+    },
+    "color": {
+      "field": "access_threshold",
+      "type": "nominal",
+      "title": null,
+      "scale": { "domain": ["Within 400 m", "Beyond 400 m"], "range": ["#238b8b", "#cbd2d0"] },
+      "legend": { "orient": "top-right" }
+    },
+    "tooltip": [
+      { "field": "distance_band", "type": "nominal", "title": "Band" },
+      { "aggregate": "count", "type": "quantitative", "title": "Venues", "format": "," }
+    ]
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Chart 06 — Paradox-reveal hero. One point per SA2: socio-economic advantage (SEIFA IRSAD decile, x) against transport access (share of venues within 400 m of a stop, y), coloured teal (metro) / orange (regional). A linear trend line per region makes the Simpson's paradox visible: metro access is flat-and-high (~86%) across every wealth decile, while regional sits far below (~57%). Pooling the two would suggest a wealth gradient that doesn't exist within either group. Receives the choropleth's SA2 highlight in module #5. Data: chart_scatter_sa2.csv.",
+  "title": {
+    "text": "Wealth barely moves transport access — once you split metro from regional",
+    "subtitle": "Each dot is an SA2. Metro venues stay ~86% within 400 m of a stop at every decile; regional ones sit near 57%.",
+    "anchor": "start",
+    "subtitleFontStyle": "italic"
+  },
+  "width": "container",
+  "height": 420,
+  "data": { "url": "data/chart_scatter_sa2.csv" },
+  "transform": [
+    { "filter": "datum.metro_regional_majority == 'Metro' || datum.metro_regional_majority == 'Regional'" },
+    { "filter": "datum.access_share_pct != null" }
+  ],
+  "encoding": {
+    "x": {
+      "field": "irsad_aus_decile",
+      "type": "quantitative",
+      "title": "SEIFA IRSAD decile  (1 = most disadvantaged → 10 = most advantaged)",
+      "scale": { "domain": [0.5, 10.5] },
+      "axis": { "values": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], "grid": false }
+    },
+    "y": {
+      "field": "access_share_pct",
+      "type": "quantitative",
+      "title": "Venues within 400 m of a stop (%)",
+      "scale": { "domain": [0, 100] }
+    },
+    "color": {
+      "field": "metro_regional_majority",
+      "type": "nominal",
+      "title": "Region",
+      "scale": { "domain": ["Metro", "Regional"], "range": ["#1b9e77", "#d95f02"] }
+    }
+  },
+  "layer": [
+    {
+      "mark": { "type": "circle", "size": 38, "opacity": 0.45 },
+      "encoding": {
+        "tooltip": [
+          { "field": "sa2_name_2021", "type": "nominal", "title": "SA2" },
+          { "field": "metro_regional_majority", "type": "nominal", "title": "Region" },
+          { "field": "irsad_aus_decile", "type": "quantitative", "title": "SEIFA decile" },
+          { "field": "access_share_pct", "type": "quantitative", "title": "Within 400 m", "format": ".0f" },
+          { "field": "venue_count", "type": "quantitative", "title": "Venues", "format": "," }
+        ]
+      }
+    },
+    {
+      "transform": [
+        { "regression": "access_share_pct", "on": "irsad_aus_decile", "groupby": ["metro_regional_majority"] }
+      ],
+      "mark": { "type": "line", "strokeWidth": 3 }
+    }
+  ]
+}

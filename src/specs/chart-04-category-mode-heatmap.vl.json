@@ -1,0 +1,57 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Chart 04 — Venue type x nearest transport mode. A heatmap of venue counts: which public-transport mode is the nearest for each kind of venue. Bus dominates by count; cafes and restaurants cluster on metro bus and tram, while regional venue types lean on regional bus and coach. Fill encodes count; the number is printed in each cell. Data: chart_category_mode_matrix.csv (73 rows).",
+  "title": {
+    "text": "A cafe's nearest stop is usually a bus or tram; a regional club's is a coach",
+    "subtitle": "Venue count by type and nearest transport mode.",
+    "anchor": "start",
+    "subtitleFontStyle": "italic"
+  },
+  "width": "container",
+  "height": 320,
+  "data": { "url": "data/chart_category_mode_matrix.csv" },
+  "encoding": {
+    "x": {
+      "field": "MODE",
+      "type": "nominal",
+      "title": "Nearest mode",
+      "axis": { "labelAngle": -40, "orient": "top" }
+    },
+    "y": {
+      "field": "venue_category_group",
+      "type": "nominal",
+      "title": "Venue type",
+      "sort": { "op": "sum", "field": "venue_count", "order": "descending" }
+    }
+  },
+  "layer": [
+    {
+      "mark": { "type": "rect" },
+      "encoding": {
+        "color": {
+          "field": "venue_count",
+          "type": "quantitative",
+          "title": "Venues",
+          "scale": { "scheme": "teals", "type": "sqrt" },
+          "legend": { "gradientLength": 140 }
+        },
+        "tooltip": [
+          { "field": "venue_category_group", "type": "nominal", "title": "Venue type" },
+          { "field": "MODE", "type": "nominal", "title": "Nearest mode" },
+          { "field": "venue_count", "type": "quantitative", "title": "Venues", "format": "," },
+          { "field": "share_within_400m_pct", "type": "quantitative", "title": "Within 400 m (%)", "format": ".0f" }
+        ]
+      }
+    },
+    {
+      "mark": { "type": "text", "fontSize": 9 },
+      "encoding": {
+        "text": { "field": "venue_count", "type": "quantitative", "format": "," },
+        "color": {
+          "condition": { "test": "datum.venue_count > 1500", "value": "white" },
+          "value": "#33413f"
+        }
+      }
+    }
+  ]
+}

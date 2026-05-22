@@ -169,25 +169,6 @@ body {
 .vega-embed details,
 .vega-embed summary { font-family: var(--font-body); }
 
-/* ---- Scaffold smoke-test banner (remove once chart-01 lands) ---- */
-
-.scaffold {
-  border: 2px dashed var(--regional);
-  border-radius: 8px;
-  padding: 1rem 1.25rem;
-  margin: 0 0 2.5rem;
-  background: #fff8f2;
-}
-
-.scaffold__label {
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: var(--regional);
-  margin: 0 0 0.5rem;
-}
-
 /* ---- Footer ---- */
 
 .page-footer {

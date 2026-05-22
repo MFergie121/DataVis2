@@ -1,0 +1,45 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Chart 09 — Distance-band mix by venue type. A 100% stacked bar showing, for each venue type, what share of its venues fall in each distance band to the nearest stop. Normalising lets types with very different totals be compared on composition: some types sit almost entirely within 200 m, others carry a long 800 m+ tail (the more regional-leaning types). Band colour is ordered (near = dark) rather than arbitrary hue. Data: chart_category_distance_bands.csv (40 rows).",
+  "title": {
+    "text": "Co-location isn't uniform: the distance mix shifts by venue type",
+    "subtitle": "Share of each venue type's locations by distance to the nearest stop.",
+    "anchor": "start",
+    "subtitleFontStyle": "italic"
+  },
+  "width": "container",
+  "height": 320,
+  "data": { "url": "data/chart_category_distance_bands.csv" },
+  "mark": { "type": "bar" },
+  "encoding": {
+    "y": {
+      "field": "venue_category_group",
+      "type": "nominal",
+      "title": null,
+      "sort": { "op": "sum", "field": "venue_count", "order": "descending" }
+    },
+    "x": {
+      "field": "venue_count",
+      "type": "quantitative",
+      "title": "Share of venues",
+      "stack": "normalize",
+      "axis": { "format": ".0%" }
+    },
+    "color": {
+      "field": "distance_band",
+      "type": "nominal",
+      "title": "Distance to nearest stop",
+      "sort": { "field": "distance_band_order" },
+      "scale": {
+        "domain": ["0-200m", "200-400m", "400-800m", "800m+"],
+        "range": ["#0b4f4a", "#2a9d8f", "#86c5be", "#d8ebe8"]
+      }
+    },
+    "order": { "field": "distance_band_order", "type": "ordinal" },
+    "tooltip": [
+      { "field": "venue_category_group", "type": "nominal", "title": "Venue type" },
+      { "field": "distance_band", "type": "nominal", "title": "Band" },
+      { "field": "venue_count", "type": "quantitative", "title": "Venues", "format": "," }
+    ]
+  }
+}
