@@ -169,6 +169,27 @@ body {
 .vega-embed details,
 .vega-embed summary { font-family: var(--font-body); }
 
+abbr[title] {
+  text-decoration: underline dotted;
+  text-underline-offset: 2px;
+  cursor: help;
+}
+
+/* Linked-selection control */
+.clear-btn {
+  margin-left: 0.5rem;
+  padding: 0.15rem 0.55rem;
+  font: inherit;
+  font-size: 0.8rem;
+  color: var(--metro);
+  background: #fff;
+  border: 1px solid var(--metro);
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.clear-btn:hover { background: var(--metro); color: #fff; }
+
 /* ---- Footer ---- */
 
 .page-footer {

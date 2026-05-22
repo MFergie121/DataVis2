@@ -50,11 +50,17 @@
       <p class="kicker">The obvious pattern</p>
       <h2 class="section-claim">Where there are venues, there are stops</h2>
       <div class="prose">
-        <p>Of course the pub is near the tram. The co-location shows up by area and by venue type.</p>
+        <p>Of course the pub is near the tram. The co-location shows up by area and by venue type. Each
+          region below is an <abbr title="ABS Statistical Area Level 2 — a neighbourhood-scale region of roughly 3,000–25,000 people">SA2</abbr>;
+          <em>within 400 m</em> means a venue is roughly a five-minute walk from its nearest stop.</p>
       </div>
 
       <figure class="chart">
         <p class="chart-title">Share of venues within 400 m of a stop, by SA2</p>
+        <p class="chart-note" id="link-hint">Click any region to highlight it in the hero chart (§4) and filter
+          the venue map (§1) to its venues.
+          <button type="button" id="clear-selection" class="clear-btn" hidden>Clear selection ✕</button>
+        </p>
         <div id="chart-03" class="chart-mount" data-pending="true">chart-03 · access choropleth</div>
       </figure>
 
@@ -160,8 +166,7 @@
       actions: { export: true, source: true, compiled: false, editor: true }
     };
 
-    // Manifest: mount id -> spec path. null = not built yet (mount stays a placeholder).
-    // Fill these in as modules #3 / #4 land their .vl.json specs.
+    // Manifest: mount id -> spec path.
     const CHARTS = {
       "chart-01": "specs/chart-01-venue-point-map.vl.json",
       "chart-02": "specs/chart-02-distance-histogram.vl.json",
@@ -175,25 +180,61 @@
       "chart-10": "specs/chart-10-late-night-coda.vl.json"
     };
 
+    const views = {}; // mount id -> Vega view, populated as each chart embeds
+
     function renderChart(id, spec) {
       const el = document.getElementById(id);
-      if (!el) return;
+      if (!el) return Promise.resolve();
       // Clear the placeholder styling BEFORE embedding so the container reports
       // its true block width — vega-embed measures width="container" at embed time,
       // and a flex-centered placeholder mis-measures it (maps then mis-fit/blow up).
       el.removeAttribute("data-pending");
       el.textContent = "";
-      vegaEmbed("#" + id, spec, EMBED_OPTS)
+      return vegaEmbed("#" + id, spec, EMBED_OPTS)
+        .then((res) => { views[id] = res.view; })
         .catch((err) => {
           el.textContent = "Failed to render " + id + ": " + err.message;
           console.error(id, err);
         });
     }
 
-    document.addEventListener("DOMContentLoaded", () => {
-      for (const [id, spec] of Object.entries(CHARTS)) {
-        if (spec) renderChart(id, spec);
+    // The two linked selections (the page's custom interactions):
+    // clicking an SA2 on the choropleth (chart-03) drives an external `selected_sa2`
+    // signal into the hero scatter (chart-06, highlight) and the venue point map
+    // (chart-01, filter). Pre-aggregated CSVs can't cross-filter, so both targets
+    // act on their own row-level data keyed by sa2_code_2021 (string).
+    function setupLinking() {
+      const src = views["chart-03"];
+      const clearBtn = document.getElementById("clear-selection");
+      if (!src) return;
+
+      function broadcast(code) {
+        ["chart-06", "chart-01"].forEach((id) => {
+          if (views[id]) views[id].signal("selected_sa2", code).run();
+        });
+        if (clearBtn) clearBtn.hidden = !code;
       }
+
+      src.addSignalListener("sa2_sel", (_name, value) => {
+        const code = (value && value.sa2_code_2021 && value.sa2_code_2021.length)
+          ? value.sa2_code_2021[0] : null;
+        broadcast(code);
+      });
+
+      if (clearBtn) {
+        clearBtn.addEventListener("click", () => {
+          // Reset the choropleth's selection store, then clear the linked targets.
+          src.data("sa2_sel_store", []).runAsync().then(() => broadcast(null));
+        });
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const pending = [];
+      for (const [id, spec] of Object.entries(CHARTS)) {
+        if (spec) pending.push(renderChart(id, spec));
+      }
+      Promise.all(pending).then(setupLinking);
     });
   </script>
 </body>

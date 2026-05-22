@@ -4,6 +4,9 @@
   "width": "container",
   "height": 460,
   "autosize": { "type": "fit-x", "contains": "padding" },
+  "params": [
+    { "name": "selected_sa2", "value": null }
+  ],
   "projection": {
     "type": "conicEqualArea",
     "rotate": [-145, 0, 0],
@@ -25,17 +28,20 @@
       }
     },
     {
-      "description": "Venue points.",
-      "data": { "url": "data/venues_web.csv" },
-      "mark": {
-        "type": "circle",
-        "size": 5,
-        "opacity": 0.35,
-        "stroke": null
+      "description": "Venue points. Filtered to the selected SA2 when the choropleth (chart-03) drives a selection.",
+      "data": {
+        "url": "data/venues_web.csv",
+        "format": { "parse": { "sa2_code_2021": "string" } }
       },
+      "transform": [
+        { "filter": "selected_sa2 == null || datum.sa2_code_2021 == selected_sa2" }
+      ],
+      "mark": { "type": "circle", "stroke": null },
       "encoding": {
         "longitude": { "field": "Longitude", "type": "quantitative" },
         "latitude": { "field": "Latitude", "type": "quantitative" },
+        "size": { "condition": { "test": "selected_sa2 != null", "value": 45 }, "value": 5 },
+        "opacity": { "condition": { "test": "selected_sa2 != null", "value": 0.8 }, "value": 0.35 },
         "color": {
           "field": "venue_category_group",
           "type": "nominal",

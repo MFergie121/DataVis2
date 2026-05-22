@@ -9,7 +9,13 @@
   },
   "width": "container",
   "height": 420,
-  "data": { "url": "data/chart_scatter_sa2.csv" },
+  "data": {
+    "url": "data/chart_scatter_sa2.csv",
+    "format": { "parse": { "sa2_code_2021": "string" } }
+  },
+  "params": [
+    { "name": "selected_sa2", "value": null }
+  ],
   "transform": [
     { "filter": "datum.metro_regional_majority == 'Metro' || datum.metro_regional_majority == 'Regional'" },
     { "filter": "datum.access_share_pct != null" }
@@ -37,8 +43,21 @@
   },
   "layer": [
     {
-      "mark": { "type": "circle", "size": 38, "opacity": 0.45 },
+      "mark": { "type": "circle" },
       "encoding": {
+        "opacity": {
+          "condition": { "test": "selected_sa2 == null || datum.sa2_code_2021 == selected_sa2", "value": 0.55 },
+          "value": 0.06
+        },
+        "size": {
+          "condition": { "test": "selected_sa2 != null && datum.sa2_code_2021 == selected_sa2", "value": 220 },
+          "value": 38
+        },
+        "stroke": {
+          "condition": { "test": "selected_sa2 != null && datum.sa2_code_2021 == selected_sa2", "value": "#1a1a1a" },
+          "value": null
+        },
+        "strokeWidth": { "value": 1.2 },
         "tooltip": [
           { "field": "sa2_name_2021", "type": "nominal", "title": "SA2" },
           { "field": "metro_regional_majority", "type": "nominal", "title": "Region" },
