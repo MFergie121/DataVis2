@@ -1,6 +1,9 @@
 # OS
 .DS_Store
 
+# Node (validation harness deps — package.json + lockfile are tracked, not the install)
+node_modules/
+
 # Local tooling — not for public release
 .gstack/
 .claude/

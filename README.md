@@ -32,6 +32,20 @@ All are Australian-government open data (generally Creative Commons Attribution 
 submission writeup for exact per-source licence wording. "Near public transport" means proximity
 to a stop, not service frequency. The analysis describes associations only, not causation.
 
+## Validating the specs and data
+
+A small Node harness compiles every Vega-Lite spec, checks that each data file a
+spec references exists, and verifies the CSV row counts, the SA2 join coverage,
+and that no `NaN`/`Infinity` strings slipped into the data:
+
+```bash
+npm install
+npm run validate
+```
+
+It exits non-zero on any failure and runs as a gate before every GitHub Pages
+deploy (see `.github/workflows/pages.yml`).
+
 ## Built with
 
 [Vega-Lite](https://vega.github.io/vega-lite/) via [vega-embed](https://github.com/vega/vega-embed)

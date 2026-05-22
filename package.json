@@ -1,0 +1,13 @@
+{
+  "name": "datavis2-near-not-served",
+  "version": "1.0.0",
+  "private": true,
+  "description": "FIT2179 Data Visualisation 2 — validation harness for the Vega-Lite specs and data in src/.",
+  "type": "module",
+  "scripts": {
+    "validate": "node tools/validate.mjs"
+  },
+  "devDependencies": {
+    "vega-lite": "5.21.0"
+  }
+}

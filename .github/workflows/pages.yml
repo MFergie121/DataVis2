@@ -19,7 +19,23 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  # Gate: every spec must compile and the data must pass integrity checks before deploy.
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install harness deps
+        run: npm ci
+      - name: Validate specs + data
+        run: npm run validate
+
   deploy:
+    needs: validate
     runs-on: ubuntu-latest
     environment:
       name: github-pages
