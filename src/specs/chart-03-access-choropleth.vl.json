@@ -1,0 +1,64 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Chart 03 — Access-share choropleth. Share of each SA2's venues within 400 m of a public-transport stop, mapped on an equal-area projection of Victoria. Equal-area is principled here because colour, not polygon area, carries the value. This map is also the source of the page's two linked selections (click an SA2). Data: sa2_summary_web.csv joined to sa2_summary_simplified.topojson on sa2_code_2021.",
+  "width": "container",
+  "height": 460,
+  "params": [
+    {
+      "name": "sa2_sel",
+      "select": { "type": "point", "fields": ["sa2_code_2021"], "on": "click", "toggle": "event.shiftKey" }
+    }
+  ],
+  "data": {
+    "url": "data/sa2_summary_simplified.topojson",
+    "format": { "type": "topojson", "feature": "sa2_summary" }
+  },
+  "transform": [
+    {
+      "lookup": "properties.sa2_code_2021",
+      "from": {
+        "data": {
+          "url": "data/sa2_summary_web.csv",
+          "format": { "parse": { "sa2_code_2021": "string" } }
+        },
+        "key": "sa2_code_2021",
+        "fields": ["access_share_pct", "sa2_name_2021", "metro_regional_majority", "venue_count"]
+      }
+    },
+    { "calculate": "datum.properties.sa2_code_2021", "as": "sa2_code_2021" }
+  ],
+  "projection": {
+    "type": "conicEqualArea",
+    "rotate": [-145, 0, 0],
+    "center": [0, -37],
+    "parallels": [-36, -38]
+  },
+  "mark": {
+    "type": "geoshape",
+    "stroke": "#ffffff",
+    "strokeWidth": 0.3
+  },
+  "encoding": {
+    "color": {
+      "field": "access_share_pct",
+      "type": "quantitative",
+      "title": ["Venues within", "400 m of a stop"],
+      "scale": { "scheme": "teals", "domain": [0, 100] },
+      "legend": { "format": ".0f", "gradientLength": 160 }
+    },
+    "opacity": {
+      "condition": { "param": "sa2_sel", "value": 1 },
+      "value": 0.35
+    },
+    "strokeWidth": {
+      "condition": { "param": "sa2_sel", "value": 1.4, "empty": false },
+      "value": 0.3
+    },
+    "tooltip": [
+      { "field": "sa2_name_2021", "type": "nominal", "title": "SA2" },
+      { "field": "metro_regional_majority", "type": "nominal", "title": "Region" },
+      { "field": "access_share_pct", "type": "quantitative", "title": "Within 400 m", "format": ".0f" },
+      { "field": "venue_count", "type": "quantitative", "title": "Venues", "format": "," }
+    ]
+  }
+}
