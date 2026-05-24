@@ -123,6 +123,22 @@ body {
   margin: 1.25rem 0;
 }
 
+/* Side-by-side map pairs (§1): two columns on a laptop, stacking to one
+   on narrow screens. minmax keeps each map readable; auto-fit drops to a
+   single column below ~2×300px so there is never horizontal scroll. */
+.map-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--gap);
+  align-items: start;
+  margin: 1.25rem 0;
+}
+
+.map-row .chart {
+  margin: 0;
+  min-width: 0; /* let grid tracks shrink so wide canvases don't force overflow */
+}
+
 .chart-title {
   font-size: 1.05rem;
   font-weight: 600;

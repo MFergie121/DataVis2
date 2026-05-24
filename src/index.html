@@ -42,41 +42,60 @@
         <div class="prose">
           <p>
             Where the state drinks, dines and gathers — and how short the walk
-            is to public transport.
+            is to public transport. Compare the two side by side, first across
+            all of Victoria, then zoomed in on Melbourne: the venues settle
+            exactly where the network is densest.
           </p>
         </div>
 
-        <figure class="chart">
-          <p class="chart-title">The network the venues sit near</p>
-          <div id="chart-11" class="chart-mount" data-pending="true">
-            chart-11 · transport network map
-          </div>
-          <figcaption class="chart-note">
-            Train and tram lines, over every public-transport stop in Victoria
-            (most are bus stops). This shows where routes go and where you can
-            board — <strong>not</strong> when or how often services run. The
-            page measures distance to the nearest stop, not service.
-          </figcaption>
-        </figure>
+        <!-- Row 1: statewide — transport beside venues -->
+        <div class="map-row">
+          <figure class="chart">
+            <p class="chart-title">Where public transport runs — Victoria</p>
+            <div id="chart-11" class="chart-mount" data-pending="true">
+              chart-11 · transport network map
+            </div>
+            <figcaption class="chart-note">
+              Train and tram lines over every stop (most are bus stops). Where
+              routes go and where you board — <strong>not</strong> when services
+              run.
+            </figcaption>
+          </figure>
 
-        <figure class="chart">
-          <p class="chart-title">The same network, up close on Melbourne</p>
-          <div id="chart-12" class="chart-mount" data-pending="true">
-            chart-12 · Melbourne network close-up
-          </div>
-          <figcaption class="chart-note">
-            Zoomed to inner Melbourne, the dense tram grid and the radial train
-            lines come into focus — the most transport-rich corner of the state,
-            where the venues cluster too.
-          </figcaption>
-        </figure>
+          <figure class="chart">
+            <p class="chart-title">Where the venues are — Victoria</p>
+            <div id="chart-01" class="chart-mount" data-pending="true">
+              chart-01 · venue point map
+            </div>
+            <figcaption class="chart-note">
+              ~23,600 licensed venues, coloured by type. Click a region on the
+              §2 map to filter these to it.
+            </figcaption>
+          </figure>
+        </div>
 
-        <figure class="chart">
-          <p class="chart-title">Where Victoria's licensed venues are</p>
-          <div id="chart-01" class="chart-mount" data-pending="true">
-            chart-01 · venue point map
-          </div>
-        </figure>
+        <!-- Row 2: the same two, zoomed to inner Melbourne -->
+        <div class="map-row">
+          <figure class="chart">
+            <p class="chart-title">Public transport — inner Melbourne</p>
+            <div id="chart-12" class="chart-mount" data-pending="true">
+              chart-12 · Melbourne network close-up
+            </div>
+            <figcaption class="chart-note">
+              The dense tram grid and radial train lines, up close.
+            </figcaption>
+          </figure>
+
+          <figure class="chart">
+            <p class="chart-title">Venues — inner Melbourne</p>
+            <div id="chart-13" class="chart-mount" data-pending="true">
+              chart-13 · Melbourne venues close-up
+            </div>
+            <figcaption class="chart-note">
+              The same frame: venues pack the transport-rich core.
+            </figcaption>
+          </figure>
+        </div>
 
         <figure class="chart">
           <p class="chart-title">
@@ -274,6 +293,7 @@
       const CHARTS = {
         "chart-11": "specs/chart-11-transport-network-map.vl.json",
         "chart-12": "specs/chart-12-melbourne-network-closeup.vl.json",
+        "chart-13": "specs/chart-13-melbourne-venues-closeup.vl.json",
         "chart-01": "specs/chart-01-venue-point-map.vl.json",
         "chart-02": "specs/chart-02-distance-histogram.vl.json",
         "chart-03": "specs/chart-03-access-choropleth.vl.json",
