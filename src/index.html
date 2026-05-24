@@ -1,241 +1,341 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en-AU">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Near, not served — Victoria's venues and public transport</title>
-  <meta name="description" content="A six-part data story: Victorian hospitality venues sit close to public transport, but the divide in access is geographic (metro vs regional), not socio-economic.">
-  <meta name="author" content="Max Fergie">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Near, not served — Victoria's venues and public transport</title>
+    <meta
+      name="description"
+      content="A six-part data story: Victorian hospitality venues sit close to public transport, but the divide in access is geographic (metro vs regional), not socio-economic."
+    />
+    <meta name="author" content="Max Fergie" />
 
-  <!-- Pinned Vega-Lite runtime (not @latest). See wiki/build/vega-lite-spec-style.md and embedding notes. -->
-  <script src="https://cdn.jsdelivr.net/npm/vega@5.30.0"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.21.0"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.26.0"></script>
+    <!-- Pinned Vega-Lite runtime (not @latest). See wiki/build/vega-lite-spec-style.md and embedding notes. -->
+    <script src="https://cdn.jsdelivr.net/npm/vega@5.30.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.21.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.26.0"></script>
 
-  <link rel="stylesheet" href="css/styles.css">
-</head>
-<body>
-  <main class="page">
-
-    <!-- ===== Page header ===== -->
-    <header>
-      <h1 class="page-title">Near, not served</h1>
-      <p class="deck">Victoria's hospitality lives next door to public transport. But who gets that
-        closeness isn't decided by wealth — it's decided by the city limits.</p>
-      <p class="byline">Max Fergie · FIT2179 Data Visualisation 2 · May 2026</p>
-    </header>
-
-    <!-- ===== §1 Context / hook ===== -->
-    <section class="section" id="s1">
-      <!-- Insight-led heading (placeholder — finalised in module #5) -->
-      <p class="kicker">The setting</p>
-      <h2 class="section-claim">Victoria's venues sit remarkably close to a stop</h2>
-      <div class="prose">
-        <p>Where the state drinks, dines and gathers — and how short the walk is to public transport.</p>
-      </div>
-
-      <figure class="chart">
-        <p class="chart-title">Where Victoria's licensed venues are</p>
-        <div id="chart-01" class="chart-mount" data-pending="true">chart-01 · venue point map</div>
-      </figure>
-
-      <figure class="chart">
-        <p class="chart-title">Most venues are within a short walk of a stop</p>
-        <div id="chart-02" class="chart-mount" data-pending="true">chart-02 · distance histogram</div>
-      </figure>
-    </section>
-
-    <!-- ===== §2 The obvious pattern ===== -->
-    <section class="section" id="s2">
-      <p class="kicker">The obvious pattern</p>
-      <h2 class="section-claim">Where there are venues, there are stops</h2>
-      <div class="prose">
-        <p>Of course the pub is near the tram. The co-location shows up by area and by venue type. Each
-          region below is an <abbr title="ABS Statistical Area Level 2 — a neighbourhood-scale region of roughly 3,000–25,000 people">SA2</abbr>;
-          <em>within 400 m</em> means a venue is roughly a five-minute walk from its nearest stop.</p>
-      </div>
-
-      <figure class="chart">
-        <p class="chart-title">Share of venues within 400 m of a stop, by SA2</p>
-        <p class="chart-note" id="link-hint">Click any region to highlight it in the hero chart (§4) and filter
-          the venue map (§1) to its venues.
-          <button type="button" id="clear-selection" class="clear-btn" hidden>Clear selection ✕</button>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <main class="page">
+      <!-- ===== Page header ===== -->
+      <header>
+        <h1 class="page-title">Near, not served</h1>
+        <p class="deck">
+          Victoria's hospitality lives next door to public transport. But who
+          gets that closeness isn't decided by wealth — it's decided by the city
+          limits.
         </p>
-        <div id="chart-03" class="chart-mount" data-pending="true">chart-03 · access choropleth</div>
-      </figure>
+        <p class="byline">
+          Max Fergie · FIT2179 Data Visualisation 2 · May 2026
+        </p>
+      </header>
 
-      <figure class="chart">
-        <p class="chart-title">Which mode is nearest, by venue type</p>
-        <div id="chart-04" class="chart-mount" data-pending="true">chart-04 · category × mode heatmap</div>
-      </figure>
-    </section>
+      <!-- ===== §1 Context / hook ===== -->
+      <section class="section" id="s1">
+        <!-- Insight-led heading (placeholder — finalised in module #5) -->
+        <p class="kicker">The setting</p>
+        <h2 class="section-claim">
+          Victoria's venues sit remarkably close to a stop
+        </h2>
+        <div class="prose">
+          <p>
+            Where the state drinks, dines and gathers — and how short the walk
+            is to public transport.
+          </p>
+        </div>
 
-    <!-- ===== §3 The expectation ===== -->
-    <section class="section" id="s3">
-      <p class="kicker">The expectation</p>
-      <h2 class="section-claim">Surely the wealthy suburbs are better served?</h2>
-      <div class="prose">
-        <p>It's the intuitive guess: money buys access. Hold that thought.</p>
-      </div>
+        <figure class="chart">
+          <p class="chart-title">The network the venues sit near</p>
+          <div id="chart-11" class="chart-mount" data-pending="true">
+            chart-11 · transport network map
+          </div>
+          <figcaption class="chart-note">
+            Train and tram lines, over every public-transport stop in Victoria
+            (most are bus stops). This shows where routes go and where you can
+            board — <strong>not</strong> when or how often services run. The
+            page measures distance to the nearest stop, not service.
+          </figcaption>
+        </figure>
 
-      <figure class="chart">
-        <p class="chart-title">Access vs disadvantage, mapped together</p>
-        <div id="chart-05" class="chart-mount" data-pending="true">chart-05 · bivariate access × SEIFA map</div>
-      </figure>
-    </section>
+        <figure class="chart">
+          <p class="chart-title">Where Victoria's licensed venues are</p>
+          <div id="chart-01" class="chart-mount" data-pending="true">
+            chart-01 · venue point map
+          </div>
+        </figure>
 
-    <!-- ===== §4 The reversal (hero) ===== -->
-    <section class="section section--hero" id="s4">
-      <p class="kicker">The reversal</p>
-      <h2 class="section-claim">Inside Melbourne, your postcode's wealth barely changes your access</h2>
-      <div class="prose">
-        <p>Split the same data by metro and regional and the wealth gradient vanishes. Metro access is
-          flat-and-high across every decile; regional sits well below. The two trend lines are the argument.</p>
-      </div>
+        <figure class="chart">
+          <p class="chart-title">
+            Most venues are within a short walk of a stop
+          </p>
+          <div id="chart-02" class="chart-mount" data-pending="true">
+            chart-02 · distance histogram
+          </div>
+        </figure>
+      </section>
 
-      <figure class="chart">
-        <p class="chart-title">SEIFA decile × access, split by metro / regional</p>
-        <div id="chart-06" class="chart-mount" data-pending="true">chart-06 · paradox-reveal scatter (hero)</div>
-      </figure>
-    </section>
+      <!-- ===== §2 The obvious pattern ===== -->
+      <section class="section" id="s2">
+        <p class="kicker">The obvious pattern</p>
+        <h2 class="section-claim">Where there are venues, there are stops</h2>
+        <div class="prose">
+          <p>
+            Of course the pub is near the tram. The co-location shows up by area
+            and by venue type. Each region below is an
+            <abbr
+              title="ABS Statistical Area Level 2 — a neighbourhood-scale region of roughly 3,000–25,000 people"
+              >SA2</abbr
+            >; <em>within 400 m</em> means a venue is roughly a five-minute walk
+            from its nearest stop.
+          </p>
+        </div>
 
-    <!-- ===== §5 The real divide ===== -->
-    <section class="section" id="s5">
-      <p class="kicker">The real divide</p>
-      <h2 class="section-claim">The fault line is the city limits, not the income line</h2>
-      <div class="prose">
-        <p>Geography, head-on: the metro/regional gap, the best- and worst-served places, and how the
-          distance mix shifts by venue type.</p>
-      </div>
+        <figure class="chart">
+          <p class="chart-title">
+            Share of venues within 400 m of a stop, by SA2
+          </p>
+          <p class="chart-note" id="link-hint">
+            Click any region to highlight it in the hero chart (§4) and filter
+            the venue map (§1) to its venues.
+            <button type="button" id="clear-selection" class="clear-btn" hidden>
+              Clear selection ✕
+            </button>
+          </p>
+          <div id="chart-03" class="chart-mount" data-pending="true">
+            chart-03 · access choropleth
+          </div>
+        </figure>
 
-      <figure class="chart">
-        <p class="chart-title">Metro vs regional, compared directly</p>
-        <div id="chart-07" class="chart-mount" data-pending="true">chart-07 · metro/regional comparison</div>
-      </figure>
+        <figure class="chart">
+          <p class="chart-title">Which mode is nearest, by venue type</p>
+          <div id="chart-04" class="chart-mount" data-pending="true">
+            chart-04 · category × mode heatmap
+          </div>
+        </figure>
+      </section>
 
-      <figure class="chart">
-        <p class="chart-title">Best- and worst-served SA2s</p>
-        <div id="chart-08" class="chart-mount" data-pending="true">chart-08 · SA2 rankings lollipop</div>
-      </figure>
+      <!-- ===== §3 The expectation ===== -->
+      <section class="section" id="s3">
+        <p class="kicker">The expectation</p>
+        <h2 class="section-claim">
+          Surely the wealthy suburbs are better served?
+        </h2>
+        <div class="prose">
+          <p>It's the intuitive guess: money buys access. Hold that thought.</p>
+        </div>
 
-      <figure class="chart">
-        <p class="chart-title">How the distance mix shifts by venue type</p>
-        <div id="chart-09" class="chart-mount" data-pending="true">chart-09 · category × distance bands</div>
-      </figure>
-    </section>
+        <figure class="chart">
+          <p class="chart-title">Access vs disadvantage, mapped together</p>
+          <div id="chart-05" class="chart-mount" data-pending="true">
+            chart-05 · bivariate access × SEIFA map
+          </div>
+        </figure>
+      </section>
 
-    <!-- ===== §6 The compound + coda ===== -->
-    <section class="section" id="s6">
-      <p class="kicker">The coda</p>
-      <h2 class="section-claim">The venues open latest are the ones furthest from a way home</h2>
-      <div class="prose">
-        <p>A closing look at late-opening venues and their proximity to transport. Proximity, not
-          timetable — these stops may not run late.</p>
-      </div>
+      <!-- ===== §4 The reversal (hero) ===== -->
+      <section class="section section--hero" id="s4">
+        <p class="kicker">The reversal</p>
+        <h2 class="section-claim">
+          Inside Melbourne, your postcode's wealth barely changes your access
+        </h2>
+        <div class="prose">
+          <p>
+            Split the same data by metro and regional and the wealth gradient
+            vanishes. Metro access is flat-and-high across every decile;
+            regional sits well below. The two trend lines are the argument.
+          </p>
+        </div>
 
-      <figure class="chart">
-        <p class="chart-title">Late-opening venues vs proximity</p>
-        <div id="chart-10" class="chart-mount" data-pending="true">chart-10 · late-night coda</div>
-      </figure>
-    </section>
+        <figure class="chart">
+          <p class="chart-title">
+            SEIFA decile × access, split by metro / regional
+          </p>
+          <div id="chart-06" class="chart-mount" data-pending="true">
+            chart-06 · paradox-reveal scatter (hero)
+          </div>
+        </figure>
+      </section>
 
-    <!-- ===== Footer ===== -->
-    <footer class="page-footer">
-      <p>By Max Fergie · FIT2179 Data Visualisation 2, Monash University · May 2026.</p>
-      <p>Data: Liquor Control Victoria (data.vic.gov.au); Department of Transport &amp; Planning;
-        ABS (SEIFA, Regional Population, ASGS 2021 SA2 boundaries). "Near public transport" means
-        proximity to a stop, not service frequency. Associations only — not causal.</p>
-    </footer>
+      <!-- ===== §5 The real divide ===== -->
+      <section class="section" id="s5">
+        <p class="kicker">The real divide</p>
+        <h2 class="section-claim">
+          The fault line is the city limits, not the income line
+        </h2>
+        <div class="prose">
+          <p>
+            Geography, head-on: the metro/regional gap, the best- and
+            worst-served places, and how the distance mix shifts by venue type.
+          </p>
+        </div>
 
-  </main>
+        <figure class="chart">
+          <p class="chart-title">Metro vs regional, compared directly</p>
+          <div id="chart-07" class="chart-mount" data-pending="true">
+            chart-07 · metro/regional comparison
+          </div>
+        </figure>
 
-  <script>
-    // Vega-Lite render config — house theme. Keeps fonts consistent with the page;
-    // individual specs own their colour scales.
-    const VL_CONFIG = {
-      font: "system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
-      background: null,
-      view: { stroke: null },
-      title: { anchor: "start", fontSize: 15, fontWeight: 600, color: "#1a1a1a", subtitleColor: "#5b5b5b" },
-      axis: { labelColor: "#5b5b5b", titleColor: "#1a1a1a", domainColor: "#c9c6c0", tickColor: "#c9c6c0", gridColor: "#ececec" }
-    };
+        <figure class="chart">
+          <p class="chart-title">Best- and worst-served SA2s</p>
+          <div id="chart-08" class="chart-mount" data-pending="true">
+            chart-08 · SA2 rankings lollipop
+          </div>
+        </figure>
 
-    const EMBED_OPTS = {
-      config: VL_CONFIG,
-      renderer: "canvas",
-      actions: { export: true, source: true, compiled: false, editor: true }
-    };
+        <figure class="chart">
+          <p class="chart-title">How the distance mix shifts by venue type</p>
+          <div id="chart-09" class="chart-mount" data-pending="true">
+            chart-09 · category × distance bands
+          </div>
+        </figure>
+      </section>
 
-    // Manifest: mount id -> spec path.
-    const CHARTS = {
-      "chart-01": "specs/chart-01-venue-point-map.vl.json",
-      "chart-02": "specs/chart-02-distance-histogram.vl.json",
-      "chart-03": "specs/chart-03-access-choropleth.vl.json",
-      "chart-04": "specs/chart-04-category-mode-heatmap.vl.json",
-      "chart-05": "specs/chart-05-bivariate-access-seifa-map.vl.json",
-      "chart-06": "specs/chart-06-paradox-reveal-scatter.vl.json",
-      "chart-07": "specs/chart-07-metro-regional-comparison.vl.json",
-      "chart-08": "specs/chart-08-sa2-rankings-lollipop.vl.json",
-      "chart-09": "specs/chart-09-category-distance-bands.vl.json",
-      "chart-10": "specs/chart-10-late-night-coda.vl.json"
-    };
+      <!-- ===== §6 The compound + coda ===== -->
+      <section class="section" id="s6">
+        <p class="kicker">The coda</p>
+        <h2 class="section-claim">
+          The venues open have the most support for getting home
+        </h2>
+        <div class="prose">
+          <p>
+            A closing look at late-opening venues and their proximity to
+            transport. Proximity, not timetable — these stops may not run late.
+          </p>
+        </div>
 
-    const views = {}; // mount id -> Vega view, populated as each chart embeds
+        <figure class="chart">
+          <p class="chart-title">Late-opening venues vs proximity</p>
+          <div id="chart-10" class="chart-mount" data-pending="true">
+            chart-10 · late-night coda
+          </div>
+        </figure>
+      </section>
 
-    function renderChart(id, spec) {
-      const el = document.getElementById(id);
-      if (!el) return Promise.resolve();
-      // Clear the placeholder styling BEFORE embedding so the container reports
-      // its true block width — vega-embed measures width="container" at embed time,
-      // and a flex-centered placeholder mis-measures it (maps then mis-fit/blow up).
-      el.removeAttribute("data-pending");
-      el.textContent = "";
-      return vegaEmbed("#" + id, spec, EMBED_OPTS)
-        .then((res) => { views[id] = res.view; })
-        .catch((err) => {
-          el.textContent = "Failed to render " + id + ": " + err.message;
-          console.error(id, err);
-        });
-    }
+      <!-- ===== Footer ===== -->
+      <footer class="page-footer">
+        <p>
+          By Max Fergie · FIT2179 Data Visualisation 2, Monash University · May
+          2026.
+        </p>
+        <p>
+          Data: Liquor Control Victoria (data.vic.gov.au); Department of
+          Transport &amp; Planning; ABS (SEIFA, Regional Population, ASGS 2021
+          SA2 boundaries). "Near public transport" means proximity to a stop,
+          not service frequency. Associations only — not causal.
+        </p>
+      </footer>
+    </main>
 
-    // The two linked selections (the page's custom interactions):
-    // clicking an SA2 on the choropleth (chart-03) drives an external `selected_sa2`
-    // signal into the hero scatter (chart-06, highlight) and the venue point map
-    // (chart-01, filter). Pre-aggregated CSVs can't cross-filter, so both targets
-    // act on their own row-level data keyed by sa2_code_2021 (string).
-    function setupLinking() {
-      const src = views["chart-03"];
-      const clearBtn = document.getElementById("clear-selection");
-      if (!src) return;
+    <script>
+      // Vega-Lite render config — house theme. Keeps fonts consistent with the page;
+      // individual specs own their colour scales.
+      const VL_CONFIG = {
+        font: "system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
+        background: null,
+        view: { stroke: null },
+        title: {
+          anchor: "start",
+          fontSize: 15,
+          fontWeight: 600,
+          color: "#1a1a1a",
+          subtitleColor: "#5b5b5b",
+        },
+        axis: {
+          labelColor: "#5b5b5b",
+          titleColor: "#1a1a1a",
+          domainColor: "#c9c6c0",
+          tickColor: "#c9c6c0",
+          gridColor: "#ececec",
+        },
+      };
 
-      function broadcast(code) {
-        ["chart-06", "chart-01"].forEach((id) => {
-          if (views[id]) views[id].signal("selected_sa2", code).run();
-        });
-        if (clearBtn) clearBtn.hidden = !code;
+      const EMBED_OPTS = {
+        config: VL_CONFIG,
+        renderer: "canvas",
+        actions: { export: true, source: true, compiled: false, editor: true },
+      };
+
+      // Manifest: mount id -> spec path.
+      const CHARTS = {
+        "chart-11": "specs/chart-11-transport-network-map.vl.json",
+        "chart-01": "specs/chart-01-venue-point-map.vl.json",
+        "chart-02": "specs/chart-02-distance-histogram.vl.json",
+        "chart-03": "specs/chart-03-access-choropleth.vl.json",
+        "chart-04": "specs/chart-04-category-mode-heatmap.vl.json",
+        "chart-05": "specs/chart-05-bivariate-access-seifa-map.vl.json",
+        "chart-06": "specs/chart-06-paradox-reveal-scatter.vl.json",
+        "chart-07": "specs/chart-07-metro-regional-comparison.vl.json",
+        "chart-08": "specs/chart-08-sa2-rankings-lollipop.vl.json",
+        "chart-09": "specs/chart-09-category-distance-bands.vl.json",
+        "chart-10": "specs/chart-10-late-night-coda.vl.json",
+      };
+
+      const views = {}; // mount id -> Vega view, populated as each chart embeds
+
+      function renderChart(id, spec) {
+        const el = document.getElementById(id);
+        if (!el) return Promise.resolve();
+        // Clear the placeholder styling BEFORE embedding so the container reports
+        // its true block width — vega-embed measures width="container" at embed time,
+        // and a flex-centered placeholder mis-measures it (maps then mis-fit/blow up).
+        el.removeAttribute("data-pending");
+        el.textContent = "";
+        return vegaEmbed("#" + id, spec, EMBED_OPTS)
+          .then((res) => {
+            views[id] = res.view;
+          })
+          .catch((err) => {
+            el.textContent = "Failed to render " + id + ": " + err.message;
+            console.error(id, err);
+          });
       }
 
-      src.addSignalListener("sa2_sel", (_name, value) => {
-        const code = (value && value.sa2_code_2021 && value.sa2_code_2021.length)
-          ? value.sa2_code_2021[0] : null;
-        broadcast(code);
+      // The two linked selections (the page's custom interactions):
+      // clicking an SA2 on the choropleth (chart-03) drives an external `selected_sa2`
+      // signal into the hero scatter (chart-06, highlight) and the venue point map
+      // (chart-01, filter). Pre-aggregated CSVs can't cross-filter, so both targets
+      // act on their own row-level data keyed by sa2_code_2021 (string).
+      function setupLinking() {
+        const src = views["chart-03"];
+        const clearBtn = document.getElementById("clear-selection");
+        if (!src) return;
+
+        function broadcast(code) {
+          ["chart-06", "chart-01"].forEach((id) => {
+            if (views[id]) views[id].signal("selected_sa2", code).run();
+          });
+          if (clearBtn) clearBtn.hidden = !code;
+        }
+
+        src.addSignalListener("sa2_sel", (_name, value) => {
+          const code =
+            value && value.sa2_code_2021 && value.sa2_code_2021.length
+              ? value.sa2_code_2021[0]
+              : null;
+          broadcast(code);
+        });
+
+        if (clearBtn) {
+          clearBtn.addEventListener("click", () => {
+            // Reset the choropleth's selection store, then clear the linked targets.
+            src
+              .data("sa2_sel_store", [])
+              .runAsync()
+              .then(() => broadcast(null));
+          });
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const pending = [];
+        for (const [id, spec] of Object.entries(CHARTS)) {
+          if (spec) pending.push(renderChart(id, spec));
+        }
+        Promise.all(pending).then(setupLinking);
       });
-
-      if (clearBtn) {
-        clearBtn.addEventListener("click", () => {
-          // Reset the choropleth's selection store, then clear the linked targets.
-          src.data("sa2_sel_store", []).runAsync().then(() => broadcast(null));
-        });
-      }
-    }
-
-    document.addEventListener("DOMContentLoaded", () => {
-      const pending = [];
-      for (const [id, spec] of Object.entries(CHARTS)) {
-        if (spec) pending.push(renderChart(id, spec));
-      }
-      Promise.all(pending).then(setupLinking);
-    });
-  </script>
-</body>
+    </script>
+  </body>
 </html>

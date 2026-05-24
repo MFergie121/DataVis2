@@ -1,0 +1,74 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Chart 11 — The transport network venues sit near. Establishes the supply side before the venue map: train + tram ROUTES (where public transport runs) drawn as lines over the full mesh of ~31,170 PT STOPS (where you can get on), on an equal-area projection of Victoria. This is a proximity/context map, not a service map — lines show where routes go and dots show where stops are, never when or how often services run (GTFS schedule deliberately deferred; the page says 'near', not 'served by'). Colour is held to a neutral slate family so it never competes with the metro/regional teal-orange (the page's reserved emphasis) or the bivariate climax map. Data: transport_stops_web.csv as points; pt_routes_simplified.topojson as lines; sa2_summary_simplified.topojson as the base.",
+  "width": "container",
+  "height": 460,
+  "autosize": { "type": "fit-x", "contains": "padding" },
+  "projection": {
+    "type": "conicEqualArea",
+    "rotate": [-145, 0, 0],
+    "center": [0, -37],
+    "parallels": [-36, -38]
+  },
+  "layer": [
+    {
+      "description": "Base: SA2 boundaries for geographic context (same base as the venue map).",
+      "data": {
+        "url": "data/sa2_summary_simplified.topojson",
+        "format": { "type": "topojson", "feature": "sa2_summary" }
+      },
+      "mark": {
+        "type": "geoshape",
+        "fill": "#f0efe9",
+        "stroke": "#ffffff",
+        "strokeWidth": 0.4
+      }
+    },
+    {
+      "description": "Every public-transport stop in Victoria (all modes), as a faint neutral mesh. Most are bus stops, so the dots read as texture showing how dense the stop network is — the 'where you can get on' layer beneath the rail/tram skeleton.",
+      "data": {
+        "url": "data/transport_stops_web.csv"
+      },
+      "mark": {
+        "type": "circle",
+        "size": 3,
+        "color": "#9aa3ad",
+        "opacity": 0.22,
+        "stroke": null
+      },
+      "encoding": {
+        "longitude": { "field": "Longitude", "type": "quantitative" },
+        "latitude": { "field": "Latitude", "type": "quantitative" },
+        "tooltip": [{ "field": "MODE", "type": "nominal", "title": "Stop mode" }]
+      }
+    },
+    {
+      "description": "Train and tram routes as lines — the legible backbone of where public transport runs. Direction/express variants collapsed to one feature per route; bus routes are intentionally not drawn (they would be spaghetti and blow the data budget) and are represented by the stop mesh instead.",
+      "data": {
+        "url": "data/pt_routes_simplified.topojson",
+        "format": { "type": "topojson", "feature": "public_transport_lines" }
+      },
+      "transform": [
+        { "calculate": "indexof(datum.properties.MODE, 'TRAIN') >= 0 ? 'Train' : 'Tram'", "as": "route_group" }
+      ],
+      "mark": { "type": "geoshape", "filled": false, "strokeWidth": 1.2, "strokeCap": "round" },
+      "encoding": {
+        "color": {
+          "field": "route_group",
+          "type": "nominal",
+          "title": "Routes (train & tram)",
+          "scale": {
+            "domain": ["Train", "Tram"],
+            "range": ["#33475f", "#7e8a98"]
+          },
+          "legend": { "symbolType": "stroke", "symbolStrokeWidth": 2 }
+        },
+        "tooltip": [
+          { "field": "properties.SHORT_NAME", "type": "nominal", "title": "Route" },
+          { "field": "properties.MODE", "type": "nominal", "title": "Mode" }
+        ]
+      }
+    }
+  ],
+  "resolve": { "scale": { "color": "independent" } }
+}

@@ -33,8 +33,10 @@ const EXPECTED_ROWS = {
   "chart_category_mode_matrix.csv": 73,
   "chart_metro_regional_summary.csv": 2,
   "chart_category_distance_bands.csv": 40,
+  "transport_stops_web.csv": 31145, // every PT stop within Victoria's extent (chart-11 stop mesh; 25 interstate/border stops clipped)
 };
 const EXPECTED_GEOMETRIES = 522; // sa2_summary_simplified.topojson (2 of the 524 SA2s are non-spatial)
+const EXPECTED_ROUTE_FEATURES = 54; // pt_routes_simplified.topojson (train+tram routes, variants dissolved)
 const BAD_TOKENS = new Set(["NaN", "nan", "Infinity", "-Infinity", "inf", "-inf"]);
 
 // ---- 1. Specs: valid JSON + compile clean ----------------------------------
@@ -122,6 +124,25 @@ try {
   else fail(`venue SA2 codes not in summary: ${orphanVenues.slice(0, 5).join(", ")}`);
 } catch (e) {
   fail(`join coverage check failed: ${e.message}`);
+}
+
+// ---- 5. Transport routes topojson (chart-11) -------------------------------
+console.log("\n[5] Transport routes topojson (chart-11)");
+try {
+  const routes = JSON.parse(readFileSync(join(DATA_DIR, "pt_routes_simplified.topojson"), "utf8"));
+  const obj = routes.objects?.public_transport_lines;
+  if (!obj) fail("pt_routes_simplified.topojson: missing object 'public_transport_lines'");
+  else {
+    const feats = obj.geometries ?? [];
+    if (feats.length === EXPECTED_ROUTE_FEATURES) pass(`routes: ${feats.length} train+tram features`);
+    else fail(`routes: expected ${EXPECTED_ROUTE_FEATURES} features, got ${feats.length}`);
+    const modes = new Set(feats.map((g) => g.properties?.MODE));
+    const stray = [...modes].filter((m) => m && m.indexOf("TRAIN") < 0 && m.indexOf("TRAM") < 0);
+    if (stray.length === 0) pass("every route is a train or tram mode (no bus/coach leaked in)");
+    else fail(`routes: unexpected non-rail/tram modes: ${stray.join(", ")}`);
+  }
+} catch (e) {
+  fail(`routes topojson check failed: ${e.message}`);
 }
 
 // ---- summary ----------------------------------------------------------------
