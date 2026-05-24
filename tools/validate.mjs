@@ -37,6 +37,11 @@ const EXPECTED_ROWS = {
 };
 const EXPECTED_GEOMETRIES = 522; // sa2_summary_simplified.topojson (2 of the 524 SA2s are non-spatial)
 const EXPECTED_ROUTE_FEATURES = 54; // pt_routes_simplified.topojson (train+tram routes, variants dissolved)
+// chart-12 Melbourne close-up: same routes/base clipped to the inner-Melbourne frame.
+const MELBOURNE_TOPO = {
+  "pt_routes_melbourne.topojson": { object: "public_transport_lines", features: 53 },
+  "sa2_melbourne.topojson": { object: "sa2_summary", features: 224 },
+};
 const BAD_TOKENS = new Set(["NaN", "nan", "Infinity", "-Infinity", "inf", "-inf"]);
 
 // ---- 1. Specs: valid JSON + compile clean ----------------------------------
@@ -143,6 +148,20 @@ try {
   }
 } catch (e) {
   fail(`routes topojson check failed: ${e.message}`);
+}
+
+// ---- 6. Melbourne close-up topojson (chart-12) -----------------------------
+console.log("\n[6] Melbourne close-up topojson (chart-12)");
+for (const [name, { object, features }] of Object.entries(MELBOURNE_TOPO)) {
+  try {
+    const t = JSON.parse(readFileSync(join(DATA_DIR, name), "utf8"));
+    const geoms = t.objects?.[object]?.geometries;
+    if (!geoms) { fail(`${name}: missing object '${object}'`); continue; }
+    if (geoms.length === features) pass(`${name}: ${geoms.length} features (object '${object}')`);
+    else fail(`${name}: expected ${features} features, got ${geoms.length}`);
+  } catch (e) {
+    fail(`${name}: ${e.message}`);
+  }
 }
 
 // ---- summary ----------------------------------------------------------------

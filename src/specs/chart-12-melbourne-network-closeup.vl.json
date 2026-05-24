@@ -1,0 +1,78 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Chart 12 — Melbourne transport network, up close. A zoomed companion to the statewide map (chart-11): the same train + tram routes and stop mesh, but framed on inner Melbourne (lon 144.75–145.35, lat −37.92 to −37.67) so the tram grid and the radial train lines become legible. Routes, base, and stops are all Melbourne-clipped (the stops via an in-spec filter on the shared CSV, so this view adds no extra download for them) and the projection auto-fits to that extent — no manual scale/translate. Route lines are thickened here because the lines are the subject. Same honesty footing as chart-11: lines show where routes run and dots where you board, never service times.",
+  "width": "container",
+  "height": 460,
+  "autosize": { "type": "fit-x", "contains": "padding" },
+  "projection": {
+    "type": "conicEqualArea",
+    "rotate": [-145, 0, 0],
+    "center": [0, -37],
+    "parallels": [-36, -38]
+  },
+  "layer": [
+    {
+      "description": "Base: inner-Melbourne SA2 boundaries (clipped + simplified) for orientation — the Port Phillip Bay edge reads as the coastline.",
+      "data": {
+        "url": "data/sa2_melbourne.topojson",
+        "format": { "type": "topojson", "feature": "sa2_summary" }
+      },
+      "mark": {
+        "type": "geoshape",
+        "fill": "#f0efe9",
+        "stroke": "#ffffff",
+        "strokeWidth": 0.4
+      }
+    },
+    {
+      "description": "Public-transport stops within the Melbourne frame, as a faint neutral mesh. Filtered in-spec from the shared statewide stops CSV.",
+      "data": {
+        "url": "data/transport_stops_web.csv",
+        "format": { "parse": { "Longitude": "number", "Latitude": "number" } }
+      },
+      "transform": [
+        { "filter": "datum.Longitude >= 144.75 && datum.Longitude <= 145.35 && datum.Latitude >= -37.92 && datum.Latitude <= -37.67" }
+      ],
+      "mark": {
+        "type": "circle",
+        "size": 7,
+        "color": "#9aa3ad",
+        "opacity": 0.3,
+        "stroke": null
+      },
+      "encoding": {
+        "longitude": { "field": "Longitude", "type": "quantitative" },
+        "latitude": { "field": "Latitude", "type": "quantitative" },
+        "tooltip": [{ "field": "MODE", "type": "nominal", "title": "Stop mode" }]
+      }
+    },
+    {
+      "description": "Train and tram routes, thickened — the subject of this close-up. Train (metro + regional) vs Tram in the same neutral slate as chart-11 so the two maps share a legend meaning.",
+      "data": {
+        "url": "data/pt_routes_melbourne.topojson",
+        "format": { "type": "topojson", "feature": "public_transport_lines" }
+      },
+      "transform": [
+        { "calculate": "indexof(datum.properties.MODE, 'TRAIN') >= 0 ? 'Train' : 'Tram'", "as": "route_group" }
+      ],
+      "mark": { "type": "geoshape", "filled": false, "strokeWidth": 2, "strokeCap": "round" },
+      "encoding": {
+        "color": {
+          "field": "route_group",
+          "type": "nominal",
+          "title": "Routes (train & tram)",
+          "scale": {
+            "domain": ["Train", "Tram"],
+            "range": ["#33475f", "#7e8a98"]
+          },
+          "legend": { "symbolType": "stroke", "symbolStrokeWidth": 2 }
+        },
+        "tooltip": [
+          { "field": "properties.SHORT_NAME", "type": "nominal", "title": "Route" },
+          { "field": "properties.MODE", "type": "nominal", "title": "Mode" }
+        ]
+      }
+    }
+  ],
+  "resolve": { "scale": { "color": "independent" } }
+}
