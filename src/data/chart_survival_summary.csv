@@ -1,0 +1,5 @@
+metro_regional,proximity,cohort_count,survived_count,survival_rate_pct
+Metro,Further than 400 m,1156,1050,90.8
+Metro,Within 400 m of a stop,13746,12047,87.6
+Regional,Further than 400 m,2582,2365,91.6
+Regional,Within 400 m of a stop,4884,4471,91.5

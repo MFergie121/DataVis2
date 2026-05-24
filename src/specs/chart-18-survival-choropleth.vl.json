@@ -1,0 +1,55 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Chart 16 — Where venues last, mapped. Two-year survival of the July 2023 liquor-licence cohort by SA2 (still licensed July 2025), on the same equal-area projection of Victoria as the other choropleths. Colour carries survival; it is high and fairly even statewide (mostly 85–95%), with no obvious 'near the city / near transport' advantage — the spatial echo of charts 14 and 15. SA2s with fewer than 5 cohort venues are left ungraded (grey) to avoid noisy rates. Survival is a licence-presence proxy; association only. Data: chart_sa2_survival.csv joined to sa2_summary_simplified.topojson on sa2_code_2021.",
+  "title": {
+    "text": "Venues last across most of Victoria — city or country",
+    "subtitle": "Two-year survival of 2023 venues by SA2. Grey = fewer than 5 venues (rate too noisy to show).",
+    "anchor": "start",
+    "subtitleFontStyle": "italic"
+  },
+  "width": "container",
+  "height": 460,
+  "data": {
+    "url": "data/sa2_summary_simplified.topojson",
+    "format": { "type": "topojson", "feature": "sa2_summary" }
+  },
+  "transform": [
+    {
+      "lookup": "properties.sa2_code_2021",
+      "from": {
+        "data": {
+          "url": "data/chart_sa2_survival.csv",
+          "format": { "parse": { "sa2_code_2021": "string" } }
+        },
+        "key": "sa2_code_2021",
+        "fields": ["survival_rate_pct", "sa2_name_2021", "metro_regional_majority", "cohort_count"]
+      }
+    }
+  ],
+  "projection": {
+    "type": "conicEqualArea",
+    "rotate": [-145, 0, 0],
+    "center": [0, -37],
+    "parallels": [-36, -38]
+  },
+  "mark": {
+    "type": "geoshape",
+    "stroke": "#ffffff",
+    "strokeWidth": 0.3
+  },
+  "encoding": {
+    "color": {
+      "field": "survival_rate_pct",
+      "type": "quantitative",
+      "title": ["Survived two", "years (%)"],
+      "scale": { "scheme": "teals", "domain": [80, 100] },
+      "legend": { "format": ".0f", "gradientLength": 160 }
+    },
+    "tooltip": [
+      { "field": "sa2_name_2021", "type": "nominal", "title": "SA2" },
+      { "field": "metro_regional_majority", "type": "nominal", "title": "Region" },
+      { "field": "survival_rate_pct", "type": "quantitative", "title": "Survived 2 yrs", "format": ".1f" },
+      { "field": "cohort_count", "type": "quantitative", "title": "Venues (2023)", "format": "," }
+    ]
+  }
+}

@@ -1,0 +1,495 @@
+sa2_code_2021,cohort_count,survived_count,survival_rate_pct,sa2_name_2021,access_share_pct,metro_regional_majority
+201011001,21,21,100.0,Alfredton,78.3,Regional
+201011002,164,152,92.7,Ballarat,95.4,Regional
+201011005,16,15,93.8,Buninyong,60.0,Regional
+201011006,13,12,92.3,Delacombe,58.3,Regional
+201011008,28,25,89.3,Wendouree - Miners Rest,71.4,Regional
+201011481,24,22,91.7,Ballarat East - Warrenheip,64.0,Regional
+201011482,25,24,96.0,Ballarat North - Invermay,82.8,Regional
+201011483,29,25,86.2,Canadian - Mount Clear,84.4,Regional
+201011484,18,18,100.0,Sebastopol - Redan,83.3,Regional
+201021009,24,20,83.3,Bacchus Marsh Surrounds,13.8,Regional
+201021010,48,42,87.5,Creswick - Clunes,52.9,Regional
+201021011,124,108,87.1,Daylesford,45.7,Regional
+201021012,22,21,95.5,Gordon (Vic.),40.7,Regional
+201031013,61,50,82.0,Avoca,18.9,Regional
+201031014,17,15,88.2,Beaufort,50.0,Regional
+201031015,11,10,90.9,Golden Plains - North,53.3,Regional
+201031016,32,28,87.5,Maryborough (Vic.),96.7,Regional
+201031017,26,23,88.5,Maryborough Surrounds,41.9,Regional
+202011018,159,147,92.5,Bendigo,98.1,Regional
+202011019,18,18,100.0,California Gully - Eaglehawk,85.0,Regional
+202011020,27,26,96.3,East Bendigo - Kennington,80.0,Regional
+202011021,11,11,100.0,Flora Hill - Spring Gully,100.0,Regional
+202011022,40,36,90.0,Kangaroo Flat - Golden Square,94.7,Regional
+202011023,8,8,100.0,Maiden Gully,50.0,Regional
+202011024,13,13,100.0,Strathfieldsaye,46.2,Regional
+202011025,21,20,95.2,White Hills - Ascot,68.2,Regional
+202021026,28,26,92.9,Bendigo Surrounds - South,5.7,Regional
+202021027,53,53,100.0,Castlemaine,88.7,Regional
+202021028,74,69,93.2,Castlemaine Surrounds,42.5,Regional
+202021029,59,55,93.2,Heathcote,31.1,Regional
+202021030,67,59,88.1,Kyneton,72.2,Regional
+202021031,44,37,84.1,Woodend,65.9,Regional
+202031032,21,20,95.2,Bendigo Surrounds - North,40.0,Regional
+202031033,63,58,92.1,Loddon,45.4,Regional
+203011034,18,17,94.4,Bannockburn,31.2,Regional
+203011035,27,26,96.3,Golden Plains - South,33.3,Regional
+203011036,38,37,97.4,Winchelsea,0.0,Regional
+203021037,57,51,89.5,Belmont,82.5,Regional
+203021039,241,219,90.9,Geelong,84.7,Regional
+203021040,90,80,88.9,Geelong West - Hamlyn Heights,86.6,Regional
+203021042,28,26,92.9,Highton,71.9,Regional
+203021043,35,31,88.6,Lara,55.3,Regional
+203021044,18,17,94.4,Leopold,83.3,Regional
+203021045,24,23,95.8,Newcomb - Moolap,96.0,Regional
+203021046,40,36,90.0,Newtown (Vic.),76.2,Regional
+203021047,44,39,88.6,North Geelong - Bell Park,81.0,Regional
+203021485,7,7,100.0,Charlemont,100.0,Regional
+203021486,32,31,96.9,Corio - Lovely Banks,42.9,Regional
+203021487,39,38,97.4,Grovedale - Mount Duneed,81.2,Regional
+203021488,25,22,88.0,Norlane,45.5,Regional
+203031048,43,41,95.3,Clifton Springs,51.1,Regional
+203031049,80,72,90.0,Lorne - Anglesea,71.4,Regional
+203031051,48,43,89.6,Portarlington,68.0,Regional
+203031052,58,55,94.8,Point Lonsdale - Queenscliff,83.6,Regional
+203031053,100,96,96.0,Torquay,78.8,Regional
+203031489,41,39,95.1,Barwon Heads - Armstrong Creek,67.5,Regional
+203031490,64,57,89.1,Ocean Grove,63.8,Regional
+204011054,65,59,90.8,Alexandra,60.2,Regional
+204011055,40,35,87.5,Euroa,31.2,Regional
+204011056,46,41,89.1,Kilmore - Broadford,55.1,Regional
+204011057,130,119,91.5,Mansfield (Vic.),23.0,Regional
+204011058,55,54,98.2,Nagambie,20.0,Regional
+204011059,32,30,93.8,Seymour,81.8,Regional
+204011060,19,19,100.0,Seymour Surrounds,33.3,Regional
+204011062,38,30,78.9,Yea,45.2,Regional
+204021063,40,36,90.0,Benalla,84.2,Regional
+204021064,27,26,96.3,Benalla Surrounds,7.4,Regional
+204021065,54,49,90.7,Rutherglen,42.7,Regional
+204021066,66,58,87.9,Wangaratta,90.5,Regional
+204021067,97,90,92.8,Wangaratta Surrounds,26.7,Regional
+204031068,66,63,95.5,Beechworth,46.6,Regional
+204031069,192,180,93.8,Bright - Mount Beauty,34.6,Regional
+204031070,15,13,86.7,Chiltern - Indigo Valley,40.0,Regional
+204031071,48,41,85.4,Myrtleford,43.4,Regional
+204031072,45,40,88.9,Towong,35.7,Regional
+204031073,18,15,83.3,West Wodonga,83.3,Regional
+204031075,21,21,100.0,Yackandandah,42.9,Regional
+204031491,12,10,83.3,Baranduda - Leneva,33.3,Regional
+204031492,62,54,87.1,Wodonga,84.7,Regional
+205011076,41,39,95.1,Drouin,64.0,Regional
+205011077,42,39,92.9,Mount Baw Baw Region,0.0,Regional
+205011078,34,27,79.4,Trafalgar (Vic.),61.1,Regional
+205011079,74,66,89.2,Warragul,76.2,Regional
+205021081,61,58,95.1,Bairnsdale,74.3,Regional
+205021082,55,54,98.2,Bruthen - Omeo,31.6,Regional
+205021084,65,55,84.6,Lakes Entrance,60.3,Regional
+205021085,42,36,85.7,Orbost,64.3,Regional
+205021086,18,17,94.4,Paynesville,50.0,Regional
+205031087,70,62,88.6,Foster,32.4,Regional
+205031089,45,42,93.3,Korumburra,63.6,Regional
+205031090,47,42,89.4,Leongatha,55.0,Regional
+205031091,110,96,87.3,Phillip Island,48.4,Regional
+205031093,105,98,93.3,Wonthaggi - Inverloch,64.3,Regional
+205041094,21,20,95.2,Churchill,50.0,Regional
+205041095,42,41,97.6,Moe - Newborough,86.0,Regional
+205041096,47,42,89.4,Morwell,81.1,Regional
+205041098,16,15,93.8,Yallourn North - Glengarry,60.0,Regional
+205041493,71,67,94.4,Traralgon - East,98.0,Regional
+205041494,18,17,94.4,Traralgon - West,88.9,Regional
+205051100,22,20,90.9,Longford - Loch Sport,50.0,Regional
+205051101,51,49,96.1,Maffra,45.3,Regional
+205051102,21,18,85.7,Rosedale,59.1,Regional
+205051103,59,55,93.2,Sale,83.9,Regional
+205051104,31,31,100.0,Yarram,50.6,Regional
+206011106,79,71,89.9,Brunswick East,100.0,Metro
+206011107,36,28,77.8,Brunswick West,100.0,Metro
+206011109,18,17,94.4,Pascoe Vale South,90.9,Metro
+206011495,76,67,88.2,Brunswick - North,100.0,Metro
+206011496,138,125,90.6,Brunswick - South,100.0,Metro
+206011497,62,56,90.3,Coburg - East,100.0,Metro
+206011498,13,10,76.9,Coburg - West,93.3,Metro
+206021110,45,43,95.6,Alphington - Fairfield,100.0,Metro
+206021112,89,74,83.1,Thornbury,95.5,Metro
+206021499,109,95,87.2,Northcote - East,100.0,Metro
+206021500,39,34,87.2,Northcote - West,100.0,Metro
+206031113,56,48,85.7,Ascot Vale,89.7,Metro
+206031115,23,19,82.6,Flemington,100.0,Metro
+206031116,111,93,83.8,Moonee Ponds,100.0,Metro
+206031501,48,43,89.6,Essendon (West) - Aberfeldie,90.2,Metro
+206031502,55,48,87.3,Essendon - East,100.0,Metro
+206041117,178,159,89.3,Carlton,100.0,Metro
+206041118,177,155,87.6,Docklands,97.8,Metro
+206041119,67,60,89.6,East Melbourne,98.5,Metro
+206041120,11,11,100.0,Flemington Racecourse,100.0,Metro
+206041121,46,40,87.0,Kensington (Vic.),86.7,Metro
+206041124,34,33,97.1,Parkville,76.9,Metro
+206041125,40,34,85.0,South Yarra - West,97.1,Metro
+206041503,573,513,89.5,Melbourne CBD - East,100.0,Metro
+206041504,210,180,85.7,Melbourne CBD - North,100.0,Metro
+206041505,408,360,88.2,Melbourne CBD - West,100.0,Metro
+206041506,99,86,86.9,North Melbourne,100.0,Metro
+206041507,7,7,100.0,Royal Botanic Gardens Victoria,66.7,Metro
+206041508,108,99,91.7,Southbank (West) - South Wharf,90.8,Metro
+206041509,49,42,85.7,Southbank - East,100.0,Metro
+206041510,58,54,93.1,West Melbourne - Residential,100.0,Metro
+206051128,123,110,89.4,Albert Park,94.8,Metro
+206051129,57,48,84.2,Elwood,89.5,Metro
+206051130,81,69,85.2,Port Melbourne,100.0,Metro
+206051134,76,67,88.2,St Kilda East,100.0,Metro
+206051511,63,49,77.8,Port Melbourne Industrial,78.0,Metro
+206051512,152,128,84.2,South Melbourne,98.7,Metro
+206051513,48,42,87.5,St Kilda - Central,100.0,Metro
+206051514,195,165,84.6,St Kilda - West,97.7,Metro
+206061135,75,62,82.7,Armadale,100.0,Metro
+206061136,255,225,88.2,Prahran - Windsor,100.0,Metro
+206061138,54,42,77.8,Toorak,95.0,Metro
+206061515,85,72,84.7,South Yarra - North,100.0,Metro
+206061516,132,102,77.3,South Yarra - South,100.0,Metro
+206071139,90,77,85.6,Abbotsford,93.1,Metro
+206071140,60,52,86.7,Carlton North - Princes Hill,98.2,Metro
+206071141,141,129,91.5,Collingwood,93.1,Metro
+206071142,243,214,88.1,Fitzroy,100.0,Metro
+206071143,71,65,91.5,Fitzroy North,100.0,Metro
+206071145,40,36,90.0,Clifton Hill - Alphington,73.0,Metro
+206071517,220,197,89.5,Richmond (South) - Cremorne,96.9,Metro
+206071518,90,67,74.4,Richmond - North,88.9,Metro
+207011146,23,22,95.7,Ashburton (Vic.),96.0,Metro
+207011147,53,45,84.9,Balwyn,98.1,Metro
+207011148,50,45,90.0,Balwyn North,93.3,Metro
+207011149,77,63,81.8,Camberwell,92.3,Metro
+207011150,53,46,86.8,Glen Iris - East,92.7,Metro
+207011152,90,85,94.4,Hawthorn East,94.5,Metro
+207011154,26,21,80.8,Kew East,82.6,Metro
+207011155,38,34,89.5,Surrey Hills (West) - Canterbury,91.7,Metro
+207011519,58,52,89.7,Hawthorn - North,94.6,Metro
+207011520,66,60,90.9,Hawthorn - South,94.7,Metro
+207011521,47,44,93.6,Kew - South,97.8,Metro
+207011522,39,32,82.1,Kew - West,97.4,Metro
+207021156,22,21,95.5,Bulleen,68.2,Metro
+207021157,63,55,87.3,Doncaster,98.2,Metro
+207021159,31,30,96.8,Templestowe,90.3,Metro
+207021160,22,19,86.4,Templestowe Lower,81.8,Metro
+207021424,31,26,83.9,Doncaster East - North,96.4,Metro
+207021425,52,46,88.5,Doncaster East - South,100.0,Metro
+207031161,42,36,85.7,Blackburn,95.7,Metro
+207031162,13,11,84.6,Blackburn South,92.3,Metro
+207031163,119,98,82.4,Box Hill,99.1,Metro
+207031164,17,14,82.4,Box Hill North,92.9,Metro
+207031165,26,21,80.8,Burwood (Vic.),95.7,Metro
+207031166,41,39,95.1,Burwood East,91.1,Metro
+207031167,15,14,93.3,Surrey Hills (East) - Mont Albert,84.6,Metro
+208011168,47,41,87.2,Beaumaris,97.7,Metro
+208011169,136,126,92.6,Brighton (Vic.),97.4,Metro
+208011170,27,24,88.9,Brighton East,77.8,Metro
+208011171,46,38,82.6,Highett (West) - Cheltenham,79.5,Metro
+208011172,73,66,90.4,Hampton,98.6,Metro
+208011173,85,72,84.7,Sandringham - Black Rock,87.3,Metro
+208021174,76,63,82.9,Bentleigh - McKinnon,100.0,Metro
+208021176,86,77,89.5,Carnegie,91.2,Metro
+208021177,52,41,78.8,Caulfield - North,100.0,Metro
+208021178,31,27,87.1,Caulfield - South,100.0,Metro
+208021179,81,65,80.2,Elsternwick,98.7,Metro
+208021180,7,6,85.7,Hughesdale,90.9,Metro
+208021181,16,15,93.8,Murrumbeena,94.1,Metro
+208021182,48,40,83.3,Ormond - Glen Huntly,91.1,Metro
+208021426,41,35,85.4,Bentleigh East - North,100.0,Metro
+208021427,24,21,87.5,Bentleigh East - South,95.2,Metro
+208031184,24,22,91.7,Braeside,82.8,Metro
+208031185,34,32,94.1,Carrum - Patterson Lakes,100.0,Metro
+208031186,39,35,89.7,Chelsea - Bonbeach,80.6,Metro
+208031187,8,8,100.0,Chelsea Heights,100.0,Metro
+208031188,104,91,87.5,Highett (East) - Cheltenham ,95.2,Metro
+208031189,27,24,88.9,Edithvale - Aspendale,88.0,Metro
+208031190,35,35,100.0,Mentone,92.3,Metro
+208031191,61,54,88.5,Moorabbin - Heatherton,72.7,Metro
+208031192,10,8,80.0,Moorabbin Airport,75.0,Metro
+208031193,81,71,87.7,Mordialloc - Parkdale,92.6,Metro
+208041194,76,65,85.5,Malvern - Glen Iris,98.8,Metro
+208041195,101,84,83.2,Malvern East,100.0,Metro
+209011196,19,16,84.2,Bundoora - East,95.2,Metro
+209011197,53,51,96.2,Greensborough,88.2,Metro
+209011198,54,48,88.9,Heidelberg - Rosanna,87.8,Metro
+209011199,29,24,82.8,Heidelberg West,73.1,Metro
+209011200,47,41,87.2,Ivanhoe,93.6,Metro
+209011201,15,12,80.0,Ivanhoe East - Eaglemont,93.8,Metro
+209011202,41,30,73.2,Montmorency - Briar Hill,84.8,Metro
+209011203,19,15,78.9,Viewbank - Yallambie,92.9,Metro
+209011204,16,11,68.8,Watsonia,100.0,Metro
+209021205,30,29,96.7,Kingsbury,82.4,Metro
+209021428,139,121,87.1,Preston - East,98.5,Metro
+209021429,23,17,73.9,Preston - West,93.8,Metro
+209021523,20,17,85.0,Reservoir - North East,83.3,Metro
+209021524,7,7,100.0,Reservoir - North West,100.0,Metro
+209021525,36,30,83.3,Reservoir - South East,97.1,Metro
+209021526,34,29,85.3,Reservoir - South West,96.6,Metro
+209031209,56,51,91.1,Eltham,94.5,Metro
+209031210,14,14,100.0,Hurstbridge,80.0,Metro
+209031211,13,12,92.3,Kinglake,40.0,Regional
+209031212,19,17,89.5,Panton Hill - St Andrews,0.0,Metro
+209031213,21,20,95.2,Plenty - Yarrambat,81.0,Metro
+209031214,20,20,100.0,Research - North Warrandyte,57.1,Metro
+209031215,22,21,95.5,Wattle Glen - Diamond Creek,90.5,Metro
+209041216,18,16,88.9,Bundoora - North,100.0,Metro
+209041217,13,12,92.3,Bundoora - West,100.0,Metro
+209041220,47,44,93.6,Mill Park - North,100.0,Metro
+209041221,6,5,83.3,Mill Park - South,100.0,Metro
+209041223,42,37,88.1,Thomastown,75.0,Metro
+209041224,22,21,95.5,Wallan,74.2,Regional
+209041225,23,19,82.6,Whittlesea,79.2,Metro
+209041432,54,48,88.9,Epping - South,87.5,Metro
+209041433,29,22,75.9,Epping (Vic.) - West,87.0,Metro
+209041435,5,5,100.0,South Morang - North,100.0,Metro
+209041436,13,13,100.0,South Morang - South,85.7,Metro
+209041437,8,6,75.0,Wollert,57.1,Metro
+209041527,14,13,92.9,Doreen - North,100.0,Metro
+209041529,17,15,88.2,Lalor - East,100.0,Metro
+209041530,8,8,100.0,Lalor - West,62.5,Metro
+209041531,6,6,100.0,Mernda - North,100.0,Metro
+209041532,9,8,88.9,Mernda - South,87.5,Metro
+210011226,19,19,100.0,Airport West,95.2,Metro
+210011227,9,8,88.9,Essendon Airport,87.5,Metro
+210011228,43,35,81.4,Keilor,51.3,Metro
+210011230,26,21,80.8,Niddrie - Essendon West,100.0,Metro
+210011231,25,24,96.0,Strathmore,100.0,Metro
+210011533,13,11,84.6,Avondale Heights,100.0,Metro
+210011534,22,20,90.9,Keilor East,80.0,Metro
+210021232,49,44,89.8,Gisborne,70.0,Regional
+210021233,26,23,88.5,Macedon,20.0,Regional
+210021234,12,11,91.7,Riddells Creek,73.7,Regional
+210021235,51,47,92.2,Romsey,44.9,Regional
+210031236,27,22,81.5,Coburg North,86.2,Metro
+210031237,17,16,94.1,Fawkner,93.8,Metro
+210031440,9,9,100.0,Hadfield,88.9,Metro
+210031535,17,16,94.1,Glenroy - East,100.0,Metro
+210031536,9,9,100.0,Glenroy - West,100.0,Metro
+210031537,13,13,100.0,Oak Park,93.3,Metro
+210031538,31,26,83.9,Pascoe Vale,96.7,Metro
+210041240,9,7,77.8,Sunbury,85.7,Metro
+210041539,6,6,100.0,Diggers Rest,88.9,Regional
+210041540,67,61,91.0,Sunbury - South,90.5,Metro
+210041541,8,8,100.0,Sunbury - West,50.0,Metro
+210051242,22,18,81.8,Broadmeadows,85.0,Metro
+210051243,36,31,86.1,Campbellfield - Coolaroo,69.7,Metro
+210051245,28,23,82.1,Gladstone Park - Westmeadows,88.0,Metro
+210051246,12,10,83.3,Greenvale - Bulla,46.2,Metro
+210051248,58,53,91.4,Melbourne Airport,77.8,Metro
+210051250,16,14,87.5,Tullamarine,69.2,Metro
+210051441,12,11,91.7,Craigieburn - Central,69.2,Metro
+210051442,10,10,100.0,Craigieburn - North,100.0,Metro
+210051443,14,13,92.9,Craigieburn - South,71.4,Metro
+210051445,8,6,75.0,Mickleham - Yuroke,75.0,Metro
+210051543,23,19,82.6,Craigieburn - West,100.0,Metro
+210051544,12,8,66.7,Roxburgh Park (South) - Somerton,90.9,Metro
+211011251,44,40,90.9,Bayswater,87.5,Metro
+211011254,39,34,87.2,Knoxfield - Scoresby,70.3,Metro
+211011256,19,19,100.0,Rowville - Central,100.0,Metro
+211011257,10,9,90.0,Rowville - North,60.0,Metro
+211011258,16,15,93.8,Rowville - South,92.9,Metro
+211011259,27,25,92.6,Wantirna,92.9,Metro
+211011260,72,67,93.1,Wantirna South,89.6,Metro
+211011446,48,44,91.7,Boronia,98.0,Metro
+211011447,22,20,90.9,Ferntree Gully - North,100.0,Metro
+211011448,43,40,93.0,Ferntree Gully (South) - Upper Ferntree Gully,97.7,Metro
+211011449,9,9,100.0,The Basin,72.7,Metro
+211021261,20,19,95.0,Donvale - Park Orchards,73.7,Metro
+211021262,42,37,88.1,Warrandyte - Wonga Park,81.6,Metro
+211031263,13,11,84.6,Bayswater North,58.3,Metro
+211031265,14,12,85.7,Croydon Hills - Warranwood,92.9,Metro
+211031266,85,76,89.4,Ringwood,90.2,Metro
+211031267,48,46,95.8,Ringwood East,81.2,Metro
+211031268,18,16,88.9,Ringwood North,100.0,Metro
+211031450,47,42,89.4,Croydon - East,93.9,Metro
+211031451,32,26,81.2,Croydon - West,88.9,Metro
+211031452,11,8,72.7,Croydon South,91.7,Metro
+211041269,33,26,78.8,Forest Hill,100.0,Metro
+211041270,39,36,92.3,Mitcham (Vic.),95.0,Metro
+211041271,23,22,95.7,Nunawading,91.7,Metro
+211041272,14,12,85.7,Vermont,100.0,Metro
+211041273,16,13,81.2,Vermont South,60.0,Metro
+211051274,40,37,92.5,Belgrave - Selby,87.8,Metro
+211051275,37,31,83.8,Chirnside Park,45.5,Metro
+211051276,155,139,89.7,Healesville - Yarra Glen,42.7,Metro
+211051277,8,6,75.0,Kilsyth,100.0,Metro
+211051278,110,98,89.1,Lilydale - Coldstream,50.0,Metro
+211051279,31,28,90.3,Monbulk - Silvan,67.9,Metro
+211051280,15,15,100.0,Montrose,93.3,Metro
+211051281,21,19,90.5,Mooroolbark,63.2,Metro
+211051282,60,57,95.0,Mount Dandenong - Olinda,85.0,Metro
+211051283,17,17,100.0,Mount Evelyn,84.2,Metro
+211051284,29,27,93.1,Upwey - Tecoma,93.1,Metro
+211051285,57,48,84.2,Wandin - Seville,34.0,Metro
+211051286,58,51,87.9,Yarra Valley,60.7,Metro
+212011289,57,55,96.5,Emerald - Cockatoo,55.4,Metro
+212011546,39,36,92.3,Beaconsfield - Officer,70.5,Metro
+212011547,27,25,92.6,Bunyip - Garfield,54.1,Metro
+212011548,25,21,84.0,Koo Wee Rup,25.0,Metro
+212011550,9,9,100.0,Pakenham - North West,88.2,Metro
+212011551,23,17,73.9,Pakenham - South East,84.2,Metro
+212011552,36,32,88.9,Pakenham - South West,88.6,Metro
+212021293,53,47,88.7,Berwick - North,81.1,Metro
+212021295,16,13,81.2,Doveton,100.0,Metro
+212021297,14,14,100.0,Hallam,78.6,Metro
+212021299,10,9,90.0,Narre Warren North,22.2,Metro
+212021453,9,8,88.9,Endeavour Hills - North,62.5,Metro
+212021454,11,10,90.9,Endeavour Hills - South,90.9,Metro
+212021456,45,37,82.2,Narre Warren - South West,88.6,Metro
+212021553,7,7,100.0,Berwick - South East,100.0,Metro
+212021554,7,7,100.0,Berwick - South West,77.8,Metro
+212031300,39,30,76.9,Cranbourne,88.6,Metro
+212031303,10,10,100.0,Cranbourne South,75.0,Metro
+212031304,14,12,85.7,Cranbourne West,78.6,Metro
+212031306,18,15,83.3,Lynbrook - Lyndhurst,80.0,Metro
+212031308,20,19,95.0,Pearcedale - Tooradin,57.9,Metro
+212031457,12,9,75.0,Narre Warren South - East,90.9,Metro
+212031458,7,5,71.4,Narre Warren South - West,100.0,Metro
+212031555,5,4,80.0,Clyde North - North,80.0,Metro
+212031556,6,4,66.7,Clyde North - South,90.9,Metro
+212031557,14,14,100.0,Cranbourne East - North,100.0,Metro
+212031558,8,7,87.5,Cranbourne East - South,75.0,Metro
+212031559,7,7,100.0,Cranbourne North - East,100.0,Metro
+212031560,11,11,100.0,Cranbourne North - West,100.0,Metro
+212031562,15,15,100.0,Hampton Park - West,100.0,Metro
+212041309,10,9,90.0,Clarinda - Oakleigh South,77.8,Metro
+212041310,17,15,88.2,Clayton South,72.2,Metro
+212041312,13,12,92.3,Dandenong North,100.0,Metro
+212041313,11,10,90.9,Dingley Village,92.3,Metro
+212041316,8,7,87.5,Noble Park North,88.9,Metro
+212041317,80,64,80.0,Springvale,85.9,Metro
+212041318,10,10,100.0,Springvale South,86.7,Metro
+212041459,19,14,73.7,Noble Park - East,85.7,Metro
+212041460,10,9,90.0,Noble Park - West,100.0,Metro
+212041563,66,53,80.3,Dandenong - North,91.8,Metro
+212041564,35,32,91.4,Dandenong - South,55.0,Metro
+212041565,20,19,95.0,Keysborough - North,90.0,Metro
+212041566,23,20,87.0,Keysborough - South,54.5,Metro
+212051319,34,29,85.3,Ashwood - Chadstone,91.2,Metro
+212051321,17,12,70.6,Glen Waverley - East,100.0,Metro
+212051322,116,105,90.5,Glen Waverley - West,97.5,Metro
+212051323,23,20,87.0,Mount Waverley - North,65.0,Metro
+212051324,47,39,83.0,Mount Waverley - South,81.5,Metro
+212051325,29,27,93.1,Mulgrave,86.2,Metro
+212051326,95,83,87.4,Oakleigh - Huntingdale,92.4,Metro
+212051327,29,24,82.8,Wheelers Hill,100.0,Metro
+212051567,50,44,88.0,Clayton (North) - Notting Hill,95.5,Metro
+212051568,49,40,81.6,Clayton - Central,96.2,Metro
+213011328,18,15,83.3,Ardeer - Albion,68.8,Metro
+213011329,11,10,90.9,Cairnlea,88.9,Metro
+213011332,12,11,91.7,Keilor Downs,84.6,Metro
+213011334,32,24,75.0,St Albans - North,95.8,Metro
+213011335,22,21,95.5,St Albans - South,95.5,Metro
+213011336,42,37,88.1,Sunshine,100.0,Metro
+213011337,19,19,100.0,Sunshine North,56.5,Metro
+213011338,28,25,89.3,Sunshine West,82.1,Metro
+213011339,9,8,88.9,Sydenham,100.0,Metro
+213011340,40,34,85.0,Taylors Lakes,88.1,Metro
+213011569,16,15,93.8,Deer Park,88.2,Metro
+213011570,23,19,82.6,Derrimut,59.1,Metro
+213021341,50,45,90.0,Altona,80.4,Metro
+213021342,12,12,100.0,Altona Meadows,91.7,Metro
+213021343,42,38,90.5,Altona North,78.0,Metro
+213021344,54,45,83.3,Newport,90.2,Metro
+213021345,5,4,80.0,Seabrook,75.0,Metro
+213021346,109,92,84.4,Williamstown,89.5,Metro
+213031347,49,43,87.8,Braybrook,80.0,Metro
+213031348,145,115,79.3,Footscray,97.7,Metro
+213031349,45,40,88.9,Maribyrnong,97.8,Metro
+213031350,39,32,82.1,Seddon - Kingsville,100.0,Metro
+213031351,27,24,88.9,West Footscray - Tottenham,96.2,Metro
+213031352,83,75,90.4,Yarraville,98.6,Metro
+213041353,42,39,92.9,Bacchus Marsh,75.0,Regional
+213041358,17,16,94.1,Melton West,100.0,Regional
+213041359,17,14,82.4,Rockbank - Mount Cottrell,57.1,Regional
+213041360,11,9,81.8,Taylors Hill,91.7,Regional
+213041461,5,5,100.0,Burnside,80.0,Regional
+213041463,38,30,78.9,Caroline Springs,88.9,Regional
+213041572,6,6,100.0,Cobblebank - Strathtulloh,55.6,Regional
+213041573,5,5,100.0,Eynesbury - Exford,20.0,Regional
+213041574,13,12,92.3,Fraser Rise - Plumpton,41.7,Regional
+213041575,10,8,80.0,Hillside,100.0,Regional
+213041576,7,6,85.7,Kurunjang - Toolern Vale,14.3,Regional
+213041577,41,35,85.4,Melton,86.1,Regional
+213041578,17,15,88.2,Melton South - Weir Views,86.7,Regional
+213051361,28,27,96.4,Hoppers Crossing - North,79.3,Metro
+213051362,31,27,87.1,Hoppers Crossing - South,100.0,Metro
+213051363,36,29,80.6,Laverton,87.1,Metro
+213051368,81,75,92.6,Werribee - South,84.3,Metro
+213051464,12,11,91.7,Point Cook - East,61.5,Metro
+213051466,20,19,95.0,Point Cook - South,68.4,Metro
+213051467,15,14,93.3,Werribee - East,100.0,Metro
+213051468,7,7,100.0,Werribee - West,71.4,Metro
+213051580,37,30,81.1,Point Cook - North East,100.0,Metro
+213051581,5,5,100.0,Point Cook - North West,100.0,Metro
+213051583,23,21,91.3,Tarneit - Central,95.8,Metro
+213051586,11,10,90.9,Truganina - North,55.6,Metro
+213051587,8,8,100.0,Truganina - South East,87.5,Metro
+213051588,6,6,100.0,Truganina - South West,100.0,Metro
+213051590,12,10,83.3,Wyndham Vale - South,100.0,Metro
+214011370,27,24,88.9,Carrum Downs,90.0,Metro
+214011371,102,90,88.2,Frankston,94.9,Metro
+214011372,45,41,91.1,Frankston North,86.4,Metro
+214011373,20,20,100.0,Frankston South,78.9,Metro
+214011374,18,15,83.3,Langwarrin,80.0,Metro
+214011375,43,41,95.3,Seaford (Vic.),81.4,Metro
+214011376,6,6,100.0,Skye - Sandhurst,0.0,Metro
+214021377,80,69,86.2,Dromana,46.6,Metro
+214021378,157,152,96.8,Flinders,8.8,Metro
+214021379,85,80,94.1,Hastings - Somers,55.7,Metro
+214021381,47,42,89.4,Mount Eliza,76.1,Metro
+214021382,34,32,94.1,Mount Martha,54.5,Metro
+214021383,119,109,91.6,Point Nepean,77.6,Metro
+214021384,68,62,91.2,Rosebud - McCrae,65.2,Metro
+214021385,71,62,87.3,Somerville,46.2,Metro
+214021591,29,28,96.6,Mornington - East,81.2,Metro
+214021592,99,82,82.8,Mornington - West,92.2,Metro
+215011386,44,39,88.6,Ararat,92.2,Regional
+215011387,34,29,85.3,Ararat Surrounds,31.6,Regional
+215011388,68,60,88.2,Horsham,89.4,Regional
+215011389,29,27,93.1,Horsham Surrounds,6.9,Regional
+215011390,44,44,100.0,Nhill Region,55.4,Regional
+215011391,18,16,88.9,St Arnaud,52.4,Regional
+215011392,63,58,92.1,Stawell,67.6,Regional
+215011393,20,20,100.0,West Wimmera,28.6,Regional
+215011394,46,43,93.5,Yarriambiack,44.2,Regional
+215021395,26,22,84.6,Irymple,37.5,Regional
+215021396,14,13,92.9,Merbein,46.7,Regional
+215021398,25,23,92.0,Mildura Surrounds,45.5,Regional
+215021399,27,25,92.6,Red Cliffs,58.6,Regional
+215021469,109,101,92.7,Mildura - North,88.8,Regional
+215021470,31,28,90.3,Mildura - South,81.2,Regional
+215031400,58,55,94.8,Buloke,56.2,Regional
+215031401,37,34,91.9,Gannawarra,50.0,Regional
+215031402,17,17,100.0,Kerang,0.0,Regional
+215031403,12,11,91.7,Robinvale,55.6,Regional
+215031404,61,53,86.9,Swan Hill,92.7,Regional
+215031405,36,30,83.3,Swan Hill Surrounds,34.9,Regional
+216011406,74,68,91.9,Echuca,75.0,Regional
+216011407,34,29,85.3,Kyabram,39.2,Regional
+216011408,18,18,100.0,Lockington - Gunbower,17.6,Regional
+216011409,14,14,100.0,Rochester,71.4,Regional
+216011410,48,43,89.6,Rushworth,22.6,Regional
+216021411,26,25,96.2,Cobram,67.9,Regional
+216021412,19,18,94.7,Moira,40.0,Regional
+216021413,59,55,93.2,Numurkah,43.1,Regional
+216021414,35,30,85.7,Yarrawonga,40.6,Regional
+216031415,18,17,94.4,Mooroopna,88.9,Regional
+216031416,77,71,92.2,Shepparton - North,92.4,Regional
+216031418,17,17,100.0,Shepparton Surrounds - East,11.8,Regional
+216031419,37,37,100.0,Shepparton Surrounds - West,31.7,Regional
+216031593,21,20,95.2,Kialla,42.9,Regional
+216031594,54,52,96.3,Shepparton - South East,88.0,Regional
+217011420,41,38,92.7,Glenelg (Vic.),23.1,Regional
+217011421,59,55,93.2,Hamilton (Vic.),83.8,Regional
+217011422,45,42,93.3,Portland,77.3,Regional
+217011423,43,40,93.0,Southern Grampians,32.6,Regional
+217031471,17,17,100.0,Camperdown,45.0,Regional
+217031472,50,47,94.0,Colac,92.2,Regional
+217031473,31,31,100.0,Colac Surrounds,27.5,Regional
+217031474,33,33,100.0,Corangamite - North,28.6,Regional
+217031475,47,43,91.5,Corangamite - South,47.4,Regional
+217031476,64,55,85.9,Otway,61.3,Regional
+217041477,28,27,96.4,Moyne - East,60.5,Regional
+217041478,70,61,87.1,Moyne - West,63.0,Regional
+217041479,31,29,93.5,Warrnambool - North,64.3,Regional
+217041480,102,90,88.2,Warrnambool - South,94.3,Regional

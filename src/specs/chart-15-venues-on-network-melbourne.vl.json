@@ -1,0 +1,64 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Chart 15 — Venues on the network, inner Melbourne. The zoomed synthesis: venues overlaid on the train + tram routes within the Melbourne frame (lon 144.75–145.35, lat −37.92 to −37.67, ~10,682 venues filtered in-spec), each coloured by whether its nearest stop is within 400 m. This is where the hospitality–transport trend reads cleanest — 'within 400 m' venues trace the tram grid and radial train lines; 'further' venues sit in the gaps between. Proximity, not service. Routes are the light background; the stop mesh is dropped so the venue layer reads. Data: venues_web.csv (filtered) over pt_routes_melbourne.topojson and sa2_melbourne.topojson.",
+  "width": "container",
+  "height": 460,
+  "autosize": { "type": "fit-x", "contains": "padding" },
+  "projection": {
+    "type": "conicEqualArea",
+    "rotate": [-145, 0, 0],
+    "center": [0, -37],
+    "parallels": [-36, -38]
+  },
+  "layer": [
+    {
+      "description": "Base: inner-Melbourne SA2 boundaries (shared clipped base).",
+      "data": {
+        "url": "data/sa2_melbourne.topojson",
+        "format": { "type": "topojson", "feature": "sa2_summary" }
+      },
+      "mark": { "type": "geoshape", "fill": "#f4f3ee", "stroke": "#ffffff", "strokeWidth": 0.4 }
+    },
+    {
+      "description": "Train + tram routes, Melbourne-clipped, as a light background.",
+      "data": {
+        "url": "data/pt_routes_melbourne.topojson",
+        "format": { "type": "topojson", "feature": "public_transport_lines" }
+      },
+      "mark": { "type": "geoshape", "filled": false, "stroke": "#aeb6bf", "strokeWidth": 1, "strokeCap": "round" }
+    },
+    {
+      "description": "Venue points in the Melbourne frame, coloured by proximity to the nearest stop (≤400 m vs further).",
+      "data": {
+        "url": "data/venues_web.csv",
+        "format": { "parse": { "Longitude": "number", "Latitude": "number", "nearest_stop_distance_m": "number" } }
+      },
+      "transform": [
+        { "filter": "datum.Longitude >= 144.75 && datum.Longitude <= 145.35 && datum.Latitude >= -37.92 && datum.Latitude <= -37.67" },
+        { "calculate": "datum.nearest_stop_distance_m <= 400 ? 'Within 400 m of a stop' : 'Further than 400 m'", "as": "stop_proximity" }
+      ],
+      "mark": { "type": "circle", "size": 10, "opacity": 0.55, "stroke": null },
+      "encoding": {
+        "longitude": { "field": "Longitude", "type": "quantitative" },
+        "latitude": { "field": "Latitude", "type": "quantitative" },
+        "color": {
+          "field": "stop_proximity",
+          "type": "nominal",
+          "title": "Nearest stop",
+          "scale": {
+            "domain": ["Within 400 m of a stop", "Further than 400 m"],
+            "range": ["#33475f", "#d1495b"]
+          },
+          "legend": { "symbolOpacity": 1, "symbolSize": 70 }
+        },
+        "tooltip": [
+          { "field": "venue_category_group", "type": "nominal", "title": "Type" },
+          { "field": "metro_regional_label", "type": "nominal", "title": "Region" },
+          { "field": "nearest_stop_distance_m", "type": "quantitative", "title": "Nearest stop (m)", "format": ",.0f" },
+          { "field": "distance_band", "type": "nominal", "title": "Distance band" }
+        ]
+      }
+    }
+  ],
+  "resolve": { "scale": { "color": "independent" } }
+}

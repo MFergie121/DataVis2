@@ -74,6 +74,20 @@
           </figure>
         </div>
 
+        <!-- Synthesis 1: the two statewide layers overlaid -->
+        <figure class="chart">
+          <p class="chart-title">The two together — venues on the network, Victoria</p>
+          <div id="chart-14" class="chart-mount" data-pending="true">
+            chart-14 · venues on the network (Victoria)
+          </div>
+          <figcaption class="chart-note">
+            Each dot is a venue, coloured by whether its nearest stop is within
+            400 m; the grey lines are train &amp; tram routes. Colour is
+            <strong>proximity, not service</strong>. The near venues trace the
+            metropolitan network; the further ones scatter through the regions.
+          </figcaption>
+        </figure>
+
         <!-- Row 2: the same two, zoomed to inner Melbourne -->
         <div class="map-row">
           <figure class="chart">
@@ -96,6 +110,19 @@
             </figcaption>
           </figure>
         </div>
+
+        <!-- Synthesis 2: the two Melbourne layers overlaid -->
+        <figure class="chart">
+          <p class="chart-title">The two together — venues on the network, inner Melbourne</p>
+          <div id="chart-15" class="chart-mount" data-pending="true">
+            chart-15 · venues on the network (Melbourne)
+          </div>
+          <figcaption class="chart-note">
+            Up close, the relationship is unmistakable: venues within 400 m of a
+            stop hug the tram grid and train lines, while the further ones fall
+            into the gaps between them. Proximity to a stop, not service level.
+          </figcaption>
+        </figure>
 
         <figure class="chart">
           <p class="chart-title">
@@ -224,8 +251,59 @@
         </figure>
       </section>
 
-      <!-- ===== §6 The compound + coda ===== -->
+      <!-- ===== §6 Does proximity pay off? ===== -->
       <section class="section" id="s6">
+        <p class="kicker">Testing the payoff</p>
+        <h2 class="section-claim">
+          Closer to transport doesn't mean better off
+        </h2>
+        <div class="prose">
+          <p>
+            If venues cluster by transport, does sitting near a stop actually
+            help one survive? We can test it. The licence list is published
+            monthly, so we can take every venue licensed in July 2023 and ask a
+            blunt question two years on: was it still licensed in July 2025? A
+            licence that vanishes is our stand-in for a venue that closed.
+          </p>
+          <p>
+            The answer pushes back on the obvious theory. Survival is high
+            almost everywhere — 87 to 93 per cent — and being <em>near</em> a
+            stop doesn't lift it. Inside Melbourne the venues packed closest to
+            transport actually closed a touch more often (87.6% within 400&nbsp;m
+            vs 90.8% further out), while regional venues last just as well far
+            from a stop. Proximity to transport is not what keeps the doors open.
+          </p>
+          <p class="caveat">
+            A cancelled licence can mean a sale, a rename or a move, not only a
+            failure — so read these as association, never proof that transport
+            does or doesn't cause venues to survive.
+          </p>
+        </div>
+
+        <figure class="chart">
+          <p class="chart-title">Survival by distance to the nearest stop</p>
+          <div id="chart-16" class="chart-mount" data-pending="true">
+            chart-16 · survival by distance band
+          </div>
+        </figure>
+
+        <figure class="chart">
+          <p class="chart-title">The theory, tested: access vs survival</p>
+          <div id="chart-17" class="chart-mount" data-pending="true">
+            chart-17 · access × survival scatter
+          </div>
+        </figure>
+
+        <figure class="chart">
+          <p class="chart-title">Where venues last, mapped</p>
+          <div id="chart-18" class="chart-mount" data-pending="true">
+            chart-18 · survival choropleth
+          </div>
+        </figure>
+      </section>
+
+      <!-- ===== §7 The compound + coda ===== -->
+      <section class="section" id="s7">
         <p class="kicker">The coda</p>
         <h2 class="section-claim">
           The venues open have the most support for getting home
@@ -294,6 +372,8 @@
         "chart-11": "specs/chart-11-transport-network-map.vl.json",
         "chart-12": "specs/chart-12-melbourne-network-closeup.vl.json",
         "chart-13": "specs/chart-13-melbourne-venues-closeup.vl.json",
+        "chart-14": "specs/chart-14-venues-on-network-victoria.vl.json",
+        "chart-15": "specs/chart-15-venues-on-network-melbourne.vl.json",
         "chart-01": "specs/chart-01-venue-point-map.vl.json",
         "chart-02": "specs/chart-02-distance-histogram.vl.json",
         "chart-03": "specs/chart-03-access-choropleth.vl.json",
@@ -304,6 +384,9 @@
         "chart-08": "specs/chart-08-sa2-rankings-lollipop.vl.json",
         "chart-09": "specs/chart-09-category-distance-bands.vl.json",
         "chart-10": "specs/chart-10-late-night-coda.vl.json",
+        "chart-16": "specs/chart-16-survival-distance-bands.vl.json",
+        "chart-17": "specs/chart-17-access-survival-scatter.vl.json",
+        "chart-18": "specs/chart-18-survival-choropleth.vl.json",
       };
 
       const views = {}; // mount id -> Vega view, populated as each chart embeds

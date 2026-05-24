@@ -1,0 +1,63 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Chart 14 — Venues on the network, Victoria. The synthesis of the two §1 statewide maps in one frame: ~23,658 licensed venues overlaid on the train + tram route lines, each venue coloured by whether its nearest public-transport stop is within 400 m. This makes the hospitality–transport relationship legible directly — 'within 400 m' venues hug the metropolitan network, 'further' venues scatter where transport thins (largely regional). Colour encodes proximity (distance to the nearest stop), NOT service times or frequency. The stop mesh from chart-11 is deliberately dropped here so the venue layer reads cleanly over the lines. Equal-area projection (a dot map's perceived density depends on dots per unit area). Data: venues_web.csv over pt_routes_simplified.topojson and sa2_summary_simplified.topojson.",
+  "width": "container",
+  "height": 460,
+  "autosize": { "type": "fit-x", "contains": "padding" },
+  "projection": {
+    "type": "conicEqualArea",
+    "rotate": [-145, 0, 0],
+    "center": [0, -37],
+    "parallels": [-36, -38]
+  },
+  "layer": [
+    {
+      "description": "Base: SA2 boundaries for geographic context.",
+      "data": {
+        "url": "data/sa2_summary_simplified.topojson",
+        "format": { "type": "topojson", "feature": "sa2_summary" }
+      },
+      "mark": { "type": "geoshape", "fill": "#f4f3ee", "stroke": "#ffffff", "strokeWidth": 0.4 }
+    },
+    {
+      "description": "Train + tram routes, pushed to the background (light, thin) so the venues are the figure and the network is the ground.",
+      "data": {
+        "url": "data/pt_routes_simplified.topojson",
+        "format": { "type": "topojson", "feature": "public_transport_lines" }
+      },
+      "mark": { "type": "geoshape", "filled": false, "stroke": "#b9c0c8", "strokeWidth": 0.8, "strokeCap": "round" }
+    },
+    {
+      "description": "Venue points, coloured by proximity to the nearest stop (≤400 m vs further). The trend: 'within 400 m' dots trace the network; 'further' dots fall in the gaps.",
+      "data": {
+        "url": "data/venues_web.csv",
+        "format": { "parse": { "nearest_stop_distance_m": "number" } }
+      },
+      "transform": [
+        { "calculate": "datum.nearest_stop_distance_m <= 400 ? 'Within 400 m of a stop' : 'Further than 400 m'", "as": "stop_proximity" }
+      ],
+      "mark": { "type": "circle", "size": 5, "opacity": 0.45, "stroke": null },
+      "encoding": {
+        "longitude": { "field": "Longitude", "type": "quantitative" },
+        "latitude": { "field": "Latitude", "type": "quantitative" },
+        "color": {
+          "field": "stop_proximity",
+          "type": "nominal",
+          "title": "Nearest stop",
+          "scale": {
+            "domain": ["Within 400 m of a stop", "Further than 400 m"],
+            "range": ["#33475f", "#d1495b"]
+          },
+          "legend": { "symbolOpacity": 1, "symbolSize": 70 }
+        },
+        "tooltip": [
+          { "field": "venue_category_group", "type": "nominal", "title": "Type" },
+          { "field": "metro_regional_label", "type": "nominal", "title": "Region" },
+          { "field": "nearest_stop_distance_m", "type": "quantitative", "title": "Nearest stop (m)", "format": ",.0f" },
+          { "field": "distance_band", "type": "nominal", "title": "Distance band" }
+        ]
+      }
+    }
+  ],
+  "resolve": { "scale": { "color": "independent" } }
+}

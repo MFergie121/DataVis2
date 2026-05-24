@@ -100,6 +100,15 @@ body {
 
 .prose p { margin: 0 0 1rem; }
 
+/* Honesty note inside prose — the survival proxy caveat (§6). Muted and
+   slightly smaller so it reads as a footnote, not a headline. */
+.prose .caveat {
+  font-size: 0.85rem;
+  color: var(--muted);
+  border-left: 2px solid var(--line);
+  padding-left: 0.75rem;
+}
+
 /* ---- Sections ---- */
 
 .section {

@@ -1,0 +1,66 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Chart 15 — The theory, tested directly. One dot per SA2 (≥5 venues in the 2023 cohort): transport access (share of venues within 400 m of a stop, x) against two-year venue survival (y), coloured metro (teal) / regional (orange), dot size = cohort size. A linear trend per region makes the answer visible: the slope is flat-to-slightly-negative — more transport access does NOT predict more venues staying open. Mirrors the hero scatter (chart-06) deliberately: same idiom, opposite expectation. Survival is a licence-presence proxy; association only. Data: chart_sa2_survival.csv.",
+  "title": {
+    "text": "More transport access, no better survival",
+    "subtitle": "Each dot is an SA2. The trend lines are flat-to-downward — proximity to transport doesn't predict which venues last.",
+    "anchor": "start",
+    "subtitleFontStyle": "italic"
+  },
+  "width": "container",
+  "height": 420,
+  "data": {
+    "url": "data/chart_sa2_survival.csv",
+    "format": { "parse": { "sa2_code_2021": "string" } }
+  },
+  "transform": [
+    { "filter": "datum.metro_regional_majority == 'Metro' || datum.metro_regional_majority == 'Regional'" },
+    { "filter": "datum.access_share_pct != null" }
+  ],
+  "encoding": {
+    "x": {
+      "field": "access_share_pct",
+      "type": "quantitative",
+      "title": "Venues within 400 m of a stop (%)",
+      "scale": { "domain": [0, 100] }
+    },
+    "y": {
+      "field": "survival_rate_pct",
+      "type": "quantitative",
+      "title": "Venues still licensed two years later (%)",
+      "scale": { "domain": [70, 100] }
+    },
+    "color": {
+      "field": "metro_regional_majority",
+      "type": "nominal",
+      "title": "Region",
+      "scale": { "domain": ["Metro", "Regional"], "range": ["#1b9e77", "#d95f02"] }
+    }
+  },
+  "layer": [
+    {
+      "mark": { "type": "circle", "opacity": 0.5 },
+      "encoding": {
+        "size": {
+          "field": "cohort_count",
+          "type": "quantitative",
+          "title": "Venues (2023)",
+          "scale": { "range": [20, 400] }
+        },
+        "tooltip": [
+          { "field": "sa2_name_2021", "type": "nominal", "title": "SA2" },
+          { "field": "metro_regional_majority", "type": "nominal", "title": "Region" },
+          { "field": "access_share_pct", "type": "quantitative", "title": "Within 400 m", "format": ".0f" },
+          { "field": "survival_rate_pct", "type": "quantitative", "title": "Survived 2 yrs", "format": ".1f" },
+          { "field": "cohort_count", "type": "quantitative", "title": "Venues (2023)", "format": "," }
+        ]
+      }
+    },
+    {
+      "transform": [
+        { "regression": "survival_rate_pct", "on": "access_share_pct", "groupby": ["metro_regional_majority"] }
+      ],
+      "mark": { "type": "line", "strokeWidth": 3 }
+    }
+  ]
+}
