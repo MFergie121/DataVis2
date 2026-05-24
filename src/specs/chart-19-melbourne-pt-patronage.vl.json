@@ -1,0 +1,62 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Chart 19 — Melbourne metropolitan public-transport patronage by mode, January 2018 – January 2026 (latest month per the DOT Victoria release). Line per mode (train, tram, bus), monthly trips in millions. The COVID-19 cliff (March 2020) is annotated with a vertical rule. The recovery is partial: averaged across 2025+ months, train sits ~75% of its 2018–19 baseline, tram ~76%, bus ~91% — all-modes ~79% of pre-COVID. Palette is two blues + grey, deliberately outside the reserved metro/regional teal-orange and the bivariate climax. Data: DOT Victoria CC BY 4.0; trimmed by scripts/trim_pt_patronage.py.",
+  "title": {
+    "text": "Melbourne hasn't ridden back to pre-COVID public transport",
+    "subtitle": "Monthly metropolitan patronage by mode. 2025 averages: train 75%, tram 76%, bus 91% of 2018–19 baseline.",
+    "anchor": "start",
+    "subtitleFontStyle": "italic"
+  },
+  "width": "container",
+  "height": 340,
+  "layer": [
+    {
+      "data": { "url": "data/melbourne_pt_patronage.csv" },
+      "mark": { "type": "line", "strokeWidth": 2 },
+      "encoding": {
+        "x": {
+          "field": "date",
+          "type": "temporal",
+          "title": null,
+          "axis": { "format": "%Y", "tickCount": "year", "grid": false }
+        },
+        "y": {
+          "field": "trips_millions",
+          "type": "quantitative",
+          "title": "Monthly trips (millions)",
+          "scale": { "domainMin": 0 }
+        },
+        "color": {
+          "field": "mode",
+          "type": "nominal",
+          "title": "Mode",
+          "scale": {
+            "domain": ["Train", "Tram", "Bus"],
+            "range": ["#1f4e79", "#2e75b6", "#9aa3ad"]
+          }
+        },
+        "tooltip": [
+          { "field": "date", "type": "temporal", "title": "Month", "format": "%b %Y" },
+          { "field": "mode", "type": "nominal", "title": "Mode" },
+          { "field": "trips_millions", "type": "quantitative", "title": "Trips (M)", "format": ".1f" }
+        ]
+      }
+    },
+    {
+      "data": { "values": [{ "date": "2020-03-01" }] },
+      "mark": { "type": "rule", "color": "#9a3a3a", "strokeDash": [4, 3], "strokeWidth": 1.2 },
+      "encoding": {
+        "x": { "field": "date", "type": "temporal" }
+      }
+    },
+    {
+      "data": { "values": [{ "date": "2020-03-01", "label": "March 2020: COVID-19 restrictions begin", "y": 25 }] },
+      "mark": { "type": "text", "align": "left", "dx": 6, "dy": -8, "fontSize": 11, "fontStyle": "italic", "color": "#9a3a3a" },
+      "encoding": {
+        "x": { "field": "date", "type": "temporal" },
+        "y": { "field": "y", "type": "quantitative" },
+        "text": { "field": "label", "type": "nominal" }
+      }
+    }
+  ]
+}

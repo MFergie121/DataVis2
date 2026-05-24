@@ -34,6 +34,7 @@ const EXPECTED_ROWS = {
   "chart_metro_regional_summary.csv": 2,
   "chart_category_distance_bands.csv": 40,
   "transport_stops_web.csv": 31145, // every PT stop within Victoria's extent (chart-11 stop mesh; 25 interstate/border stops clipped)
+  "melbourne_pt_patronage.csv": 290, // §7 chart-19: DOT Victoria monthly metro PT patronage, long format, Jan 2018 – latest (one missing month×mode cell dropped)
 };
 const EXPECTED_GEOMETRIES = 522; // sa2_summary_simplified.topojson (2 of the 524 SA2s are non-spatial)
 const EXPECTED_ROUTE_FEATURES = 54; // pt_routes_simplified.topojson (train+tram routes, variants dissolved)

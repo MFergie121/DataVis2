@@ -302,8 +302,64 @@
         </figure>
       </section>
 
-      <!-- ===== §7 The compound + coda ===== -->
+      <!-- ===== §7 Why might this be? ===== -->
       <section class="section" id="s7">
+        <p class="kicker">Why might this be?</p>
+        <h2 class="section-claim">
+          How Melbourne moves has changed
+        </h2>
+        <div class="prose">
+          <p>
+            §6 showed proximity doesn't predict survival. It can't say <em>why</em>
+            — but one thing has plainly changed since most of these venues
+            opened: how Melburnians actually travel.
+          </p>
+          <p>
+            Public-transport patronage has not recovered to pre-pandemic levels.
+            Averaged across 2025, train trips are running at about 75% of the
+            2018–19 baseline, tram at 76%, and bus at 91% — roughly
+            <strong>21% fewer metropolitan PT trips per month overall</strong>
+            (≈37 million now vs ≈47 million then). The COVID trough in August
+            2020 was 4.9&nbsp;million; recovery has been steady but partial.
+          </p>
+          <p>
+            Some of that travel has shifted to rideshare. Roy Morgan's quarterly
+            tracker (June 2025) puts <strong>7.4&nbsp;million Australians aged
+            14+ using Uber</strong> in the March 2025 quarter — 32.3% of the
+            14+ population, and <strong>40.6% above the pre-pandemic peak</strong>
+            of 5.27&nbsp;million. Taxi use has stagnated at 4.2&nbsp;million.
+            None of this proves rideshare drained PT-near venues — those
+            figures are national, not Melbourne, and a usage rate, not trip
+            counts — but the trend is consistent with the §6 finding: the
+            historical "tram-near venue = guaranteed foot traffic" assumption
+            is weaker now than it was a decade ago.
+          </p>
+          <p>
+            And rideshare is only one of several plausible reasons. Hospitality
+            is already so concentrated near public transport (87% within 400&nbsp;m
+            statewide) that being near a stop is the baseline, not an advantage;
+            rents, lease length and venue type plausibly matter more than the
+            walk to a tram.
+          </p>
+          <p class="caveat">
+            Patronage figures count PTV trips in Melbourne (Department of
+            Transport &amp; Planning Victoria, CC BY 4.0). The Uber/taxi figures
+            count the share of Australians 14+ who used the service in a quarter
+            (Roy Morgan, June 2025). Different units; placed beside each other,
+            not compared on a single axis. Context, not causation.
+          </p>
+        </div>
+
+        <figure class="chart">
+          <p class="chart-title">Monthly metropolitan PT patronage, 2018–2026</p>
+          <div id="chart-19" class="chart-mount" data-pending="true">
+            chart-19 · Melbourne PT patronage
+          </div>
+        </figure>
+      </section>
+
+      <!-- ===== §8 The coda ===== -->
+      <section class="section" id="s8">
         <p class="kicker">The coda</p>
         <h2 class="section-claim">
           The venues open have the most support for getting home
@@ -331,8 +387,10 @@
         </p>
         <p>
           Data: Liquor Control Victoria (data.vic.gov.au); Department of
-          Transport &amp; Planning; ABS (SEIFA, Regional Population, ASGS 2021
-          SA2 boundaries). "Near public transport" means proximity to a stop,
+          Transport &amp; Planning Victoria (PT stops, lines, and monthly
+          patronage by mode); ABS (SEIFA, Regional Population, ASGS 2021 SA2
+          boundaries). §7 also cites Roy Morgan Research (rideshare and taxi
+          usage, June 2025). "Near public transport" means proximity to a stop,
           not service frequency. Associations only — not causal.
         </p>
       </footer>
@@ -387,6 +445,7 @@
         "chart-16": "specs/chart-16-survival-distance-bands.vl.json",
         "chart-17": "specs/chart-17-access-survival-scatter.vl.json",
         "chart-18": "specs/chart-18-survival-choropleth.vl.json",
+        "chart-19": "specs/chart-19-melbourne-pt-patronage.vl.json",
       };
 
       const views = {}; // mount id -> Vega view, populated as each chart embeds
