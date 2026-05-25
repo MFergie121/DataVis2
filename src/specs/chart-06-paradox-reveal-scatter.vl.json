@@ -72,6 +72,25 @@
         { "regression": "access_share_pct", "on": "irsad_aus_decile", "groupby": ["metro_regional_majority"] }
       ],
       "mark": { "type": "line", "strokeWidth": 3 }
+    },
+    {
+      "description": "Direct labels on the two trend lines, so the metro/regional split reads without the legend.",
+      "data": { "values": [{ "x": 10, "y": 94 }] },
+      "mark": { "type": "text", "text": "Metro — flat & high", "align": "right", "baseline": "bottom", "color": "#1b9e77", "fontWeight": "bold", "fontSize": 12 },
+      "encoding": {
+        "x": { "field": "x", "type": "quantitative" },
+        "y": { "field": "y", "type": "quantitative" },
+        "color": null
+      }
+    },
+    {
+      "data": { "values": [{ "x": 10, "y": 46 }] },
+      "mark": { "type": "text", "text": "Regional — flat & lower", "align": "right", "baseline": "top", "color": "#d95f02", "fontWeight": "bold", "fontSize": 12 },
+      "encoding": {
+        "x": { "field": "x", "type": "quantitative" },
+        "y": { "field": "y", "type": "quantitative" },
+        "color": null
+      }
     }
   ]
 }

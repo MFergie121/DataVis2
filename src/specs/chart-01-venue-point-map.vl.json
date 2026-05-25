@@ -1,58 +1,41 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Chart 01 — Venue point map. Where Victoria's ~23,658 licensed venues are, over a light base of SA2 boundaries, on an equal-area projection of Victoria. Equal-area suits a dot map because the perceived density depends on dots per unit area. Points are small and semi-transparent to manage overplotting; colour is a muted categorical hue for venue type. Data: venues_web.csv over sa2_summary_simplified.topojson.",
+  "description": "Chart 01 — Venue density heatmap. A binned 2-D histogram of Victoria's ~23,658 licensed-venue coordinates: longitude and latitude are each binned, and colour counts the venues falling in each cell (square-root scale so regional centres stay visible against the Melbourne core). This replaces a raw dot map of 23k overplotted points with a derived density idiom that reads the concentration directly — the bright core is Greater Melbourne, with Geelong, Ballarat and Bendigo as smaller hot cells. Latitude increases upward and longitude rightward, so the grid still reads as a map of the state; the projected maps either side (chart-11, chart-14) carry the coastline. Data: venues_web.csv.",
+  "title": {
+    "text": "Where the venues concentrate — Victoria",
+    "anchor": "start"
+  },
   "width": "container",
   "height": 340,
-  "autosize": { "type": "fit-x", "contains": "padding" },
-  "projection": {
-    "type": "conicEqualArea",
-    "rotate": [-145, 0, 0],
-    "center": [0, -37],
-    "parallels": [-36, -38]
+  "data": {
+    "url": "data/venues_web.csv",
+    "format": { "parse": { "Longitude": "number", "Latitude": "number" } }
   },
-  "layer": [
-    {
-      "description": "Base: SA2 boundaries for geographic context.",
-      "data": {
-        "url": "data/sa2_summary_simplified.topojson",
-        "format": { "type": "topojson", "feature": "sa2_summary" }
-      },
-      "mark": {
-        "type": "geoshape",
-        "fill": "#f0efe9",
-        "stroke": "#ffffff",
-        "strokeWidth": 0.4
-      }
+  "mark": { "type": "rect" },
+  "encoding": {
+    "x": {
+      "field": "Longitude",
+      "type": "quantitative",
+      "bin": { "maxbins": 90 },
+      "title": "Longitude",
+      "axis": { "format": ".0f" }
     },
-    {
-      "description": "Venue points, coloured by venue type.",
-      "data": {
-        "url": "data/venues_web.csv",
-        "format": { "parse": { "sa2_code_2021": "string" } }
-      },
-      "mark": { "type": "circle", "stroke": null },
-      "encoding": {
-        "longitude": { "field": "Longitude", "type": "quantitative" },
-        "latitude": { "field": "Latitude", "type": "quantitative" },
-        "size": { "value": 5 },
-        "opacity": { "value": 0.35 },
-        "color": {
-          "field": "venue_category_group",
-          "type": "nominal",
-          "title": "Venue type",
-          "scale": {
-            "scheme": "tableau10"
-          },
-          "legend": { "symbolOpacity": 1, "symbolSize": 60, "columns": 1 }
-        },
-        "tooltip": [
-          { "field": "venue_category_group", "type": "nominal", "title": "Type" },
-          { "field": "metro_regional_label", "type": "nominal", "title": "Region" },
-          { "field": "nearest_stop_distance_m", "type": "quantitative", "title": "Nearest stop (m)", "format": ",.0f" },
-          { "field": "distance_band", "type": "nominal", "title": "Distance band" }
-        ]
-      }
-    }
-  ],
-  "resolve": { "scale": { "color": "independent" } }
+    "y": {
+      "field": "Latitude",
+      "type": "quantitative",
+      "bin": { "maxbins": 55 },
+      "title": "Latitude",
+      "axis": { "format": ".0f" }
+    },
+    "color": {
+      "aggregate": "count",
+      "type": "quantitative",
+      "title": ["Venues", "per cell"],
+      "scale": { "scheme": "yelloworangered", "type": "sqrt" },
+      "legend": { "format": ",", "gradientLength": 160 }
+    },
+    "tooltip": [
+      { "aggregate": "count", "type": "quantitative", "title": "Venues in cell", "format": "," }
+    ]
+  }
 }

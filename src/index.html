@@ -15,6 +15,15 @@
     <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.21.0"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.26.0"></script>
 
+    <!-- Self-hosted display typeface (Fraunces, OFL). Preloaded so headings don't flash. -->
+    <link
+      rel="preload"
+      href="fonts/fraunces-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+
     <link rel="stylesheet" href="css/styles.css" />
   </head>
   <body>
@@ -56,9 +65,7 @@
 
         <!-- Row 1: statewide — transport beside venues -->
         <div class="map-row">
-          <figure class="chart">
-            <p class="chart-title">Where public transport runs — Victoria</p>
-            <div id="chart-11" class="chart-mount" data-pending="true">
+          <figure class="chart">            <div id="chart-11" class="chart-mount" data-pending="true">
               chart-11 · transport network map
             </div>
             <figcaption class="chart-note">
@@ -68,21 +75,18 @@
             </figcaption>
           </figure>
 
-          <figure class="chart">
-            <p class="chart-title">Where the venues are — Victoria</p>
-            <div id="chart-01" class="chart-mount" data-pending="true">
+          <figure class="chart">            <div id="chart-01" class="chart-mount" data-pending="true">
               chart-01 · venue point map
             </div>
             <figcaption class="chart-note">
-              ~23,600 licensed venues, coloured by type.
+              ~23,600 licensed venues binned into a density grid — the brighter
+              the cell, the more venues packed into it.
             </figcaption>
           </figure>
         </div>
 
         <!-- Synthesis 1: the two statewide layers overlaid -->
-        <figure class="chart">
-          <p class="chart-title">The two together — venues on the network, Victoria</p>
-          <div id="chart-14" class="chart-mount" data-pending="true">
+        <figure class="chart">          <div id="chart-14" class="chart-mount" data-pending="true">
             chart-14 · venues on the network (Victoria)
           </div>
           <figcaption class="chart-note">
@@ -95,9 +99,7 @@
 
         <!-- Row 2: the same two, zoomed to inner Melbourne -->
         <div class="map-row">
-          <figure class="chart">
-            <p class="chart-title">Public transport — inner Melbourne</p>
-            <div id="chart-12" class="chart-mount" data-pending="true">
+          <figure class="chart">            <div id="chart-12" class="chart-mount" data-pending="true">
               chart-12 · Melbourne network close-up
             </div>
             <figcaption class="chart-note">
@@ -105,9 +107,7 @@
             </figcaption>
           </figure>
 
-          <figure class="chart">
-            <p class="chart-title">Venues — inner Melbourne</p>
-            <div id="chart-13" class="chart-mount" data-pending="true">
+          <figure class="chart">            <div id="chart-13" class="chart-mount" data-pending="true">
               chart-13 · Melbourne venues close-up
             </div>
             <figcaption class="chart-note">
@@ -117,9 +117,7 @@
         </div>
 
         <!-- Synthesis 2: the two Melbourne layers overlaid -->
-        <figure class="chart">
-          <p class="chart-title">The two together — venues on the network, inner Melbourne</p>
-          <div id="chart-15" class="chart-mount" data-pending="true">
+        <figure class="chart">          <div id="chart-15" class="chart-mount" data-pending="true">
             chart-15 · venues on the network (Melbourne)
           </div>
           <figcaption class="chart-note">
@@ -129,11 +127,7 @@
           </figcaption>
         </figure>
 
-        <figure class="chart">
-          <p class="chart-title">
-            Most venues are within a short walk of a stop
-          </p>
-          <div id="chart-02" class="chart-mount" data-pending="true">
+        <figure class="chart">          <div id="chart-02" class="chart-mount" data-pending="true">
             chart-02 · distance histogram
           </div>
         </figure>
@@ -168,11 +162,7 @@
         </div>
 
         <figure class="chart">
-          <p class="chart-title">
-            Share of venues within 400 m of a stop, by SA2
-          </p>
           <p class="chart-note" id="link-hint">
-            Click any region to highlight it in the scatter below.
             <button type="button" id="clear-selection" class="clear-btn" hidden>
               Clear selection ✕
             </button>
@@ -182,11 +172,7 @@
           </div>
         </figure>
 
-        <figure class="chart">
-          <p class="chart-title">
-            Wealth barely moves access — once metro and regional are split
-          </p>
-          <div id="chart-06" class="chart-mount" data-pending="true">
+        <figure class="chart">          <div id="chart-06" class="chart-mount" data-pending="true">
             chart-06 · paradox-reveal scatter
           </div>
           <figcaption class="chart-note">
@@ -232,16 +218,12 @@
           </p>
         </div>
 
-        <figure class="chart">
-          <p class="chart-title">Survival by distance to the nearest stop</p>
-          <div id="chart-16" class="chart-mount" data-pending="true">
+        <figure class="chart">          <div id="chart-16" class="chart-mount" data-pending="true">
             chart-16 · survival by distance band
           </div>
         </figure>
 
-        <figure class="chart">
-          <p class="chart-title">The theory, tested: access vs survival</p>
-          <div id="chart-17" class="chart-mount" data-pending="true">
+        <figure class="chart">          <div id="chart-17" class="chart-mount" data-pending="true">
             chart-17 · access × survival scatter
           </div>
           <figcaption class="chart-note">
@@ -252,9 +234,7 @@
           </figcaption>
         </figure>
 
-        <figure class="chart">
-          <p class="chart-title">Where venues last, mapped</p>
-          <div id="chart-18" class="chart-mount" data-pending="true">
+        <figure class="chart">          <div id="chart-18" class="chart-mount" data-pending="true">
             chart-18 · survival choropleth
           </div>
         </figure>
@@ -294,7 +274,7 @@
           </p>
           <p>
             And rideshare is only one of several plausible reasons. Hospitality
-            is already so concentrated near public transport (87% within 400&nbsp;m
+            is already so concentrated near public transport (78% within 400&nbsp;m
             statewide) that being near a stop is the baseline, not an advantage;
             rents, lease length and venue type plausibly matter more than the
             walk to a tram.
@@ -308,9 +288,7 @@
           </p>
         </div>
 
-        <figure class="chart">
-          <p class="chart-title">Monthly metropolitan PT patronage, 2018–2026</p>
-          <div id="chart-19" class="chart-mount" data-pending="true">
+        <figure class="chart">          <div id="chart-19" class="chart-mount" data-pending="true">
             chart-19 · Melbourne PT patronage
           </div>
         </figure>
@@ -329,6 +307,11 @@
           boundaries). §4 also cites Roy Morgan Research (rideshare and taxi
           usage, June 2025). "Near public transport" means proximity to a stop,
           not service frequency. Associations only — not causal.
+        </p>
+        <p>
+          Headings set in Fraunces (SIL Open Font License 1.1). Built with
+          Vega-Lite. Text drafted with AI assistance for grammar and style, then
+          edited by the author.
         </p>
       </footer>
     </main>

@@ -1,6 +1,12 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "description": "Chart 03 — Access-share choropleth. Share of each SA2's venues within 400 m of a public-transport stop, mapped on an equal-area projection of Victoria. Equal-area is principled here because colour, not polygon area, carries the value. This map is also the source of the page's two linked selections (click an SA2). Data: sa2_summary_web.csv joined to sa2_summary_simplified.topojson on sa2_code_2021.",
+  "title": {
+    "text": "Share of venues within 400 m of a stop, by SA2",
+    "subtitle": "Darker = more of the area's venues sit within a five-minute walk of a stop. Click a region to highlight it below.",
+    "anchor": "start",
+    "subtitleFontStyle": "italic"
+  },
   "width": "container",
   "height": 460,
   "params": [

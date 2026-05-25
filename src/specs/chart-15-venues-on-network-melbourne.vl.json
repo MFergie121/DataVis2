@@ -1,6 +1,12 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "description": "Chart 15 — Venues on the network, inner Melbourne. The zoomed synthesis: venues overlaid on the train + tram routes within the Melbourne frame (lon 144.75–145.35, lat −37.92 to −37.67, ~10,682 venues filtered in-spec), each coloured by whether its nearest stop is within 400 m. This is where the hospitality–transport trend reads cleanest — 'within 400 m' venues trace the tram grid and radial train lines; 'further' venues sit in the gaps between. Proximity, not service. Routes are the light background; the stop mesh is dropped so the venue layer reads. Data: venues_web.csv (filtered) over pt_routes_melbourne.topojson and sa2_melbourne.topojson.",
+  "title": {
+    "text": "Venues on the network — inner Melbourne",
+    "subtitle": "Up close: venues within 400 m of a stop hug the tram grid and train lines; further ones fall into the gaps. Proximity, not service.",
+    "anchor": "start",
+    "subtitleFontStyle": "italic"
+  },
   "width": "container",
   "height": 460,
   "autosize": { "type": "fit-x", "contains": "padding" },

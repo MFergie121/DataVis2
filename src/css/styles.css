@@ -3,6 +3,19 @@
    Final duotone/bivariate hexes and typefaces are locked in module #5 (interactions & polish);
    the values here are the provisional, CVD-safe defaults the shell renders against. */
 
+/* Display typeface: Fraunces (SIL Open Font License 1.1) — a warm, high-contrast
+   "old-style" serif with editorial character that suits a hospitality data-story.
+   Self-hosted, Latin subset only, variable weight axis (one ~36 KB woff2 covers the
+   600–700 range used for headings). Georgia is the swap fallback so text is readable
+   before the font lands. Body stays on the zero-payload system stack. */
+@font-face {
+  font-family: "Fraunces";
+  font-style: normal;
+  font-weight: 600 700;
+  font-display: swap;
+  src: url("../fonts/fraunces-latin.woff2") format("woff2");
+}
+
 :root {
   /* Signature duotone — metro vs regional. CVD-safe (ColorBrewer Dark2 teal/orange):
      separates on hue AND luminance. Carries the payoff. */
@@ -22,9 +35,9 @@
   --measure: 68ch;   /* body line length ~60–75 chars */
   --gap: 1.25rem;
 
-  /* Typography: zero web-font payload, system fallbacks only.
-     Display (serif) for the claim headings; sans body for reading. */
-  --font-display: Georgia, "Iowan Old Style", "Times New Roman", serif;
+  /* Typography: a self-hosted display serif (Fraunces) for the claim headings,
+     zero-payload system sans for body reading. Georgia fronts the fallback stack. */
+  --font-display: "Fraunces", Georgia, "Iowan Old Style", "Times New Roman", serif;
   --font-body: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
@@ -148,11 +161,9 @@ body {
   min-width: 0; /* let grid tracks shrink so wide canvases don't force overflow */
 }
 
-.chart-title {
-  font-size: 1.05rem;
-  font-weight: 600;
-  margin: 0 0 0.15rem;
-}
+/* Chart titles now live inside each Vega-Lite spec (one consistent, claim-led
+   title + subtitle per chart, styled by VL_CONFIG). The old .chart-title HTML
+   label was removed to avoid double titles. */
 
 .chart-note {
   font-size: 0.85rem;

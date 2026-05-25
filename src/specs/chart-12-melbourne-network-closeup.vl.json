@@ -1,6 +1,10 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "description": "Chart 12 — Melbourne transport network, up close. A zoomed companion to the statewide map (chart-11): the same train + tram routes and stop mesh, but framed on inner Melbourne (lon 144.75–145.35, lat −37.92 to −37.67) so the tram grid and the radial train lines become legible. Routes, base, and stops are all Melbourne-clipped (the stops via an in-spec filter on the shared CSV, so this view adds no extra download for them) and the projection auto-fits to that extent — no manual scale/translate. Route lines are thickened here because the lines are the subject. Same honesty footing as chart-11: lines show where routes run and dots where you board, never service times.",
+  "title": {
+    "text": "Public transport — inner Melbourne",
+    "anchor": "start"
+  },
   "width": "container",
   "height": 250,
   "autosize": { "type": "fit-x", "contains": "padding" },

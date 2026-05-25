@@ -1,6 +1,12 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "description": "Chart 14 — Venues on the network, Victoria. The synthesis of the two §1 statewide maps in one frame: ~23,658 licensed venues overlaid on the train + tram route lines, each venue coloured by whether its nearest public-transport stop is within 400 m. This makes the hospitality–transport relationship legible directly — 'within 400 m' venues hug the metropolitan network, 'further' venues scatter where transport thins (largely regional). Colour encodes proximity (distance to the nearest stop), NOT service times or frequency. The stop mesh from chart-11 is deliberately dropped here so the venue layer reads cleanly over the lines. Equal-area projection (a dot map's perceived density depends on dots per unit area). Data: venues_web.csv over pt_routes_simplified.topojson and sa2_summary_simplified.topojson.",
+  "title": {
+    "text": "Venues on the network — Victoria",
+    "subtitle": "Each dot a venue, coloured by whether its nearest stop is within 400 m. Near ones trace the network; further ones scatter through the regions.",
+    "anchor": "start",
+    "subtitleFontStyle": "italic"
+  },
   "width": "container",
   "height": 460,
   "autosize": { "type": "fit-x", "contains": "padding" },

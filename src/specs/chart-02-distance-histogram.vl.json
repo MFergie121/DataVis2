@@ -1,9 +1,9 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Chart 02 — Distance-to-stop histogram. Count of Victoria's licensed venues by their distance band to the nearest public-transport stop, in the four ordered bands. The hook: most venues sit very close. Bars are split by whether they fall within the 400 m access threshold used elsewhere on the page. Data: venues_web.csv (23,658 venues).",
+  "description": "Chart 02 — Distance-to-stop histogram. Count of Victoria's licensed venues by their distance band to the nearest public-transport stop, in the four ordered bands. The hook: most venues sit very close. Bars are split by whether they fall within the 400 m access threshold used elsewhere on the page, and each bar carries its venue count as an on-bar label. Data: venues_web.csv (23,658 venues).",
   "title": {
     "text": "Most venues are a short walk from a stop",
-    "subtitle": "14,342 venues — 61% — are within 200 m; three-quarters are within 400 m.",
+    "subtitle": "14,342 venues — 61% — are within 200 m; 78% are within 400 m.",
     "anchor": "start",
     "subtitleFontStyle": "italic"
   },
@@ -13,7 +13,6 @@
   "transform": [
     { "calculate": "datum.distance_band_order <= 2 ? 'Within 400 m' : 'Beyond 400 m'", "as": "access_threshold" }
   ],
-  "mark": { "type": "bar", "cornerRadiusEnd": 2 },
   "encoding": {
     "x": {
       "field": "distance_band",
@@ -27,16 +26,30 @@
       "type": "quantitative",
       "title": "Venues"
     },
-    "color": {
-      "field": "access_threshold",
-      "type": "nominal",
-      "title": null,
-      "scale": { "domain": ["Within 400 m", "Beyond 400 m"], "range": ["#238b8b", "#cbd2d0"] },
-      "legend": { "orient": "top-right" }
-    },
     "tooltip": [
       { "field": "distance_band", "type": "nominal", "title": "Band" },
       { "aggregate": "count", "type": "quantitative", "title": "Venues", "format": "," }
     ]
-  }
+  },
+  "layer": [
+    {
+      "mark": { "type": "bar", "cornerRadiusEnd": 2 },
+      "encoding": {
+        "color": {
+          "field": "access_threshold",
+          "type": "nominal",
+          "title": null,
+          "scale": { "domain": ["Within 400 m", "Beyond 400 m"], "range": ["#238b8b", "#cbd2d0"] },
+          "legend": { "orient": "top-right" }
+        }
+      }
+    },
+    {
+      "description": "On-bar count labels so each band's size is readable directly, not only from the axis.",
+      "mark": { "type": "text", "dy": -6, "fontSize": 11, "color": "#5b5b5b" },
+      "encoding": {
+        "text": { "aggregate": "count", "type": "quantitative", "format": "," }
+      }
+    }
+  ]
 }

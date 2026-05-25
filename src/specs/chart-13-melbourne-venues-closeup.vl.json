@@ -1,6 +1,10 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Chart 13 — Licensed venues, up close on Melbourne. The venue counterpart to chart-12: the same inner-Melbourne frame (lon 144.75–145.35, lat −37.92 to −37.67) and SA2 base, with venue points filtered in-spec from the shared venues_web.csv. Pairs side-by-side with chart-12 so the reader can see venues sitting on the dense tram/train core. Equal-area projection (dot density depends on dots per unit area). Colour is the same muted venue-category scheme as the statewide venue map (chart-01).",
+  "description": "Chart 13 — Licensed venues, up close on Melbourne. The venue counterpart to chart-12: the same inner-Melbourne frame (lon 144.75–145.35, lat −37.92 to −37.67) and SA2 base, with venue points filtered in-spec from the shared venues_web.csv. Pairs side-by-side with chart-12 so the reader can see venues sitting on the dense tram/train core. Equal-area projection (dot density depends on dots per unit area). Colour is a muted venue-category scheme (tableau10).",
+  "title": {
+    "text": "Venues — inner Melbourne",
+    "anchor": "start"
+  },
   "width": "container",
   "height": 250,
   "autosize": { "type": "fit-x", "contains": "padding" },
