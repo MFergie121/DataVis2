@@ -1,12 +1,9 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Chart 01 — Venue point map. Where Victoria's ~23,658 licensed venues are, over a light base of SA2 boundaries, on an equal-area projection of Victoria. Equal-area suits a dot map because the perceived density depends on dots per unit area. Points are small and semi-transparent to manage overplotting; colour is a muted categorical hue for venue type. This view is the target of the choropleth's linked filter (wired in module #5). Data: venues_web.csv over sa2_summary_simplified.topojson.",
+  "description": "Chart 01 — Venue point map. Where Victoria's ~23,658 licensed venues are, over a light base of SA2 boundaries, on an equal-area projection of Victoria. Equal-area suits a dot map because the perceived density depends on dots per unit area. Points are small and semi-transparent to manage overplotting; colour is a muted categorical hue for venue type. Data: venues_web.csv over sa2_summary_simplified.topojson.",
   "width": "container",
   "height": 340,
   "autosize": { "type": "fit-x", "contains": "padding" },
-  "params": [
-    { "name": "selected_sa2", "value": null }
-  ],
   "projection": {
     "type": "conicEqualArea",
     "rotate": [-145, 0, 0],
@@ -28,20 +25,17 @@
       }
     },
     {
-      "description": "Venue points. Filtered to the selected SA2 when the choropleth (chart-03) drives a selection.",
+      "description": "Venue points, coloured by venue type.",
       "data": {
         "url": "data/venues_web.csv",
         "format": { "parse": { "sa2_code_2021": "string" } }
       },
-      "transform": [
-        { "filter": "selected_sa2 == null || datum.sa2_code_2021 == selected_sa2" }
-      ],
       "mark": { "type": "circle", "stroke": null },
       "encoding": {
         "longitude": { "field": "Longitude", "type": "quantitative" },
         "latitude": { "field": "Latitude", "type": "quantitative" },
-        "size": { "condition": { "test": "selected_sa2 != null", "value": 45 }, "value": 5 },
-        "opacity": { "condition": { "test": "selected_sa2 != null", "value": 0.8 }, "value": 0.35 },
+        "size": { "value": 5 },
+        "opacity": { "value": 0.35 },
         "color": {
           "field": "venue_category_group",
           "type": "nominal",

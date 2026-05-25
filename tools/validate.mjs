@@ -29,13 +29,12 @@ const EXPECTED_ROWS = {
   "venues_web.csv": 23658,
   "sa2_summary_web.csv": 524,
   "chart_scatter_sa2.csv": 524,
-  "chart_sa2_rankings.csv": 60,
-  "chart_category_mode_matrix.csv": 73,
-  "chart_metro_regional_summary.csv": 2,
-  "chart_category_distance_bands.csv": 40,
   "transport_stops_web.csv": 31145, // every PT stop within Victoria's extent (chart-11 stop mesh; 25 interstate/border stops clipped)
-  "melbourne_pt_patronage.csv": 290, // §7 chart-19: DOT Victoria monthly metro PT patronage, long format, Jan 2018 – latest (one missing month×mode cell dropped)
+  "melbourne_pt_patronage.csv": 290, // §4 chart-19: DOT Victoria monthly metro PT patronage, long format, Jan 2018 – latest (one missing month×mode cell dropped)
 };
+// Charts 04/05/07/08/09/10 were cut in the "Close without the Cigar" restructure
+// (issue #9); their four orphaned CSVs were deleted and dropped from the map above.
+const EXPECTED_CHART_COUNT = 13; // post-restructure: manifest ↔ mounts ↔ spec files must all agree on this.
 const EXPECTED_GEOMETRIES = 522; // sa2_summary_simplified.topojson (2 of the 524 SA2s are non-spatial)
 const EXPECTED_ROUTE_FEATURES = 54; // pt_routes_simplified.topojson (train+tram routes, variants dissolved)
 // chart-12 Melbourne close-up: same routes/base clipped to the inner-Melbourne frame.
@@ -163,6 +162,71 @@ for (const [name, { object, features }] of Object.entries(MELBOURNE_TOPO)) {
   } catch (e) {
     fail(`${name}: ${e.message}`);
   }
+}
+
+// ---- 7. Structural parity: manifest ↔ mounts ↔ spec files ------------------
+// Motivated by the chart-numbering collision during the §6/§7 build (two charts
+// claimed the same IDs). A deletion-and-renumber change is exactly where this earns
+// its keep: every manifest ID maps to one mounted element and one spec file on disk,
+// no orphans either way, and the totals all match EXPECTED_CHART_COUNT.
+console.log("\n[7] Structural parity (manifest ↔ mounts ↔ spec files)");
+try {
+  const html = readFileSync(join(ROOT, "src", "index.html"), "utf8");
+
+  // Manifest: id -> spec basename, parsed from the CHARTS object.
+  const manifest = new Map();
+  const manifestRe = /"(chart-\d+)":\s*"(specs\/[^"]+\.vl\.json)"/g;
+  let mm;
+  while ((mm = manifestRe.exec(html)) !== null) manifest.set(mm[1], basename(mm[2]));
+
+  // Mounted elements: every <div id="chart-NN" class="chart-mount">.
+  const mounts = [];
+  const mountRe = /id="(chart-\d+)"\s+class="chart-mount"/g;
+  while ((mm = mountRe.exec(html)) !== null) mounts.push(mm[1]);
+  const mountSet = new Set(mounts);
+
+  const diskSpecs = new Set(specFiles); // .vl.json basenames on disk (from section 1)
+  const manifestIds = new Set(manifest.keys());
+  const manifestSpecs = new Set(manifest.values());
+
+  // a) all three totals agree on the expected count
+  manifest.size === EXPECTED_CHART_COUNT
+    ? pass(`manifest lists ${manifest.size} charts`)
+    : fail(`manifest lists ${manifest.size} charts, expected ${EXPECTED_CHART_COUNT}`);
+  mounts.length === EXPECTED_CHART_COUNT
+    ? pass(`${mounts.length} mounted chart elements`)
+    : fail(`${mounts.length} mounted chart elements, expected ${EXPECTED_CHART_COUNT}`);
+  diskSpecs.size === EXPECTED_CHART_COUNT
+    ? pass(`${diskSpecs.size} spec files on disk`)
+    : fail(`${diskSpecs.size} spec files on disk, expected ${EXPECTED_CHART_COUNT}`);
+
+  // b) no duplicate mount ids (the collision guard)
+  const dupes = mounts.filter((id, i) => mounts.indexOf(id) !== i);
+  dupes.length === 0
+    ? pass("no duplicate mounted chart ids")
+    : fail(`duplicate mounted chart ids: ${[...new Set(dupes)].join(", ")}`);
+
+  // c) manifest ids ↔ mounted ids, exactly
+  const noMount = [...manifestIds].filter((id) => !mountSet.has(id));
+  const noManifest = [...mountSet].filter((id) => !manifestIds.has(id));
+  if (noMount.length === 0 && noManifest.length === 0) {
+    pass("every manifest id has exactly one mount, and every mount is in the manifest");
+  } else {
+    if (noMount.length) fail(`manifest ids with no mount: ${noMount.join(", ")}`);
+    if (noManifest.length) fail(`mounted ids missing from manifest: ${noManifest.join(", ")}`);
+  }
+
+  // d) manifest specs ↔ spec files on disk, exactly (no orphan spec either way)
+  const missingOnDisk = [...manifestSpecs].filter((f) => !diskSpecs.has(f));
+  const orphanOnDisk = [...diskSpecs].filter((f) => !manifestSpecs.has(f));
+  if (missingOnDisk.length === 0 && orphanOnDisk.length === 0) {
+    pass("every manifest spec exists on disk, and every spec file is in the manifest");
+  } else {
+    if (missingOnDisk.length) fail(`manifest references missing spec file(s): ${missingOnDisk.join(", ")}`);
+    if (orphanOnDisk.length) fail(`orphan spec file(s) on disk (not in manifest): ${orphanOnDisk.join(", ")}`);
+  }
+} catch (e) {
+  fail(`structural parity check failed: ${e.message}`);
 }
 
 // ---- summary ----------------------------------------------------------------
