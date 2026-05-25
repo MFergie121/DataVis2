@@ -16,7 +16,7 @@
       "value": 2023,
       "bind": {
         "input": "select",
-        "options": [2023],
+        "options": [2022, 2023],
         "name": "Cohort year: "
       }
     }
@@ -39,7 +39,7 @@
           "field": "survival_rate_pct",
           "type": "quantitative",
           "title": "Still licensed two years later (%)",
-          "scale": { "domain": [80, 95] }
+          "scale": { "domain": [70, 95] }
         },
         "color": {
           "field": "metro_regional",

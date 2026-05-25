@@ -1,8 +1,9 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Chart 11 — The transport network venues sit near. Establishes the supply side before the Melbourne venue-density overlay: train + tram ROUTES (where public transport runs) drawn as lines over the full mesh of ~31,170 PT STOPS (where you can get on), on an equal-area projection of Victoria. This is a proximity/context map, not a service map — lines show where routes go and dots show where stops are, never when or how often services run (GTFS schedule deliberately deferred; the page says 'near', not 'served by'). Full-width and taller than the earlier half-width grid version so Victoria fills the frame and the route skeleton is legible. Colour is held to a neutral slate family so it never competes with the metro/regional teal-orange (the page's reserved emphasis). Data: transport_stops_web.csv as points; pt_routes_simplified.topojson as lines; sa2_summary_simplified.topojson as the base.",
+  "description": "Chart 11 — Statewide overview of where venues sit against the transport network. Train + tram ROUTES (where public transport runs) are drawn over the full mesh of ~31,170 PT STOPS (where you can get on), with venues binned into coarse lon/lat cells and plotted as warm density circles. This is a proximity/context map, not a service map — lines show where routes go and dots show where stops are, never when or how often services run (GTFS schedule deliberately deferred; the page says 'near', not 'served by'). Full-width and tall so Victoria fills the frame and the route skeleton is legible. Data: venues_web.csv aggregated in-spec; transport_stops_web.csv as stop points; pt_routes_simplified.topojson as lines; sa2_summary_simplified.topojson as the base.",
   "title": {
-    "text": "Where public transport runs — Victoria",
+    "text": "Venues and public transport — Victoria",
+    "subtitle": "Venue density, stops, and train/tram routes in one statewide frame. Proximity, not service frequency.",
     "anchor": "start"
   },
   "width": "container",
@@ -47,7 +48,44 @@
       }
     },
     {
-      "description": "Train and tram routes as lines — the legible backbone of where public transport runs. Direction/express variants collapsed to one feature per route; bus routes are intentionally not drawn (they would be spaghetti and blow the data budget) and are represented by the stop mesh instead.",
+      "description": "Venue density across Victoria, binned to coarse lon/lat cells so the layer shows concentration without plotting 23k individual points.",
+      "data": {
+        "url": "data/venues_web.csv",
+        "format": { "parse": { "Longitude": "number", "Latitude": "number" } }
+      },
+      "transform": [
+        { "calculate": "round(datum.Longitude / 0.05) * 0.05", "as": "lon_bin" },
+        { "calculate": "round(datum.Latitude / 0.04) * 0.04", "as": "lat_bin" },
+        {
+          "aggregate": [{ "op": "count", "as": "venue_count" }],
+          "groupby": ["lon_bin", "lat_bin"]
+        },
+        { "filter": "datum.venue_count >= 2" }
+      ],
+      "mark": {
+        "type": "circle",
+        "color": "#d1495b",
+        "opacity": 0.52,
+        "stroke": "#ffffff",
+        "strokeWidth": 0.25
+      },
+      "encoding": {
+        "longitude": { "field": "lon_bin", "type": "quantitative" },
+        "latitude": { "field": "lat_bin", "type": "quantitative" },
+        "size": {
+          "field": "venue_count",
+          "type": "quantitative",
+          "title": "Venues per area",
+          "scale": { "type": "sqrt", "range": [8, 430] },
+          "legend": { "format": "," }
+        },
+        "tooltip": [
+          { "field": "venue_count", "type": "quantitative", "title": "Venues in area", "format": "," }
+        ]
+      }
+    },
+    {
+      "description": "Train and tram routes as lines — the legible backbone of where public transport runs, drawn over the venue density layer. Direction/express variants collapsed to one feature per route; bus routes are intentionally not drawn (they would be spaghetti and blow the data budget) and are represented by the stop mesh instead.",
       "data": {
         "url": "data/pt_routes_simplified.topojson",
         "format": { "type": "topojson", "feature": "public_transport_lines" }
@@ -74,5 +112,10 @@
       }
     }
   ],
-  "resolve": { "scale": { "color": "independent" } }
+  "resolve": {
+    "scale": {
+      "color": "independent",
+      "size": "independent"
+    }
+  }
 }

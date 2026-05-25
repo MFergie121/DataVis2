@@ -147,10 +147,6 @@ body {
   margin: 1.25rem 0;
 }
 
-.chart--compact {
-  margin-top: 1.75rem;
-}
-
 /* Side-by-side map pairs (§1): two columns on a laptop, stacking to one
    on narrow screens. minmax keeps each map readable; auto-fit drops to a
    single column below ~2×300px so there is never horizontal scroll. */

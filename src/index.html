@@ -68,9 +68,10 @@
             chart-11 · transport network map
           </div>
           <figcaption class="chart-note">
-            Train and tram lines over every stop (most are bus stops). This
-            enlarged state view is only the skeleton: where routes go and where
-            you board — <strong>not</strong> when services run.
+            Train and tram lines over every stop (most are bus stops), with
+            venue density added in warm circles. This is where venues and the
+            transport skeleton sit across the state — <strong>not</strong> when
+            services run.
           </figcaption>
         </figure>
 
@@ -79,20 +80,9 @@
             chart-15 · venues on the network (Melbourne)
           </div>
           <figcaption class="chart-note">
-            The heatmap earns its keep at this scale: venue density piles up on
-            the tram grid and train corridors instead of only telling us where
-            Melbourne is. Route geometry is context; colour and size show venue
-            concentration.
-          </figcaption>
-        </figure>
-
-        <figure class="chart chart--compact">
-          <div id="chart-01" class="chart-mount" data-pending="true">
-            chart-01 · statewide venue-density check
-          </div>
-          <figcaption class="chart-note">
-            The statewide density grid is deliberately demoted: it mainly proves
-            why the Melbourne close-up is needed.
+            The binned venue map sits underneath; the tram grid and train lines
+            are drawn on top. At this scale the venue clusters visibly collect
+            around the public-transport network.
           </figcaption>
         </figure>
 
@@ -178,8 +168,10 @@
             (87.6% within 400&nbsp;m vs 90.8% further out), while regional venues
             last just as well far from a stop. If closeness paid off, the
             access–survival line would tilt upward; the faint dashed line on the
-            middle chart shows what even a modest payoff would look like. The
-            real line is flat.
+            first scatter shows what even a modest payoff would look like. The
+            real line is flat. A second scatter asks a broader question — did
+            each area's active venue count grow or shrink overall? That line is
+            weak too.
           </p>
           <p class="caveat">
             Why this is, we can only speculate (see below). And a cancelled
@@ -206,6 +198,16 @@
             survival <em>would</em> look like if proximity gave a modest lift
             (about six points across the full access range). The solid lines are
             what the data actually shows — flat.
+          </figcaption>
+        </figure>
+
+        <figure class="chart">          <div id="chart-20" class="chart-mount" data-pending="true">
+            chart-20 · access × hospitality health scatter
+          </div>
+          <figcaption class="chart-note">
+            This companion view counts each SA2's active licences in July 2023
+            and July 2025. It includes churn and new openings, so it measures
+            net local growth rather than whether the same venues survived.
           </figcaption>
         </figure>
 
@@ -328,12 +330,12 @@
       const CHARTS = {
         "chart-11": "specs/chart-11-transport-network-map.vl.json",
         "chart-15": "specs/chart-15-venues-on-network-melbourne.vl.json",
-        "chart-01": "specs/chart-01-venue-point-map.vl.json",
         "chart-02": "specs/chart-02-distance-histogram.vl.json",
         "chart-03": "specs/chart-03-access-choropleth.vl.json",
         "chart-06": "specs/chart-06-paradox-reveal-scatter.vl.json",
         "chart-16": "specs/chart-16-survival-distance-bands.vl.json",
         "chart-17": "specs/chart-17-access-survival-scatter.vl.json",
+        "chart-20": "specs/chart-20-access-hospitality-health.vl.json",
         "chart-18": "specs/chart-18-survival-choropleth.vl.json",
         "chart-19": "specs/chart-19-melbourne-pt-patronage.vl.json",
       };

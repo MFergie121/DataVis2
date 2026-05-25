@@ -1,6 +1,6 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Chart 15 — Venue density on the network, inner Melbourne. The zoomed synthesis: venues are filtered to the Melbourne frame (lon 144.75–145.35, lat −37.92 to −37.67), binned into small lon/lat cells, aggregated to venue count, then plotted as projected density circles over the train + tram routes. This keeps the useful heatmap idea but moves it to the scale where it explains something: venue concentration piles up along the tram grid and radial train lines, instead of only identifying Melbourne on a statewide grid. Proximity, not service. Routes are the light background; the stop mesh is dropped so the density layer reads. Data: venues_web.csv (filtered and aggregated in-spec) over pt_routes_melbourne.topojson and sa2_melbourne.topojson.",
+  "description": "Chart 15 — Venue density under the network, inner Melbourne. The zoomed synthesis: venues are filtered to the Melbourne frame (lon 144.75–145.35, lat −37.92 to −37.67), binned into small lon/lat cells, aggregated to venue count, then plotted as projected density circles underneath the train + tram routes. This keeps the useful heatmap idea but moves it to the scale where it explains something: venue concentration piles up along the tram grid and radial train lines, instead of only identifying Melbourne on a statewide grid. Proximity, not service. Routes are drawn on top; the stop mesh is dropped so the density layer reads. Data: venues_web.csv (filtered and aggregated in-spec) over pt_routes_melbourne.topojson and sa2_melbourne.topojson.",
   "title": {
     "text": "Venue density hugs the network — inner Melbourne",
     "subtitle": "The heatmap belongs here: density piles up on the tram grid and train corridors, not just on 'Melbourne' as a whole.",
@@ -24,14 +24,6 @@
         "format": { "type": "topojson", "feature": "sa2_summary" }
       },
       "mark": { "type": "geoshape", "fill": "#f4f3ee", "stroke": "#ffffff", "strokeWidth": 0.4 }
-    },
-    {
-      "description": "Train + tram routes, Melbourne-clipped, as a light background.",
-      "data": {
-        "url": "data/pt_routes_melbourne.topojson",
-        "format": { "type": "topojson", "feature": "public_transport_lines" }
-      },
-      "mark": { "type": "geoshape", "filled": false, "stroke": "#aeb6bf", "strokeWidth": 1, "strokeCap": "round" }
     },
     {
       "description": "Venue density in the Melbourne frame. Coordinates are rounded to small grid cells before aggregation, then the cell centres are drawn as projected circles. Size and colour redundantly encode the venue count per cell.",
@@ -74,6 +66,33 @@
         },
         "tooltip": [
           { "field": "venue_count", "type": "quantitative", "title": "Venues in cell", "format": "," }
+        ]
+      }
+    },
+    {
+      "description": "Train + tram routes, Melbourne-clipped, drawn on top of the binned venue-density layer so the public-transport representation is the visible overlay.",
+      "data": {
+        "url": "data/pt_routes_melbourne.topojson",
+        "format": { "type": "topojson", "feature": "public_transport_lines" }
+      },
+      "transform": [
+        { "calculate": "indexof(datum.properties.MODE, 'TRAIN') >= 0 ? 'Train' : 'Tram'", "as": "route_group" }
+      ],
+      "mark": { "type": "geoshape", "filled": false, "strokeWidth": 1.5, "strokeCap": "round" },
+      "encoding": {
+        "color": {
+          "field": "route_group",
+          "type": "nominal",
+          "title": "Routes (train & tram)",
+          "scale": {
+            "domain": ["Train", "Tram"],
+            "range": ["#26384f", "#657385"]
+          },
+          "legend": { "symbolType": "stroke", "symbolStrokeWidth": 2 }
+        },
+        "tooltip": [
+          { "field": "properties.SHORT_NAME", "type": "nominal", "title": "Route" },
+          { "field": "properties.MODE", "type": "nominal", "title": "Mode" }
         ]
       }
     }

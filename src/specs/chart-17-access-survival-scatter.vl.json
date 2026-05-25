@@ -68,10 +68,10 @@
       "encoding": { "color": null }
     },
     {
-      "description": "Label for the counterfactual line, placed in the sparse low-access region so it doesn't collide with the dot cloud.",
+      "description": "Label for the counterfactual line, placed just above the sparse low-access end so the dashed line does not run through the text.",
       "data": {
         "values": [
-          { "access_share_pct": 22, "survival_rate_pct": 86.1 }
+          { "access_share_pct": 6, "survival_rate_pct": 89.2 }
         ]
       },
       "mark": {

@@ -29,12 +29,13 @@ const EXPECTED_ROWS = {
   "venues_web.csv": 23658,
   "sa2_summary_web.csv": 524,
   "chart_scatter_sa2.csv": 524,
+  "chart_sa2_hospitality_health.csv": 452,
   "transport_stops_web.csv": 31145, // every PT stop within Victoria's extent (chart-11 stop mesh; 25 interstate/border stops clipped)
   "melbourne_pt_patronage.csv": 290, // §4 chart-19: DOT Victoria monthly metro PT patronage, long format, Jan 2018 – latest (one missing month×mode cell dropped)
 };
 // Charts 04/05/07/08/09/10 were cut in the "Close without the Cigar" restructure
 // (issue #9); their four orphaned CSVs were deleted and dropped from the map above.
-const EXPECTED_CHART_COUNT = 10; // post-§1 prune: manifest ↔ mounts ↔ spec files must all agree on this.
+const EXPECTED_CHART_COUNT = 10; // post-chart-20: manifest ↔ mounts ↔ spec files must all agree on this.
 const EXPECTED_GEOMETRIES = 522; // sa2_summary_simplified.topojson (2 of the 524 SA2s are non-spatial)
 const EXPECTED_ROUTE_FEATURES = 54; // pt_routes_simplified.topojson (train+tram routes, variants dissolved)
 // Melbourne close-up support files: routes/base clipped to the inner-Melbourne frame

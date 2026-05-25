@@ -34,6 +34,7 @@ Outputs (shipped, small) — each gains a `cohort_year` column:
   src/data/chart_survival_distance_band.csv
   src/data/chart_sa2_survival.csv
   src/data/chart_survival_summary.csv
+  src/data/chart_sa2_hospitality_health.csv
 
 Run: .venv/bin/python3 scripts/derive_survival.py
 Deterministic — no randomness.
@@ -179,6 +180,30 @@ def process_cohort(year: int, t0_path: Path, t1_path: Path,
     return t0
 
 
+def process_active_snapshot(year: int, path: Path,
+                            sa2_geoms: list, sa2_codes: list, sa2_tree: STRtree) -> pd.DataFrame:
+    """Attach SA2 to one active-licence snapshot for net venue-count comparisons."""
+    df = load_snapshot(path)
+    df["metro_regional"] = df["Metro/Regional"].astype(str).str.strip().str.title()
+    df = df[df["metro_regional"].isin(["Metro", "Regional"])].copy()
+    df = df.dropna(subset=["Latitude", "Longitude"])
+    df = df[(df["Latitude"].between(-39.5, -33.5)) & (df["Longitude"].between(140.5, 150.5))].copy()
+
+    sa2_assigned = []
+    for x, y in zip(df["Longitude"].to_numpy(float), df["Latitude"].to_numpy(float)):
+        pt = Point(x, y)
+        hit = None
+        for j in sa2_tree.query(pt):
+            if sa2_geoms[j].contains(pt):
+                hit = sa2_codes[j]
+                break
+        sa2_assigned.append(hit)
+    df["sa2_code_2021"] = sa2_assigned
+    df = df.dropna(subset=["sa2_code_2021"]).copy()
+    log(f"July {year} active snapshot SA2 matched: {len(df)} licences")
+    return df
+
+
 def main() -> int:
     cohorts = discover_cohorts()
     if not cohorts:
@@ -255,6 +280,67 @@ def main() -> int:
     sa2["access_share_pct"] = sa2["access_share_pct"].round(1)
     sa2.to_csv(OUT / "chart_sa2_survival.csv", index=False)
     log(f"wrote chart_sa2_survival.csv ({len(sa2)} SA2-cohort rows with cohort >= 5)")
+
+    # ---- 4d. per-SA2 net hospitality health, 2023 active count vs 2025 active count ----
+    # This complements chart-17's fixed-cohort survival view: it asks whether each SA2's
+    # active hospitality ecosystem grew or shrank overall, including churn and new venues.
+    if hero == HERO_COHORT_YEAR and (RAW / f"licences_{hero + SURVIVAL_WINDOW_YEARS}-07.xlsx").exists():
+        active_2025 = process_active_snapshot(
+            hero + SURVIVAL_WINDOW_YEARS,
+            RAW / f"licences_{hero + SURVIVAL_WINDOW_YEARS}-07.xlsx",
+            sa2_geoms,
+            sa2_codes,
+            sa2_tree,
+        )
+        health = (hero_venues.dropna(subset=["sa2_code_2021"])
+                             .groupby("sa2_code_2021")
+                             .agg(active_venues_2023=("Licence Num", "size"),
+                                  venues_within_400m_pt_2023=("near_400m", "sum"))
+                             .reset_index())
+        counts_2025 = (active_2025.groupby("sa2_code_2021")
+                                  .size()
+                                  .rename("active_venues_2025")
+                                  .reset_index())
+        health = health.merge(counts_2025, on="sa2_code_2021", how="left")
+        health["active_venues_2025"] = health["active_venues_2025"].fillna(0).astype(int)
+        health = health.rename(columns={
+            "sa2_code_2021": "sa2_code",
+            "active_venues_2023": "total_venues_2023",
+        })
+        health["active_venues_2023"] = health["total_venues_2023"]
+        health["access_rate_pct"] = (
+            health["venues_within_400m_pt_2023"] / health["total_venues_2023"] * 100
+        ).round(1)
+        health["venue_growth_rate_pct"] = (
+            (health["active_venues_2025"] - health["active_venues_2023"])
+            / health["active_venues_2023"] * 100
+        ).round(1)
+
+        summary_for_health = summary.rename(columns={
+            "sa2_code_2021": "sa2_code",
+            "sa2_name_2021": "sa2_name",
+            "metro_regional_majority": "region_type",
+        })
+        health = health.merge(
+            summary_for_health[["sa2_code", "sa2_name", "region_type"]],
+            on="sa2_code",
+            how="left",
+        )
+        health = health[health["active_venues_2023"] >= 10].copy()
+        health = health[health["region_type"].isin(["Metro", "Regional"])].copy()
+        health = health[[
+            "sa2_code",
+            "sa2_name",
+            "region_type",
+            "active_venues_2023",
+            "active_venues_2025",
+            "venues_within_400m_pt_2023",
+            "total_venues_2023",
+            "access_rate_pct",
+            "venue_growth_rate_pct",
+        ]].sort_values(["region_type", "sa2_name"])
+        health.to_csv(OUT / "chart_sa2_hospitality_health.csv", index=False)
+        log(f"wrote chart_sa2_hospitality_health.csv ({len(health)} SA2 rows with 2023 venues >= 10)")
 
     return 0
 
