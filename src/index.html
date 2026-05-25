@@ -250,24 +250,52 @@
             than it was a decade ago.
           </p>
           <p>
-            And rideshare is only one of several plausible reasons. Hospitality
-            is already so concentrated near public transport (78% within 400&nbsp;m
-            statewide) that being near a stop is the baseline, not an advantage;
-            rents, lease length and venue type plausibly matter more than the
-            walk to a tram.
+            But there is a simpler observation underneath all this: public
+            transport was never how most people reach a venue. Victoria's travel
+            survey (VISTA) records how people actually travelled to pubs, bars,
+            restaurants, cafes and clubs — and across its two most recent waves
+            only about <strong>5% of those trips arrived by public
+            transport</strong>. Two in three came by car; a quarter came on foot.
+            If barely a twentieth of venue visits use a stop, then sitting near
+            one was always the baseline, not the edge — which is just what the §3
+            bust shows.
+          </p>
+          <p>
+            And travel habits are only one of several plausible reasons.
+            Hospitality is already so concentrated near public transport (78% of
+            venues within 400&nbsp;m statewide) that proximity is a near-universal
+            condition rather than a distinguishing advantage; rents, lease length
+            and venue type plausibly matter more than the walk to a tram.
           </p>
           <p class="caveat">
             Patronage figures count PTV trips in Melbourne (Department of
-            Transport &amp; Planning Victoria, CC BY 4.0). The Uber/taxi figures
-            count the share of Australians 14+ who used the service in a quarter
-            (Roy Morgan, June 2025). Different units; placed beside each other,
-            never compared on a single axis. Context, not causation.
+            Transport &amp; Planning Victoria, CC BY 4.0). The mode mix is from
+            VISTA (the same department's travel survey): a sample of trips, so the
+            shares are weighted estimates pooled across 2022–23 and 2023–24, and
+            some bars — rideshare especially — rest on only a handful of surveyed
+            trips. The Uber/taxi figures count the share of Australians 14+ who
+            used the service in a quarter (Roy Morgan, June 2025). Three different
+            units; placed beside each other, never compared on a single axis.
+            Context, not causation.
           </p>
         </div>
 
         <figure class="chart">          <div id="chart-19" class="chart-mount" data-pending="true">
             chart-19 · Melbourne PT patronage
           </div>
+        </figure>
+
+        <figure class="chart">          <div id="chart-21" class="chart-mount" data-pending="true">
+            chart-21 · how trips to a venue are made
+          </div>
+          <figcaption class="chart-note">
+            Each bar is a mode's weighted share of surveyed trips whose
+            destination was a hospitality or social venue (VISTA 2022–23 and
+            2023–24 pooled, 2,378 trips). A trip to a venue is not the same as a
+            venue's customers, and the taxi/rideshare bar rests on just 22
+            surveyed trips — read it as a rough order of magnitude, not a precise
+            figure.
+          </figcaption>
         </figure>
       </section>
 
@@ -279,10 +307,10 @@
         </p>
         <p>
           Data: Liquor Control Victoria (data.vic.gov.au); Department of
-          Transport &amp; Planning Victoria (PT stops, lines, and monthly
-          patronage by mode); ABS (SEIFA, Regional Population, ASGS 2021 SA2
-          boundaries). §4 also cites Roy Morgan Research (rideshare and taxi
-          usage, June 2025). "Near public transport" means proximity to a stop,
+          Transport &amp; Planning Victoria (PT stops, lines, monthly patronage
+          by mode, and the VISTA travel survey); ABS (SEIFA, Regional Population,
+          ASGS 2021 SA2 boundaries). §4 also cites Roy Morgan Research (rideshare
+          and taxi usage, June 2025). "Near public transport" means proximity to a stop,
           not service frequency. Associations only — not causal.
         </p>
         <p>
@@ -309,6 +337,8 @@
           fontSize: 15,
           fontWeight: 600,
           color: "#1a1a1a",
+          subtitleFontSize: 13,
+          subtitleLineHeight: 17,
           subtitleColor: "#5b5b5b",
         },
         axis: {
@@ -326,7 +356,7 @@
         actions: { export: true, source: true, compiled: false, editor: true },
       };
 
-      // Manifest: mount id -> spec path. 10 charts across 4 sections.
+      // Manifest: mount id -> spec path. 11 charts across 4 sections.
       const CHARTS = {
         "chart-11": "specs/chart-11-transport-network-map.vl.json",
         "chart-15": "specs/chart-15-venues-on-network-melbourne.vl.json",
@@ -338,6 +368,7 @@
         "chart-20": "specs/chart-20-access-hospitality-health.vl.json",
         "chart-18": "specs/chart-18-survival-choropleth.vl.json",
         "chart-19": "specs/chart-19-melbourne-pt-patronage.vl.json",
+        "chart-21": "specs/chart-21-hospitality-trip-modes.vl.json",
       };
 
       const views = {}; // mount id -> Vega view, populated as each chart embeds
