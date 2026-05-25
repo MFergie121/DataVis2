@@ -1,9 +1,9 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Chart 15 — The theory, tested directly. One dot per SA2 (≥5 venues in the 2023 cohort): transport access (share of venues within 400 m of a stop, x) against two-year venue survival (y), coloured metro (teal) / regional (orange), dot size = cohort size. A linear trend per region makes the answer visible: the slope is flat-to-slightly-negative — more transport access does NOT predict more venues staying open. Mirrors the hero scatter (chart-06) deliberately: same idiom, opposite expectation. Survival is a licence-presence proxy; association only. Data: chart_sa2_survival.csv.",
+  "description": "Chart 17 — The bust, dramatised. One dot per SA2 (≥5 venues in the 2023 cohort): transport access (share of venues within 400 m of a stop, x) against two-year venue survival (y), coloured metro (teal) / regional (orange), dot size = cohort size. The solid per-region trend lines are the observed result: flat-to-slightly-negative — more access does NOT predict more venues staying open. The DASHED GREY line is a counterfactual prior, NOT a fitted model: what the relationship would look like if proximity gave a modest, defensible lift — +6 survival points across the full 0–100% access range, pivoted through the observed grand mean (access ≈ 78%, survival ≈ 89.5%; endpoints (0, 84.8) and (100, 90.8)). Drawing the hypothetical against the flat reality makes the absence of an effect visible rather than something the reader must infer. Slope rationale and provenance documented in wiki/charts/chart-17-access-survival-scatter.md. Mirrors the premise scatter (chart-06): same idiom, opposite expectation. Survival is a licence-presence proxy; association only. Data: chart_sa2_survival.csv.",
   "title": {
-    "text": "More transport access, no better survival",
-    "subtitle": "Each dot is an SA2. The trend lines are flat-to-downward — proximity to transport doesn't predict which venues last.",
+    "text": "Closer to transport, no better odds of surviving",
+    "subtitle": "Each dot is an SA2. The dashed grey line is what a modest payoff would look like; the solid trend lines — what actually happened — are flat.",
     "anchor": "start",
     "subtitleFontStyle": "italic"
   },
@@ -55,6 +55,36 @@
           { "field": "cohort_count", "type": "quantitative", "title": "Venues (2023)", "format": "," }
         ]
       }
+    },
+    {
+      "description": "Counterfactual prior (hypothetical, NOT fitted): a modest +6-point survival lift across the full access range, pivoted through the observed grand mean. Endpoints (0, 84.8) and (100, 90.8).",
+      "data": {
+        "values": [
+          { "access_share_pct": 0, "survival_rate_pct": 84.8 },
+          { "access_share_pct": 100, "survival_rate_pct": 90.8 }
+        ]
+      },
+      "mark": { "type": "line", "strokeDash": [6, 4], "strokeWidth": 2, "color": "#8c8c8c" },
+      "encoding": { "color": null }
+    },
+    {
+      "description": "Label for the counterfactual line, placed in the sparse low-access region so it doesn't collide with the dot cloud.",
+      "data": {
+        "values": [
+          { "access_share_pct": 22, "survival_rate_pct": 86.1 }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "bottom",
+        "dy": -4,
+        "color": "#8c8c8c",
+        "fontStyle": "italic",
+        "fontSize": 11,
+        "text": "if proximity helped (hypothetical)"
+      },
+      "encoding": { "color": null }
     },
     {
       "transform": [
