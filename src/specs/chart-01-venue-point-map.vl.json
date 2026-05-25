@@ -1,12 +1,12 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Chart 01 — Venue density heatmap. A binned 2-D histogram of Victoria's ~23,658 licensed-venue coordinates: longitude and latitude are each binned, and colour counts the venues falling in each cell (square-root scale so regional centres stay visible against the Melbourne core). This replaces a raw dot map of 23k overplotted points with a derived density idiom that reads the concentration directly — the bright core is Greater Melbourne, with Geelong, Ballarat and Bendigo as smaller hot cells. Latitude increases upward and longitude rightward, so the grid still reads as a map of the state; the projected maps either side (chart-11, chart-14) carry the coastline. Data: venues_web.csv.",
+  "description": "Chart 01 — Compact statewide venue density check. A binned 2-D histogram of Victoria's ~23,658 licensed-venue coordinates: longitude and latitude are each binned, and colour counts the venues falling in each cell (square-root scale so regional centres stay visible against the Melbourne core). It is deliberately demoted after the Melbourne overlay: the statewide grid mainly proves why the close-up is necessary, because the strongest signal is the Melbourne concentration. Latitude increases upward and longitude rightward, so the grid still reads as a map of the state; the projected maps carry the coastline. Data: venues_web.csv.",
   "title": {
     "text": "Where the venues concentrate — Victoria",
     "anchor": "start"
   },
   "width": "container",
-  "height": 340,
+  "height": 280,
   "data": {
     "url": "data/venues_web.csv",
     "format": { "parse": { "Longitude": "number", "Latitude": "number" } }

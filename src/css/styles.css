@@ -3,15 +3,16 @@
    Final duotone/bivariate hexes and typefaces are locked in module #5 (interactions & polish);
    the values here are the provisional, CVD-safe defaults the shell renders against. */
 
-/* Display typeface: Fraunces (SIL Open Font License 1.1) — a warm, high-contrast
-   "old-style" serif with editorial character that suits a hospitality data-story.
-   Self-hosted, Latin subset only, variable weight axis (one ~36 KB woff2 covers the
-   600–700 range used for headings). Georgia is the swap fallback so text is readable
-   before the font lands. Body stays on the zero-payload system stack. */
+/* Typeface: Fraunces (SIL Open Font License 1.1) — a warm, high-contrast "old-style"
+   serif with editorial character that suits a hospitality data-story. Used for the
+   whole page (headings AND body) so the type is consistent. Self-hosted, Latin subset
+   only, one ~67 KB variable woff2 carrying both the weight (400–700) and optical-size
+   axes, so font-optical-sizing:auto picks text-grade glyphs at body size and
+   display-grade at heading size. Georgia is the swap fallback. */
 @font-face {
   font-family: "Fraunces";
   font-style: normal;
-  font-weight: 600 700;
+  font-weight: 400 700;
   font-display: swap;
   src: url("../fonts/fraunces-latin.woff2") format("woff2");
 }
@@ -35,10 +36,10 @@
   --measure: 68ch;   /* body line length ~60–75 chars */
   --gap: 1.25rem;
 
-  /* Typography: a self-hosted display serif (Fraunces) for the claim headings,
-     zero-payload system sans for body reading. Georgia fronts the fallback stack. */
+  /* Typography: Fraunces throughout — headings and body share one typeface for a
+     consistent, editorial feel. Georgia fronts the serif fallback stack. */
   --font-display: "Fraunces", Georgia, "Iowan Old Style", "Times New Roman", serif;
-  --font-body: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-body: "Fraunces", Georgia, "Iowan Old Style", "Times New Roman", serif;
 }
 
 * { box-sizing: border-box; }
@@ -54,6 +55,7 @@ body {
   font-family: var(--font-body);
   font-size: 17px;
   line-height: 1.6;
+  font-optical-sizing: auto;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -143,6 +145,10 @@ body {
 .chart {
   width: 100%;
   margin: 1.25rem 0;
+}
+
+.chart--compact {
+  margin-top: 1.75rem;
 }
 
 /* Side-by-side map pairs (§1): two columns on a laptop, stacking to one

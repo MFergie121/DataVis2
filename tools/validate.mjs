@@ -34,10 +34,11 @@ const EXPECTED_ROWS = {
 };
 // Charts 04/05/07/08/09/10 were cut in the "Close without the Cigar" restructure
 // (issue #9); their four orphaned CSVs were deleted and dropped from the map above.
-const EXPECTED_CHART_COUNT = 13; // post-restructure: manifest ↔ mounts ↔ spec files must all agree on this.
+const EXPECTED_CHART_COUNT = 10; // post-§1 prune: manifest ↔ mounts ↔ spec files must all agree on this.
 const EXPECTED_GEOMETRIES = 522; // sa2_summary_simplified.topojson (2 of the 524 SA2s are non-spatial)
 const EXPECTED_ROUTE_FEATURES = 54; // pt_routes_simplified.topojson (train+tram routes, variants dissolved)
-// chart-12 Melbourne close-up: same routes/base clipped to the inner-Melbourne frame.
+// Melbourne close-up support files: routes/base clipped to the inner-Melbourne frame
+// (now used by chart-15's density-over-network overlay).
 const MELBOURNE_TOPO = {
   "pt_routes_melbourne.topojson": { object: "public_transport_lines", features: 53 },
   "sa2_melbourne.topojson": { object: "sa2_summary", features: 224 },
@@ -150,8 +151,8 @@ try {
   fail(`routes topojson check failed: ${e.message}`);
 }
 
-// ---- 6. Melbourne close-up topojson (chart-12) -----------------------------
-console.log("\n[6] Melbourne close-up topojson (chart-12)");
+// ---- 6. Melbourne close-up topojson (chart-15) -----------------------------
+console.log("\n[6] Melbourne close-up topojson (chart-15)");
 for (const [name, { object, features }] of Object.entries(MELBOURNE_TOPO)) {
   try {
     const t = JSON.parse(readFileSync(join(DATA_DIR, name), "utf8"));

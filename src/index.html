@@ -63,71 +63,41 @@
           </p>
         </div>
 
-        <!-- Row 1: statewide — transport beside venues -->
-        <div class="map-row">
-          <figure class="chart">            <div id="chart-11" class="chart-mount" data-pending="true">
-              chart-11 · transport network map
-            </div>
-            <figcaption class="chart-note">
-              Train and tram lines over every stop (most are bus stops). Where
-              routes go and where you board — <strong>not</strong> when services
-              run.
-            </figcaption>
-          </figure>
-
-          <figure class="chart">            <div id="chart-01" class="chart-mount" data-pending="true">
-              chart-01 · venue point map
-            </div>
-            <figcaption class="chart-note">
-              ~23,600 licensed venues binned into a density grid — the brighter
-              the cell, the more venues packed into it.
-            </figcaption>
-          </figure>
-        </div>
-
-        <!-- Synthesis 1: the two statewide layers overlaid -->
-        <figure class="chart">          <div id="chart-14" class="chart-mount" data-pending="true">
-            chart-14 · venues on the network (Victoria)
+        <figure class="chart">
+          <div id="chart-11" class="chart-mount" data-pending="true">
+            chart-11 · transport network map
           </div>
           <figcaption class="chart-note">
-            Each dot is a venue, coloured by whether its nearest stop is within
-            400 m; the grey lines are train &amp; tram routes. Colour is
-            <strong>proximity, not service</strong>. The near venues trace the
-            metropolitan network; the further ones scatter through the regions.
+            Train and tram lines over every stop (most are bus stops). This
+            enlarged state view is only the skeleton: where routes go and where
+            you board — <strong>not</strong> when services run.
           </figcaption>
         </figure>
 
-        <!-- Row 2: the same two, zoomed to inner Melbourne -->
-        <div class="map-row">
-          <figure class="chart">            <div id="chart-12" class="chart-mount" data-pending="true">
-              chart-12 · Melbourne network close-up
-            </div>
-            <figcaption class="chart-note">
-              The dense tram grid and radial train lines, up close.
-            </figcaption>
-          </figure>
-
-          <figure class="chart">            <div id="chart-13" class="chart-mount" data-pending="true">
-              chart-13 · Melbourne venues close-up
-            </div>
-            <figcaption class="chart-note">
-              The same frame: venues pack the transport-rich core.
-            </figcaption>
-          </figure>
-        </div>
-
-        <!-- Synthesis 2: the two Melbourne layers overlaid -->
-        <figure class="chart">          <div id="chart-15" class="chart-mount" data-pending="true">
+        <figure class="chart">
+          <div id="chart-15" class="chart-mount" data-pending="true">
             chart-15 · venues on the network (Melbourne)
           </div>
           <figcaption class="chart-note">
-            Up close, the relationship is unmistakable: venues within 400 m of a
-            stop hug the tram grid and train lines, while the further ones fall
-            into the gaps between them. Proximity to a stop, not service level.
+            The heatmap earns its keep at this scale: venue density piles up on
+            the tram grid and train corridors instead of only telling us where
+            Melbourne is. Route geometry is context; colour and size show venue
+            concentration.
           </figcaption>
         </figure>
 
-        <figure class="chart">          <div id="chart-02" class="chart-mount" data-pending="true">
+        <figure class="chart chart--compact">
+          <div id="chart-01" class="chart-mount" data-pending="true">
+            chart-01 · statewide venue-density check
+          </div>
+          <figcaption class="chart-note">
+            The statewide density grid is deliberately demoted: it mainly proves
+            why the Melbourne close-up is needed.
+          </figcaption>
+        </figure>
+
+        <figure class="chart">
+          <div id="chart-02" class="chart-mount" data-pending="true">
             chart-02 · distance histogram
           </div>
         </figure>
@@ -193,9 +163,12 @@
           <p>
             So does sitting near a stop actually help a venue last? We can test
             it. The licence list is published monthly, so we take every venue
-            licensed in July 2023 and ask a blunt question two years on: was it
-            still licensed in July 2025? A licence that vanishes is our stand-in
-            for a venue that closed.
+            licensed in one July and ask a blunt question two years on: was it
+            still licensed two Julys later? A licence that vanishes is our
+            stand-in for a venue that closed. The chart starts on the July 2023
+            cohort; use the <em>cohort year</em> selector beneath it to step
+            through the other cohorts and see whether the pattern holds from one
+            year to the next.
           </p>
           <p>
             Here is the bust. <strong>Being near a stop gives a venue no
@@ -213,8 +186,10 @@
             licence can mean a sale, a rename or a move, not only a failure — so
             survival here is a proxy and the relationship is an
             <em>association</em>, never proof that proximity does or doesn't
-            cause a venue to last. What the data shows is firm; the reasons are
-            not.
+            cause a venue to last. Distance, too, is measured against today's
+            stops for every cohort, so it is exact for recent venues and only
+            approximate the further back a cohort sits. What the data shows is
+            firm; the reasons are not.
           </p>
         </div>
 
@@ -324,6 +299,10 @@
         background: null,
         view: { stroke: null },
         title: {
+          // Chart titles + subtitles in Fraunces so they match the page headings;
+          // axis/legend/tooltip text stays on the system sans below for legibility.
+          font: "Fraunces, Georgia, 'Times New Roman', serif",
+          subtitleFont: "Fraunces, Georgia, 'Times New Roman', serif",
           anchor: "start",
           fontSize: 15,
           fontWeight: 600,
@@ -345,12 +324,9 @@
         actions: { export: true, source: true, compiled: false, editor: true },
       };
 
-      // Manifest: mount id -> spec path. 13 charts across 4 sections.
+      // Manifest: mount id -> spec path. 10 charts across 4 sections.
       const CHARTS = {
         "chart-11": "specs/chart-11-transport-network-map.vl.json",
-        "chart-12": "specs/chart-12-melbourne-network-closeup.vl.json",
-        "chart-13": "specs/chart-13-melbourne-venues-closeup.vl.json",
-        "chart-14": "specs/chart-14-venues-on-network-victoria.vl.json",
         "chart-15": "specs/chart-15-venues-on-network-melbourne.vl.json",
         "chart-01": "specs/chart-01-venue-point-map.vl.json",
         "chart-02": "specs/chart-02-distance-histogram.vl.json",
