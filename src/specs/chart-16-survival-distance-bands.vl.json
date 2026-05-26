@@ -26,6 +26,23 @@
   ],
   "layer": [
     {
+      "description": "Survival-floor reference: roughly 88% of venues survive two years no matter how close the nearest stop is. Drawn behind the lines so it reads as the shared baseline the distance bands hover around.",
+      "data": { "values": [{ "floor": 88 }] },
+      "mark": { "type": "rule", "strokeDash": [4, 4], "strokeWidth": 1, "color": "#8c8c8c" },
+      "encoding": {
+        "y": { "field": "floor", "type": "quantitative", "scale": { "domain": [70, 95] } }
+      }
+    },
+    {
+      "data": { "values": [{ "floor": 88, "label": "≈88% survive regardless of distance" }] },
+      "mark": { "type": "text", "align": "left", "baseline": "bottom", "dy": -3, "fontSize": 10, "fontStyle": "italic", "color": "#8c8c8c" },
+      "encoding": {
+        "x": { "value": 5 },
+        "y": { "field": "floor", "type": "quantitative", "scale": { "domain": [70, 95] } },
+        "text": { "field": "label", "type": "nominal" }
+      }
+    },
+    {
       "mark": { "type": "line", "strokeWidth": 3, "point": { "size": 70, "filled": true } },
       "encoding": {
         "x": {
