@@ -1,17 +1,25 @@
-cohort_year,distance_band,distance_band_order,metro_regional,cohort_count,survived_count,survival_rate_pct
-2022,0-200m,1,Metro,12918,10629,82.3
-2022,200-400m,2,Metro,1888,1394,73.8
-2022,400-800m,3,Metro,580,417,71.9
-2022,800m+,4,Metro,638,515,80.7
-2022,0-200m,1,Regional,3726,3280,88.0
-2022,200-400m,2,Regional,1415,1231,87.0
-2022,400-800m,3,Regional,723,634,87.7
-2022,800m+,4,Regional,1974,1666,84.4
-2023,0-200m,1,Metro,11990,10492,87.5
-2023,200-400m,2,Metro,1756,1555,88.6
-2023,400-800m,3,Metro,537,485,90.3
-2023,800m+,4,Metro,619,565,91.3
-2023,0-200m,1,Regional,3535,3228,91.3
-2023,200-400m,2,Regional,1349,1243,92.1
-2023,400-800m,3,Regional,694,642,92.5
-2023,800m+,4,Regional,1888,1723,91.3
+distance_band,distance_band_order,metro_regional,cohort_count,survived_count,survival_rate_pct,horizon_years,horizon_label,outcome_year,overall_survival_pct
+0-200m,1,Metro,12918,10769,83.4,1,1 year,2023,83.9
+200-400m,2,Metro,1888,1411,74.7,1,1 year,2023,83.9
+400-800m,3,Metro,580,426,73.4,1,1 year,2023,83.9
+800m+,4,Metro,638,527,82.6,1,1 year,2023,83.9
+0-200m,1,Regional,3726,3310,88.8,1,1 year,2023,83.9
+200-400m,2,Regional,1415,1249,88.3,1,1 year,2023,83.9
+400-800m,3,Regional,723,641,88.7,1,1 year,2023,83.9
+800m+,4,Regional,1974,1686,85.4,1,1 year,2023,83.9
+0-200m,1,Metro,12918,10629,82.3,2,2 years,2024,82.8
+200-400m,2,Metro,1888,1394,73.8,2,2 years,2024,82.8
+400-800m,3,Metro,580,417,71.9,2,2 years,2024,82.8
+800m+,4,Metro,638,515,80.7,2,2 years,2024,82.8
+0-200m,1,Regional,3726,3280,88.0,2,2 years,2024,82.8
+200-400m,2,Regional,1415,1231,87.0,2,2 years,2024,82.8
+400-800m,3,Regional,723,634,87.7,2,2 years,2024,82.8
+800m+,4,Regional,1974,1666,84.4,2,2 years,2024,82.8
+0-200m,1,Metro,12918,9538,73.8,3,3 years,2025,75.7
+200-400m,2,Metro,1888,1285,68.1,3,3 years,2025,75.7
+400-800m,3,Metro,580,389,67.1,3,3 years,2025,75.7
+800m+,4,Metro,638,488,76.5,3,3 years,2025,75.7
+0-200m,1,Regional,3726,3044,81.7,3,3 years,2025,75.7
+200-400m,2,Regional,1415,1161,82.0,3,3 years,2025,75.7
+400-800m,3,Regional,723,596,82.4,3,3 years,2025,75.7
+800m+,4,Regional,1974,1563,79.2,3,3 years,2025,75.7

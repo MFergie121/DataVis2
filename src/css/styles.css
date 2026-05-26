@@ -223,6 +223,7 @@ body {
   bottom: 6px;
   z-index: 2;
   pointer-events: none;
+  width: fit-content;
   padding: 6px 8px 4px;
   background: rgba(255, 255, 255, 0.82);
   border: 1px solid var(--line);

@@ -3,7 +3,11 @@
   "description": "Chart 17 — The bust, dramatised, now testable. One dot per SA2 (>=5 venues in the 2023 cohort): transport access (share of the SA2's venues within the CHOSEN distance of a stop, x) against two-year venue survival (y), coloured metro (teal) / regional (orange), dot size = cohort size. A 'near = 200/400/800 m' slider redefines what counts as access: the calculate transform swaps share_200 / share_400 / share_800 into access_share_T, so every dot slides horizontally as the reader moves the threshold — but survival (y) is threshold-independent (a venue either stayed licensed or didn't), so the cloud only slides sideways. The solid per-region regression lines recompute at each threshold and stay flat-to-slightly-negative at all three (metro slope -0.045 to -0.056, regional -0.011 to -0.026): more access never predicts more survival, however you draw 'near'. The DASHED GREY line is a fixed counterfactual prior, NOT a fitted model and NOT threshold-dependent: it is what the access->survival relationship would look like if proximity gave a modest, defensible lift (+6 survival points across the full 0-100% access range, pivoted through (0, 84.8) and (100, 90.8)). Drawing the hypothetical against the flat reality makes the absence of an effect visible rather than inferred. Two SA2s are ringed as live counter-examples — South Yarra - South (near a stop however you measure it, yet only ~77% survived) and Bright - Mount Beauty (low access, ~94% survived); both rings and their labels are data-driven off access_share_T, so they ride their dots and re-state the correct '% near' at every threshold. The chart is also a linked-highlight node: pick_17 captures a clicked SA2 for the page's cross-chart highlight, and selected_sa2 (driven from the survival choropleth chart-18, the access choropleth chart-03, or the 'find your suburb' box) pins one SA2's dot. Mirrors the premise scatter (chart-06): same idiom, opposite expectation. Survival is a licence-presence proxy; association only. share_400 reproduces chart-03's 400 m definition exactly, so the default view matches the choropleth. Data: chart_sa2_survival.csv (augmented by scripts/derive_access_thresholds.py).",
   "title": {
     "text": "Closer to transport, no better odds of surviving",
-    "subtitle": "Each dot is an SA2. Drag the slider to redefine 'near': the dots slide, but the solid trend lines stay flat. The dashed grey line is what a modest payoff would have looked like.",
+    "subtitle": [
+      "Each dot is an SA2. Drag the slider to redefine 'near': the dots slide, but",
+      "the solid trend lines stay flat. The dashed grey line is what a modest payoff",
+      "would have looked like."
+    ],
     "anchor": "start",
     "subtitleFontStyle": "italic"
   },
@@ -11,7 +15,11 @@
   "height": 420,
   "data": {
     "url": "data/chart_sa2_survival.csv",
-    "format": { "parse": { "sa2_code_2021": "string" } }
+    "format": {
+      "parse": {
+        "sa2_code_2021": "string"
+      }
+    }
   },
   "params": [
     {
@@ -25,11 +33,18 @@
         "name": "Count a venue as 'near' a stop within (m): "
       }
     },
-    { "name": "selected_sa2", "value": null }
+    {
+      "name": "selected_sa2",
+      "value": null
+    }
   ],
   "transform": [
-    { "filter": "datum.metro_regional_majority == 'Metro' || datum.metro_regional_majority == 'Regional'" },
-    { "filter": "datum.access_share_pct != null" },
+    {
+      "filter": "datum.metro_regional_majority == 'Metro' || datum.metro_regional_majority == 'Regional'"
+    },
+    {
+      "filter": "datum.access_share_pct != null"
+    },
     {
       "calculate": "nearThreshold === 200 ? datum.share_200 : (nearThreshold === 400 ? datum.share_400 : datum.share_800)",
       "as": "access_share_T"
@@ -40,19 +55,38 @@
       "field": "access_share_T",
       "type": "quantitative",
       "title": "Venues within the chosen distance of a stop (%)",
-      "scale": { "domain": [0, 100] }
+      "scale": {
+        "domain": [
+          0,
+          100
+        ]
+      }
     },
     "y": {
       "field": "survival_rate_pct",
       "type": "quantitative",
       "title": "Venues still licensed two years later (%)",
-      "scale": { "domain": [70, 100] }
+      "scale": {
+        "domain": [
+          70,
+          100
+        ]
+      }
     },
     "color": {
       "field": "metro_regional_majority",
       "type": "nominal",
       "title": "Region",
-      "scale": { "domain": ["Metro", "Regional"], "range": ["#1b9e77", "#d95f02"] }
+      "scale": {
+        "domain": [
+          "Metro",
+          "Regional"
+        ],
+        "range": [
+          "#1b9e77",
+          "#d95f02"
+        ]
+      }
     }
   },
   "layer": [
@@ -60,34 +94,89 @@
       "params": [
         {
           "name": "pick_17",
-          "select": { "type": "point", "fields": ["sa2_code_2021"], "on": "click", "toggle": "event.shiftKey" }
+          "select": {
+            "type": "point",
+            "fields": [
+              "sa2_code_2021"
+            ],
+            "on": "click",
+            "toggle": "event.shiftKey"
+          }
         }
       ],
-      "mark": { "type": "circle" },
+      "mark": {
+        "type": "circle"
+      },
       "encoding": {
         "size": {
           "field": "cohort_count",
           "type": "quantitative",
           "title": "Venues (2023)",
-          "scale": { "range": [20, 400] }
+          "scale": {
+            "range": [
+              20,
+              400
+            ]
+          },
+          "legend": { "format": "," }
         },
         "opacity": {
-          "condition": { "test": "selected_sa2 == null || datum.sa2_code_2021 == selected_sa2", "value": 0.5 },
+          "condition": {
+            "test": "selected_sa2 == null || datum.sa2_code_2021 == selected_sa2",
+            "value": 0.5
+          },
           "value": 0.08
         },
         "stroke": {
-          "condition": { "test": "selected_sa2 != null && datum.sa2_code_2021 == selected_sa2", "value": "#1a1a1a" },
+          "condition": {
+            "test": "selected_sa2 != null && datum.sa2_code_2021 == selected_sa2",
+            "value": "#1a1a1a"
+          },
           "value": null
         },
-        "strokeWidth": { "value": 1.4 },
+        "strokeWidth": {
+          "value": 1.4
+        },
         "tooltip": [
-          { "field": "sa2_name_2021", "type": "nominal", "title": "SA2" },
-          { "field": "metro_regional_majority", "type": "nominal", "title": "Region" },
-          { "field": "access_share_T", "type": "quantitative", "title": "Within chosen distance", "format": ".0f" },
-          { "field": "median_nearest_stop_distance_m", "type": "quantitative", "title": "Median walk to stop (m)", "format": "," },
-          { "field": "irsad_aus_decile", "type": "ordinal", "title": "SEIFA decile" },
-          { "field": "survival_rate_pct", "type": "quantitative", "title": "Survived 2 yrs", "format": ".1f" },
-          { "field": "cohort_count", "type": "quantitative", "title": "Venues (2023)", "format": "," }
+          {
+            "field": "sa2_name_2021",
+            "type": "nominal",
+            "title": "SA2"
+          },
+          {
+            "field": "metro_regional_majority",
+            "type": "nominal",
+            "title": "Region"
+          },
+          {
+            "field": "access_share_T",
+            "type": "quantitative",
+            "title": "Within chosen distance",
+            "format": ".0f"
+          },
+          {
+            "field": "median_nearest_stop_distance_m",
+            "type": "quantitative",
+            "title": "Median walk to stop (m)",
+            "format": ","
+          },
+          {
+            "field": "irsad_aus_decile",
+            "type": "ordinal",
+            "title": "SEIFA decile"
+          },
+          {
+            "field": "survival_rate_pct",
+            "type": "quantitative",
+            "title": "Survived 2 yrs",
+            "format": ".1f"
+          },
+          {
+            "field": "cohort_count",
+            "type": "quantitative",
+            "title": "Venues (2023)",
+            "format": ","
+          }
         ]
       }
     },
@@ -95,18 +184,37 @@
       "description": "Counterfactual prior (hypothetical, NOT fitted, NOT threshold-dependent): a modest +6-point survival lift across the full access range, pivoted through the observed grand mean. Endpoints (0, 84.8) and (100, 90.8).",
       "data": {
         "values": [
-          { "access_share_T": 0, "survival_rate_pct": 84.8 },
-          { "access_share_T": 100, "survival_rate_pct": 90.8 }
+          {
+            "access_share_T": 0,
+            "survival_rate_pct": 84.8
+          },
+          {
+            "access_share_T": 100,
+            "survival_rate_pct": 90.8
+          }
         ]
       },
-      "mark": { "type": "line", "strokeDash": [6, 4], "strokeWidth": 2, "color": "#8c8c8c" },
-      "encoding": { "color": null }
+      "mark": {
+        "type": "line",
+        "strokeDash": [
+          6,
+          4
+        ],
+        "strokeWidth": 2,
+        "color": "#8c8c8c"
+      },
+      "encoding": {
+        "color": null
+      }
     },
     {
       "description": "Label for the counterfactual line, placed just above the sparse low-access end so the dashed line does not run through the text.",
       "data": {
         "values": [
-          { "access_share_T": 6, "survival_rate_pct": 89.2 }
+          {
+            "access_share_T": 6,
+            "survival_rate_pct": 89.2
+          }
         ]
       },
       "mark": {
@@ -119,49 +227,106 @@
         "fontSize": 11,
         "text": "if proximity helped (hypothetical)"
       },
-      "encoding": { "color": null }
+      "encoding": {
+        "color": null
+      }
     },
     {
       "transform": [
-        { "regression": "survival_rate_pct", "on": "access_share_T", "groupby": ["metro_regional_majority"] }
+        {
+          "regression": "survival_rate_pct",
+          "on": "access_share_T",
+          "groupby": [
+            "metro_regional_majority"
+          ]
+        }
       ],
-      "mark": { "type": "line", "strokeWidth": 3 }
+      "mark": {
+        "type": "line",
+        "strokeWidth": 3
+      }
     },
     {
       "description": "Counter-example rings, data-driven so they ride their dots as the threshold changes: South Yarra - South (206061516) and Bright - Mount Beauty (204031069).",
       "transform": [
-        { "filter": "datum.sa2_code_2021 == '206061516' || datum.sa2_code_2021 == '204031069'" }
+        {
+          "filter": "datum.sa2_code_2021 == '206061516' || datum.sa2_code_2021 == '204031069'"
+        }
       ],
-      "mark": { "type": "point", "shape": "circle", "fill": null, "stroke": "#1a1a1a", "strokeWidth": 1.4, "size": 170, "opacity": 0.9 },
-      "encoding": { "color": null }
+      "mark": {
+        "type": "point",
+        "shape": "circle",
+        "fill": null,
+        "stroke": "#1a1a1a",
+        "strokeWidth": 1.4,
+        "size": 170,
+        "opacity": 0.9
+      },
+      "encoding": {
+        "color": null
+      }
     },
     {
       "description": "Dynamic label for the high-access / low-survival counter-example (South Yarra - South); the '% near' restates correctly at every threshold.",
       "transform": [
-        { "filter": "datum.sa2_code_2021 == '206061516'" },
-        { "calculate": "'South Yarra — ' + format(datum.access_share_T, '.0f') + '% near a stop, just ' + format(datum.survival_rate_pct, '.0f') + '% survived'", "as": "calloutLabel" }
+        {
+          "filter": "datum.sa2_code_2021 == '206061516'"
+        },
+        {
+          "calculate": "'South Yarra — ' + format(datum.access_share_T, '.0f') + '% near a stop, just ' + format(datum.survival_rate_pct, '.0f') + '% survived'",
+          "as": "calloutLabel"
+        }
       ],
-      "mark": { "type": "text", "align": "right", "baseline": "middle", "dx": -12, "fontSize": 11, "color": "#1a1a1a" },
+      "mark": {
+        "type": "text",
+        "align": "right",
+        "baseline": "middle",
+        "dx": -12,
+        "fontSize": 11,
+        "color": "#1a1a1a"
+      },
       "encoding": {
-        "text": { "field": "calloutLabel", "type": "nominal" },
+        "text": {
+          "field": "calloutLabel",
+          "type": "nominal"
+        },
         "color": null
       }
     },
     {
       "description": "Dynamic label for the low-access / high-survival counter-example (Bright - Mount Beauty).",
       "transform": [
-        { "filter": "datum.sa2_code_2021 == '204031069'" },
-        { "calculate": "'Bright–Mt Beauty — only ' + format(datum.access_share_T, '.0f') + '% near a stop, ' + format(datum.survival_rate_pct, '.0f') + '% survived'", "as": "calloutLabel" }
+        {
+          "filter": "datum.sa2_code_2021 == '204031069'"
+        },
+        {
+          "calculate": "'Bright–Mt Beauty — only ' + format(datum.access_share_T, '.0f') + '% near a stop, ' + format(datum.survival_rate_pct, '.0f') + '% survived'",
+          "as": "calloutLabel"
+        }
       ],
-      "mark": { "type": "text", "align": "left", "baseline": "middle", "dx": 12, "fontSize": 11, "color": "#1a1a1a" },
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "dx": 12,
+        "fontSize": 11,
+        "color": "#1a1a1a"
+      },
       "encoding": {
-        "text": { "field": "calloutLabel", "type": "nominal" },
+        "text": {
+          "field": "calloutLabel",
+          "type": "nominal"
+        },
         "color": null
       }
     },
     {
       "description": "Corner readout of the active threshold, so the reader always knows how 'near' is currently defined (mirrors chart-16's cohort-year label).",
-      "data": { "values": [{}] },
+      "data": {
+        "values": [
+          {}
+        ]
+      },
       "mark": {
         "type": "text",
         "align": "right",
@@ -169,11 +334,17 @@
         "fontStyle": "italic",
         "fontSize": 12,
         "color": "#666",
-        "x": { "expr": "width" },
+        "x": {
+          "expr": "width"
+        },
         "y": 4,
-        "text": { "expr": "'near = within ' + nearThreshold + ' m of a stop'" }
+        "text": {
+          "expr": "'near = within ' + nearThreshold + ' m of a stop'"
+        }
       },
-      "encoding": { "color": null }
+      "encoding": {
+        "color": null
+      }
     }
   ]
 }

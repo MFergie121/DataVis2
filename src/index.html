@@ -166,20 +166,27 @@
         </h2>
         <div class="prose">
           <p>
-            So does sitting near a stop actually help a venue last? We can test
-            it. The licence list is published monthly, so we take every venue
-            licensed in one July and ask a blunt question two years on: was it
-            still licensed two Julys later? A licence that vanishes is our
-            stand-in for a venue that closed. The chart starts on the July 2023
-            cohort; use the <em>cohort year</em> selector beneath it to step
-            through the other cohorts and see whether the pattern holds from one
-            year to the next.
+            So does sitting near a stop actually help a venue last — and for how
+            long? We can test it. The licence list is published every month, so
+            we take every venue licensed in July 2022 and follow it forward: was
+            it still licensed one year later? Two? Three? A licence that vanishes
+            is our stand-in for a venue that closed. Slide the <em>survival
+            horizon</em> selector beneath the chart from one year out to three,
+            and two things show up. Survival <strong>slips as the years
+            pass</strong> — about 84% of the 2022 cohort is still trading after a
+            year, around 76% after three. But at every horizon the line stays
+            <strong>flat across distance</strong>: venues right beside a stop
+            last no better than those a long walk away, and the bands closest to
+            transport are no exception. Closeness might buy foot traffic — it
+            doesn't buy extra years.
           </p>
           <p>
-            Here is the bust. <strong>Being near a stop gives a venue no
-            survival advantage.</strong> Survival is high almost everywhere — 87
-            to 93 per cent — and proximity doesn't lift it. Inside Melbourne the
-            venues packed closest to transport actually closed a touch more often
+            The rest of this section zooms in on the freshest cohort we can
+            follow a full two years — July 2023 — and across places the answer is
+            the same. <strong>Being near a stop gives a venue no survival
+            advantage.</strong> Survival sits high almost everywhere, 87 to 93
+            per cent, and proximity doesn't lift it; inside Melbourne the venues
+            packed closest to transport actually closed a touch more often
             (87.6% within 400&nbsp;m vs 90.8% further out), while regional venues
             last just as well far from a stop. If closeness paid off, the
             access–survival line would tilt upward; the faint dashed line on the
@@ -375,6 +382,7 @@
           subtitleFontSize: 13,
           subtitleLineHeight: 17,
           subtitleColor: "#5b5b5b",
+          subtitleLimit: 760,
         },
         axis: {
           labelColor: "#5b5b5b",
@@ -383,6 +391,7 @@
           tickColor: "#c9c6c0",
           gridColor: "#ececec",
         },
+        numberFormat: ",",
       };
 
       const EMBED_OPTS = {

@@ -1,98 +1,257 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Chart 16 — Does proximity to transport help venues survive? Two-year survival of a liquor-licence cohort (still licensed two years later), by walking distance to the nearest stop, split metro (teal) / regional (orange). A 'Cohort year' dropdown re-filters the chart to each cohort we have a snapshot pair for, so the reader can compare survival trends across cohorts rather than reading one static frame. The lines are flat-to-rising: being NEAR a stop does not raise survival, and in metro the closest band actually churns slightly more. Lines/points (not bars) so the y-axis can zoom to the ~80–95% range where the small differences live without a misleading truncated-bar baseline. Survival is a proxy: a ceased licence can be a sale/relocation/rename, not only a closure — association, never causation. Distance is measured against present-day stops for every cohort (one stops file), so older cohorts' distances are approximate. Data: chart_survival_distance_band.csv (8 rows per cohort_year). NOTE: when new licences_YYYY-07.xlsx snapshots are added and derive_survival.py is rerun, it prints the exact 'param options' / 'value' / 'y scale.domain' to paste below.",
+  "description": "Chart 16 — Does proximity to transport help venues survive, and for how long? One cohort of venues (every Victorian liquor licence held in July 2022) tracked forward: a 'Survival horizon' dropdown asks whether each venue was still licensed 1, 2 or 3 years later (the July 2023 / 2024 / 2025 snapshots), broken down by walking distance to the nearest stop and split metro (teal) / regional (orange). Survival slides DOWN as the horizon lengthens, but stays flat across the distance bands: being near a stop buys a venue no extra years. Lines/points (not bars) so the y-axis can zoom to the band where the small differences live without a misleading truncated-bar baseline. Survival is a proxy: a ceased licence can be a sale/relocation/rename, not only a closure — association, never causation. Distance is measured against present-day stops, so the older the cohort the more approximate (one stops file). Data: chart_survival_distance_band.csv (8 rows per horizon). NOTE: when new licences_YYYY-07.xlsx snapshots are added and derive_survival.py is rerun, it prints the exact 'horizonYears options' / 'y scale.domain' / 'overall floors by horizon' to keep this hand-maintained spec in sync.",
   "title": {
     "text": "Being near transport doesn't keep venues open",
-    "subtitle": "Two-year venue survival by distance to the nearest stop. Pick a cohort year. Every band tends to survive ~87–93%; if anything, metro venues nearest a stop close slightly more.",
+    "subtitle": [
+      "Venues licensed in July 2022, by distance to the nearest stop. Pick how long they had to stay open —",
+      "1, 2 or 3 years. Survival slips as the years pass, but stays flat across distance: closeness buys no extra years."
+    ],
     "anchor": "start",
     "subtitleFontStyle": "italic"
   },
   "width": "container",
   "height": 340,
-  "data": { "url": "data/chart_survival_distance_band.csv" },
+  "data": {
+    "url": "data/chart_survival_distance_band.csv"
+  },
   "params": [
     {
-      "name": "cohortYear",
-      "value": 2023,
+      "name": "horizonYears",
+      "value": 2,
       "bind": {
         "input": "select",
-        "options": [2022, 2023],
-        "name": "Cohort year: "
+        "options": [
+          1,
+          2,
+          3
+        ],
+        "labels": [
+          "1 year (still open July 2023)",
+          "2 years (still open July 2024)",
+          "3 years (still open July 2025)"
+        ],
+        "name": "Survival horizon: "
       }
     }
   ],
   "transform": [
-    { "filter": "datum.cohort_year == cohortYear" }
+    {
+      "filter": "datum.horizon_years == horizonYears"
+    }
   ],
   "layer": [
     {
-      "description": "Survival-floor reference: roughly 88% of venues survive two years no matter how close the nearest stop is. Drawn behind the lines so it reads as the shared baseline the distance bands hover around.",
-      "data": { "values": [{ "floor": 88 }] },
-      "mark": { "type": "rule", "strokeDash": [4, 4], "strokeWidth": 1, "color": "#8c8c8c" },
+      "description": "Survival-floor reference: the venue-weighted share of the whole 2022 cohort still licensed at the chosen horizon, drawn as the baseline every distance band hovers around. Data-driven (overall_survival_pct), so it drops as the horizon lengthens.",
+      "transform": [
+        {
+          "aggregate": [
+            {
+              "op": "min",
+              "field": "overall_survival_pct",
+              "as": "floor"
+            }
+          ]
+        }
+      ],
+      "mark": {
+        "type": "rule",
+        "strokeDash": [
+          4,
+          4
+        ],
+        "strokeWidth": 1,
+        "color": "#8c8c8c"
+      },
       "encoding": {
-        "y": { "field": "floor", "type": "quantitative", "scale": { "domain": [70, 95] } }
+        "y": {
+          "field": "floor",
+          "type": "quantitative",
+          "scale": {
+            "domain": [
+              65,
+              92
+            ]
+          }
+        }
       }
     },
     {
-      "data": { "values": [{ "floor": 88, "label": "≈88% survive regardless of distance" }] },
-      "mark": { "type": "text", "align": "left", "baseline": "bottom", "dy": -3, "fontSize": 10, "fontStyle": "italic", "color": "#8c8c8c" },
+      "transform": [
+        {
+          "aggregate": [
+            {
+              "op": "min",
+              "field": "overall_survival_pct",
+              "as": "floor"
+            }
+          ]
+        },
+        {
+          "calculate": "'≈' + format(datum.floor, '.0f') + '% of the cohort survives — near or far'",
+          "as": "label"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "bottom",
+        "dy": -3,
+        "fontSize": 10,
+        "fontStyle": "italic",
+        "color": "#8c8c8c"
+      },
       "encoding": {
-        "x": { "value": 5 },
-        "y": { "field": "floor", "type": "quantitative", "scale": { "domain": [70, 95] } },
-        "text": { "field": "label", "type": "nominal" }
+        "x": {
+          "value": 5
+        },
+        "y": {
+          "field": "floor",
+          "type": "quantitative",
+          "scale": {
+            "domain": [
+              65,
+              92
+            ]
+          }
+        },
+        "text": {
+          "field": "label",
+          "type": "nominal"
+        }
       }
     },
     {
-      "mark": { "type": "line", "strokeWidth": 3, "point": { "size": 70, "filled": true } },
+      "mark": {
+        "type": "line",
+        "strokeWidth": 3,
+        "point": {
+          "size": 70,
+          "filled": true
+        }
+      },
       "encoding": {
         "x": {
           "field": "distance_band",
           "type": "ordinal",
           "title": "Walking distance to nearest public-transport stop",
-          "sort": { "field": "distance_band_order" },
-          "axis": { "labelAngle": 0 }
+          "sort": {
+            "field": "distance_band_order"
+          },
+          "axis": {
+            "labelAngle": 0
+          }
         },
         "y": {
           "field": "survival_rate_pct",
           "type": "quantitative",
-          "title": "Still licensed two years later (%)",
-          "scale": { "domain": [70, 95] }
+          "title": "Still licensed at the chosen horizon (%)",
+          "scale": {
+            "domain": [
+              65,
+              92
+            ]
+          }
         },
         "color": {
           "field": "metro_regional",
           "type": "nominal",
           "title": "Region",
-          "scale": { "domain": ["Metro", "Regional"], "range": ["#1b9e77", "#d95f02"] }
+          "scale": {
+            "domain": [
+              "Metro",
+              "Regional"
+            ],
+            "range": [
+              "#1b9e77",
+              "#d95f02"
+            ]
+          }
         },
         "tooltip": [
-          { "field": "metro_regional", "type": "nominal", "title": "Region" },
-          { "field": "distance_band", "type": "ordinal", "title": "Distance band" },
-          { "field": "survival_rate_pct", "type": "quantitative", "title": "Survived 2 yrs", "format": ".1f" },
-          { "field": "cohort_count", "type": "quantitative", "title": "Cohort venues", "format": "," },
-          { "field": "cohort_year", "type": "quantitative", "title": "Cohort (July)", "format": "d" }
+          {
+            "field": "metro_regional",
+            "type": "nominal",
+            "title": "Region"
+          },
+          {
+            "field": "distance_band",
+            "type": "ordinal",
+            "title": "Distance band"
+          },
+          {
+            "field": "horizon_label",
+            "type": "nominal",
+            "title": "Survival horizon"
+          },
+          {
+            "field": "survival_rate_pct",
+            "type": "quantitative",
+            "title": "Still licensed",
+            "format": ".1f"
+          },
+          {
+            "field": "survived_count",
+            "type": "quantitative",
+            "title": "Venues surviving",
+            "format": ","
+          },
+          {
+            "field": "cohort_count",
+            "type": "quantitative",
+            "title": "Venues in band (2022)",
+            "format": ","
+          }
         ]
       }
     },
     {
-      "mark": { "type": "text", "dy": -12, "fontWeight": "bold", "fontSize": 11 },
+      "mark": {
+        "type": "text",
+        "dy": -12,
+        "fontWeight": "bold",
+        "fontSize": 11
+      },
       "encoding": {
         "x": {
           "field": "distance_band",
           "type": "ordinal",
-          "sort": { "field": "distance_band_order" }
+          "sort": {
+            "field": "distance_band_order"
+          }
         },
-        "y": { "field": "survival_rate_pct", "type": "quantitative" },
+        "y": {
+          "field": "survival_rate_pct",
+          "type": "quantitative"
+        },
         "color": {
           "field": "metro_regional",
           "type": "nominal",
-          "scale": { "domain": ["Metro", "Regional"], "range": ["#1b9e77", "#d95f02"] },
+          "scale": {
+            "domain": [
+              "Metro",
+              "Regional"
+            ],
+            "range": [
+              "#1b9e77",
+              "#d95f02"
+            ]
+          },
           "legend": null
         },
-        "text": { "field": "survival_rate_pct", "type": "quantitative", "format": ".0f" }
+        "text": {
+          "field": "survival_rate_pct",
+          "type": "quantitative",
+          "format": ".0f"
+        }
       }
     },
     {
-      "data": { "values": [{}] },
+      "data": {
+        "values": [
+          {}
+        ]
+      },
       "mark": {
         "type": "text",
         "align": "right",
@@ -100,9 +259,13 @@
         "fontStyle": "italic",
         "fontSize": 12,
         "color": "#666",
-        "x": { "expr": "width" },
+        "x": {
+          "expr": "width"
+        },
         "y": 4,
-        "text": { "expr": "'July ' + cohortYear + ' cohort, two years on'" }
+        "text": {
+          "expr": "'July 2022 cohort, ' + horizonYears + (horizonYears == 1 ? ' year on' : ' years on')"
+        }
       }
     }
   ]

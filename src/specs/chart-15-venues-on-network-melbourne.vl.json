@@ -3,33 +3,60 @@
   "description": "Chart 15 — Venue density under the network, inner Melbourne. The zoomed synthesis: venues are binned offline into a hexagonal tessellation (venue_hexbins_melbourne.topojson, built by tools/build-hexbins.mjs from venues_web.csv over the same Melbourne frame, lon 144.75–145.35 / lat −37.92 to −37.67) and drawn as projected hexagons underneath the train + tram routes. A true hexbin tiles seamlessly and stays aligned with the route layer at any width, which fixed-size circles or point marks cannot. The message: venue concentration piles up along the tram grid and radial train lines, instead of only identifying Melbourne on a statewide grid. Proximity, not service. Routes are drawn on top; the stop mesh is dropped so the density layer reads. Data: venue_hexbins_melbourne.topojson over pt_routes_melbourne.topojson and sa2_melbourne.topojson.",
   "title": {
     "text": "Venue density hugs the network — inner Melbourne",
-    "subtitle": "The heatmap belongs here: density piles up on the tram grid and train corridors, not just on 'Melbourne' as a whole.",
+    "subtitle": [
+      "The heatmap belongs here: density piles up on the tram grid and train corridors,",
+      "not just on 'Melbourne' as a whole."
+    ],
     "anchor": "start",
     "subtitleFontStyle": "italic"
   },
   "width": "container",
   "height": 460,
-  "autosize": { "type": "fit-x", "contains": "padding" },
+  "autosize": {
+    "type": "fit-x",
+    "contains": "padding"
+  },
   "projection": {
     "type": "conicEqualArea",
-    "rotate": [-145, 0, 0],
-    "center": [0, -37],
-    "parallels": [-36, -38]
+    "rotate": [
+      -145,
+      0,
+      0
+    ],
+    "center": [
+      0,
+      -37
+    ],
+    "parallels": [
+      -36,
+      -38
+    ]
   },
   "layer": [
     {
       "description": "Base: inner-Melbourne SA2 boundaries (shared clipped base).",
       "data": {
         "url": "data/sa2_melbourne.topojson",
-        "format": { "type": "topojson", "feature": "sa2_summary" }
+        "format": {
+          "type": "topojson",
+          "feature": "sa2_summary"
+        }
       },
-      "mark": { "type": "geoshape", "fill": "#f4f3ee", "stroke": "#ffffff", "strokeWidth": 0.4 }
+      "mark": {
+        "type": "geoshape",
+        "fill": "#f4f3ee",
+        "stroke": "#ffffff",
+        "strokeWidth": 0.4
+      }
     },
     {
       "description": "Venue density as a hexagonal tessellation, binned offline from venues_web.csv (tools/build-hexbins.mjs) so the cells are real geographic polygons that tile seamlessly. The venue count per hex is encoded by a single sequential warm fill — size is fixed because the cells tile, so this is colour-only, no size channel.",
       "data": {
         "url": "data/venue_hexbins_melbourne.topojson",
-        "format": { "type": "topojson", "feature": "venue_hexbins" }
+        "format": {
+          "type": "topojson",
+          "feature": "venue_hexbins"
+        }
       },
       "mark": {
         "type": "geoshape",
@@ -41,11 +68,22 @@
           "field": "properties.count",
           "type": "quantitative",
           "title": "Venues per hex",
-          "scale": { "scheme": "yelloworangered", "type": "sqrt" },
-          "legend": { "format": ".0f", "gradientLength": 160 }
+          "scale": {
+            "scheme": "yelloworangered",
+            "type": "sqrt"
+          },
+          "legend": {
+            "format": ".0f",
+            "gradientLength": 160
+          }
         },
         "tooltip": [
-          { "field": "properties.count", "type": "quantitative", "title": "Venues in hex", "format": "," }
+          {
+            "field": "properties.count",
+            "type": "quantitative",
+            "title": "Venues in hex",
+            "format": ","
+          }
         ]
       }
     },
@@ -53,26 +91,54 @@
       "description": "Train + tram routes, Melbourne-clipped, drawn on top of the binned venue-density layer so the public-transport representation is the visible overlay.",
       "data": {
         "url": "data/pt_routes_melbourne.topojson",
-        "format": { "type": "topojson", "feature": "public_transport_lines" }
+        "format": {
+          "type": "topojson",
+          "feature": "public_transport_lines"
+        }
       },
       "transform": [
-        { "calculate": "indexof(datum.properties.MODE, 'TRAIN') >= 0 ? 'Train' : 'Tram'", "as": "route_group" }
+        {
+          "calculate": "indexof(datum.properties.MODE, 'TRAIN') >= 0 ? 'Train' : 'Tram'",
+          "as": "route_group"
+        }
       ],
-      "mark": { "type": "geoshape", "filled": false, "strokeWidth": 1.5, "strokeCap": "round" },
+      "mark": {
+        "type": "geoshape",
+        "filled": false,
+        "strokeWidth": 1.5,
+        "strokeCap": "round"
+      },
       "encoding": {
         "color": {
           "field": "route_group",
           "type": "nominal",
           "title": "Routes (train & tram)",
           "scale": {
-            "domain": ["Train", "Tram"],
-            "range": ["#26384f", "#657385"]
+            "domain": [
+              "Train",
+              "Tram"
+            ],
+            "range": [
+              "#26384f",
+              "#657385"
+            ]
           },
-          "legend": { "symbolType": "stroke", "symbolStrokeWidth": 2 }
+          "legend": {
+            "symbolType": "stroke",
+            "symbolStrokeWidth": 2
+          }
         },
         "tooltip": [
-          { "field": "properties.SHORT_NAME", "type": "nominal", "title": "Route" },
-          { "field": "properties.MODE", "type": "nominal", "title": "Mode" }
+          {
+            "field": "properties.SHORT_NAME",
+            "type": "nominal",
+            "title": "Route"
+          },
+          {
+            "field": "properties.MODE",
+            "type": "nominal",
+            "title": "Mode"
+          }
         ]
       }
     }

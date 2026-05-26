@@ -3,20 +3,34 @@
   "description": "Chart 19 — Melbourne metropolitan public-transport patronage by mode, January 2018 – January 2026 (latest month per the DOT Victoria release). Line per mode (train, tram, bus), monthly trips in millions. On-chart annotations: (1) a faint shaded band over the Melbourne lockdown era (Mar 2020 – Oct 2021) with the deepest trough at Aug 2020; (2) per-mode dashed reference rules at each mode's 2018–19 monthly average (train 20.4M, tram 16.8M, bus 10.2M), so the recovery shortfall reads as the gap between each line and its own baseline; (3) direct mode labels at each line's right end, replacing the legend. The recovery is partial: averaged across 2025+ months, train sits ~75% of its 2018–19 baseline, tram ~76%, bus ~91% — all-modes ~79% of pre-COVID. Palette is two blues + grey, deliberately outside the reserved metro/regional teal-orange and the bivariate climax. Data: DOT Victoria CC BY 4.0; trimmed by scripts/trim_pt_patronage.py.",
   "title": {
     "text": "Melbourne hasn't ridden back to pre-COVID public transport",
-    "subtitle": "Monthly metropolitan patronage by mode. 2025 averages: train 75%, tram 76%, bus 91% of 2018–19 baseline.",
+    "subtitle": [
+      "Monthly metropolitan patronage by mode. 2025 averages: train 75%, tram 76%,",
+      "bus 91% of 2018–19 baseline."
+    ],
     "anchor": "start",
     "subtitleFontStyle": "italic"
   },
   "width": "container",
   "height": 340,
-  "padding": { "left": 4, "top": 4, "bottom": 4, "right": 52 },
-  "data": { "url": "data/melbourne_pt_patronage.csv" },
+  "padding": {
+    "left": 4,
+    "top": 4,
+    "bottom": 4,
+    "right": 52
+  },
+  "data": {
+    "url": "data/melbourne_pt_patronage.csv"
+  },
   "encoding": {
     "x": {
       "field": "date",
       "type": "temporal",
       "title": null,
-      "axis": { "format": "%Y", "tickCount": "year", "grid": false }
+      "axis": {
+        "format": "%Y",
+        "tickCount": "year",
+        "grid": false
+      }
     },
     "color": {
       "field": "mode",
@@ -24,93 +38,253 @@
       "title": "Mode",
       "legend": null,
       "scale": {
-        "domain": ["Train", "Tram", "Bus"],
-        "range": ["#1f4e79", "#2e75b6", "#9aa3ad"]
+        "domain": [
+          "Train",
+          "Tram",
+          "Bus"
+        ],
+        "range": [
+          "#1f4e79",
+          "#2e75b6",
+          "#9aa3ad"
+        ]
       }
     }
   },
   "layer": [
     {
       "description": "Lockdown-era band: Melbourne's restrictions ran from March 2020 to October 2021, spanning both the first wave and the long 2021 lockdown. The deepest patronage trough is August 2020.",
-      "data": { "values": [{ "start": "2020-03-01", "end": "2021-10-01" }] },
-      "mark": { "type": "rect", "color": "#9a3a3a", "opacity": 0.06 },
+      "data": {
+        "values": [
+          {
+            "start": "2020-03-01",
+            "end": "2021-10-01"
+          }
+        ]
+      },
+      "mark": {
+        "type": "rect",
+        "color": "#9a3a3a",
+        "opacity": 0.06
+      },
       "encoding": {
-        "x": { "field": "start", "type": "temporal" },
-        "x2": { "field": "end" }
+        "x": {
+          "field": "start",
+          "type": "temporal"
+        },
+        "x2": {
+          "field": "end"
+        }
       }
     },
     {
       "description": "Per-mode 2018–19 monthly-average baselines as faint dashed rules. The vertical gap between each line and its own dashed baseline is the patronage still not recovered.",
       "data": {
         "values": [
-          { "mode": "Train", "baseline": 20.4 },
-          { "mode": "Tram", "baseline": 16.8 },
-          { "mode": "Bus", "baseline": 10.2 }
+          {
+            "mode": "Train",
+            "baseline": 20.4
+          },
+          {
+            "mode": "Tram",
+            "baseline": 16.8
+          },
+          {
+            "mode": "Bus",
+            "baseline": 10.2
+          }
         ]
       },
-      "mark": { "type": "rule", "strokeDash": [3, 3], "strokeWidth": 1, "opacity": 0.7 },
+      "mark": {
+        "type": "rule",
+        "strokeDash": [
+          3,
+          3
+        ],
+        "strokeWidth": 1,
+        "opacity": 0.7
+      },
       "encoding": {
-        "y": { "field": "baseline", "type": "quantitative" }
+        "y": {
+          "field": "baseline",
+          "type": "quantitative"
+        }
       }
     },
     {
-      "mark": { "type": "line", "strokeWidth": 2 },
+      "mark": {
+        "type": "line",
+        "strokeWidth": 2
+      },
       "encoding": {
         "y": {
           "field": "trips_millions",
           "type": "quantitative",
           "title": "Monthly trips (millions)",
-          "scale": { "domainMin": 0 }
+          "scale": {
+            "domainMin": 0
+          }
         },
         "tooltip": [
-          { "field": "date", "type": "temporal", "title": "Month", "format": "%b %Y" },
-          { "field": "mode", "type": "nominal", "title": "Mode" },
-          { "field": "trips_millions", "type": "quantitative", "title": "Trips (M)", "format": ".1f" }
+          {
+            "field": "date",
+            "type": "temporal",
+            "title": "Month",
+            "format": "%b %Y"
+          },
+          {
+            "field": "mode",
+            "type": "nominal",
+            "title": "Mode"
+          },
+          {
+            "field": "trips_millions",
+            "type": "quantitative",
+            "title": "Trips (M)",
+            "format": ".1f"
+          }
         ]
       }
     },
     {
       "description": "Crisp left edge of the lockdown band: restrictions begin, March 2020.",
-      "data": { "values": [{ "date": "2020-03-01" }] },
-      "mark": { "type": "rule", "color": "#9a3a3a", "strokeDash": [4, 3], "strokeWidth": 1.2 },
+      "data": {
+        "values": [
+          {
+            "date": "2020-03-01"
+          }
+        ]
+      },
+      "mark": {
+        "type": "rule",
+        "color": "#9a3a3a",
+        "strokeDash": [
+          4,
+          3
+        ],
+        "strokeWidth": 1.2
+      },
       "encoding": {
-        "x": { "field": "date", "type": "temporal" },
+        "x": {
+          "field": "date",
+          "type": "temporal"
+        },
         "color": null
       }
     },
     {
       "description": "Band label.",
-      "data": { "values": [{ "date": "2020-12-20", "label": "Melbourne lockdowns" }] },
-      "mark": { "type": "text", "align": "center", "baseline": "top", "dy": 2, "fontSize": 11, "fontStyle": "italic", "color": "#9a3a3a" },
+      "data": {
+        "values": [
+          {
+            "date": "2020-12-20",
+            "label": "Melbourne lockdowns"
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "center",
+        "baseline": "top",
+        "dy": 2,
+        "fontSize": 11,
+        "fontStyle": "italic",
+        "color": "#9a3a3a"
+      },
       "encoding": {
-        "x": { "field": "date", "type": "temporal" },
-        "y": { "value": 6 },
-        "text": { "field": "label", "type": "nominal" },
+        "x": {
+          "field": "date",
+          "type": "temporal"
+        },
+        "y": {
+          "value": 6
+        },
+        "text": {
+          "field": "label",
+          "type": "nominal"
+        },
         "color": null
       }
     },
     {
       "description": "Caption explaining the dashed reference rules, placed in the empty space below the train baseline on the recovered (right) side.",
-      "data": { "values": [{ "date": "2022-09-01", "y": 19.3, "label": "dashed = each mode's 2018–19 average" }] },
-      "mark": { "type": "text", "align": "center", "baseline": "bottom", "fontSize": 10, "fontStyle": "italic", "color": "#8c8c8c" },
+      "data": {
+        "values": [
+          {
+            "date": "2022-09-01",
+            "y": 19.3,
+            "label": "dashed = each mode's 2018–19 average"
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "center",
+        "baseline": "bottom",
+        "fontSize": 10,
+        "fontStyle": "italic",
+        "color": "#8c8c8c"
+      },
       "encoding": {
-        "x": { "field": "date", "type": "temporal" },
-        "y": { "field": "y", "type": "quantitative" },
-        "text": { "field": "label", "type": "nominal" },
+        "x": {
+          "field": "date",
+          "type": "temporal"
+        },
+        "y": {
+          "field": "y",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "label",
+          "type": "nominal"
+        },
         "color": null
       }
     },
     {
       "description": "Direct mode labels at each line's right-most (latest) point, replacing the legend. Window rank by descending date per mode isolates the final datum.",
       "transform": [
-        { "window": [{ "op": "rank", "as": "date_rank" }], "sort": [{ "field": "date", "order": "descending" }], "groupby": ["mode"] },
-        { "filter": "datum.date_rank == 1" }
+        {
+          "window": [
+            {
+              "op": "rank",
+              "as": "date_rank"
+            }
+          ],
+          "sort": [
+            {
+              "field": "date",
+              "order": "descending"
+            }
+          ],
+          "groupby": [
+            "mode"
+          ]
+        },
+        {
+          "filter": "datum.date_rank == 1"
+        }
       ],
-      "mark": { "type": "text", "align": "left", "dx": 6, "fontWeight": "bold", "fontSize": 11 },
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 6,
+        "fontWeight": "bold",
+        "fontSize": 11
+      },
       "encoding": {
-        "x": { "field": "date", "type": "temporal" },
-        "y": { "field": "trips_millions", "type": "quantitative" },
-        "text": { "field": "mode", "type": "nominal" }
+        "x": {
+          "field": "date",
+          "type": "temporal"
+        },
+        "y": {
+          "field": "trips_millions",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "mode",
+          "type": "nominal"
+        }
       }
     }
   ]

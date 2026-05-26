@@ -3,7 +3,10 @@
   "description": "Chart 20 — Access vs Hospitality Health by SA2. One dot per SA2 with at least 10 active venues in July 2023: public-transport access (share of 2023 active venues within 400 m of a stop, x) against net active-venue growth from July 2023 to July 2025 (y), coloured Metro/Regional and sized by the 2023 active venue count. This complements chart-17's fixed-cohort survival view: survival asks whether the same licences persisted; this chart asks whether each SA2's hospitality ecosystem grew or shrank overall. Association only. Data: chart_sa2_hospitality_health.csv.",
   "title": {
     "text": "Transport-rich areas are not necessarily healthier hospitality areas",
-    "subtitle": "Each dot is an SA2. The chart compares public-transport proximity with active hospitality venue growth from 2023 to 2025.",
+    "subtitle": [
+      "Each dot is an SA2. The chart compares public-transport proximity with active",
+      "hospitality venue growth from 2023 to 2025."
+    ],
     "anchor": "start",
     "subtitleFontStyle": "italic"
   },
@@ -11,32 +14,64 @@
   "height": 420,
   "data": {
     "url": "data/chart_sa2_hospitality_health.csv",
-    "format": { "parse": { "sa2_code": "string" } }
+    "format": {
+      "parse": {
+        "sa2_code": "string"
+      }
+    }
   },
   "transform": [
-    { "filter": "datum.region_type == 'Metro' || datum.region_type == 'Regional'" },
-    { "filter": "datum.active_venues_2023 >= 10" }
+    {
+      "filter": "datum.region_type == 'Metro' || datum.region_type == 'Regional'"
+    },
+    {
+      "filter": "datum.active_venues_2023 >= 10"
+    }
   ],
   "encoding": {
     "x": {
       "field": "access_rate_pct",
       "type": "quantitative",
       "title": "2023 venues within 400 m of public transport (%)",
-      "scale": { "domain": [0, 100] }
+      "scale": {
+        "domain": [
+          0,
+          100
+        ]
+      }
     },
     "y": {
       "field": "venue_growth_rate_pct",
       "type": "quantitative",
       "title": "Change in active venues, 2023-2025 (%)",
-      "scale": { "domain": [-35, 70] },
-      "axis": { "format": "+.0f" }
+      "scale": {
+        "domain": [
+          -35,
+          70
+        ]
+      },
+      "axis": {
+        "format": "+.0f"
+      }
     },
     "color": {
       "field": "region_type",
       "type": "nominal",
       "title": "Region",
-      "scale": { "domain": ["Metro", "Regional"], "range": ["#1b9e77", "#d95f02"] },
-      "legend": { "orient": "bottom", "direction": "horizontal" }
+      "scale": {
+        "domain": [
+          "Metro",
+          "Regional"
+        ],
+        "range": [
+          "#1b9e77",
+          "#d95f02"
+        ]
+      },
+      "legend": {
+        "orient": "bottom",
+        "direction": "horizontal"
+      }
     }
   },
   "layer": [
@@ -44,44 +79,112 @@
       "description": "Zero-growth reference: above means the SA2 gained active venues, below means it lost active venues.",
       "data": {
         "values": [
-          { "access_rate_pct": 0, "venue_growth_rate_pct": 0 },
-          { "access_rate_pct": 100, "venue_growth_rate_pct": 0 }
+          {
+            "access_rate_pct": 0,
+            "venue_growth_rate_pct": 0
+          },
+          {
+            "access_rate_pct": 100,
+            "venue_growth_rate_pct": 0
+          }
         ]
       },
-      "mark": { "type": "line", "strokeWidth": 1.5, "strokeDash": [4, 4], "color": "#8c8c8c" },
-      "encoding": { "color": null }
+      "mark": {
+        "type": "line",
+        "strokeWidth": 1.5,
+        "strokeDash": [
+          4,
+          4
+        ],
+        "color": "#8c8c8c"
+      },
+      "encoding": {
+        "color": null
+      }
     },
     {
-      "mark": { "type": "circle", "opacity": 0.5 },
+      "mark": {
+        "type": "circle",
+        "opacity": 0.5
+      },
       "encoding": {
         "size": {
           "field": "active_venues_2023",
           "type": "quantitative",
           "title": "Active venues (2023)",
-          "scale": { "range": [25, 420] },
-          "legend": { "orient": "bottom", "direction": "horizontal", "format": "," }
+          "scale": {
+            "range": [
+              25,
+              420
+            ]
+          },
+          "legend": {
+            "orient": "bottom",
+            "direction": "horizontal",
+            "format": ","
+          }
         },
         "tooltip": [
-          { "field": "sa2_name", "type": "nominal", "title": "SA2" },
-          { "field": "region_type", "type": "nominal", "title": "Region" },
-          { "field": "access_rate_pct", "type": "quantitative", "title": "Within 400 m", "format": ".1f" },
-          { "field": "venue_growth_rate_pct", "type": "quantitative", "title": "Venue growth", "format": "+.1f" },
-          { "field": "active_venues_2023", "type": "quantitative", "title": "Active venues 2023", "format": "," },
-          { "field": "active_venues_2025", "type": "quantitative", "title": "Active venues 2025", "format": "," }
+          {
+            "field": "sa2_name",
+            "type": "nominal",
+            "title": "SA2"
+          },
+          {
+            "field": "region_type",
+            "type": "nominal",
+            "title": "Region"
+          },
+          {
+            "field": "access_rate_pct",
+            "type": "quantitative",
+            "title": "Within 400 m",
+            "format": ".1f"
+          },
+          {
+            "field": "venue_growth_rate_pct",
+            "type": "quantitative",
+            "title": "Venue growth",
+            "format": "+.1f"
+          },
+          {
+            "field": "active_venues_2023",
+            "type": "quantitative",
+            "title": "Active venues 2023",
+            "format": ","
+          },
+          {
+            "field": "active_venues_2025",
+            "type": "quantitative",
+            "title": "Active venues 2025",
+            "format": ","
+          }
         ]
       }
     },
     {
       "transform": [
-        { "regression": "venue_growth_rate_pct", "on": "access_rate_pct", "groupby": ["region_type"] }
+        {
+          "regression": "venue_growth_rate_pct",
+          "on": "access_rate_pct",
+          "groupby": [
+            "region_type"
+          ]
+        }
       ],
-      "mark": { "type": "line", "strokeWidth": 3 }
+      "mark": {
+        "type": "line",
+        "strokeWidth": 3
+      }
     },
     {
       "description": "Interpretive annotation that states what a strong positive access effect would look like.",
       "data": {
         "values": [
-          { "access_rate_pct": 6, "venue_growth_rate_pct": 58 }
+          {
+            "access_rate_pct": 6,
+            "venue_growth_rate_pct": 58
+          }
         ]
       },
       "mark": {
@@ -96,7 +199,9 @@
         "limit": 340,
         "text": "If transport access strongly improved hospitality health, these lines would rise clearly from left to right."
       },
-      "encoding": { "color": null }
+      "encoding": {
+        "color": null
+      }
     }
   ]
 }

@@ -8,16 +8,24 @@ snapshots on the stable `Licence Num` gives an open/close signal:
 
     a licence in a year-Y cohort that is absent from the year-(Y+2) snapshot = ceased.
 
-We measure 2-year survival for every cohort year we have a snapshot pair for, and break it
-down by distance to the nearest public-transport stop and by metro/regional — the same axes
-the rest of the page uses. This is association only: a ceased licence can be a
-sale/relocation/rename, not just a failure, and proximity is confounded with the
-metro/regional divide. See wiki/domain/topic.md.
+Two complementary views come out of this, both broken down by distance to the nearest stop
+and by metro/regional (the axes the rest of the page uses):
 
-Cohort discovery: any `raw/data/licences_YYYY-07.xlsx` snapshot becomes a cohort T0 if a
-snapshot exactly two years later (`licences_(YYYY+2)-07.xlsx`) also exists. The two-year
-survival window is held constant across cohorts so the comparison is fair. Drop more July
-snapshots into raw/data/ and rerun — extra cohorts appear automatically; no code change.
+  * chart-16 (chart_survival_distance_band.csv): ONE base cohort (July CHART16_BASE_YEAR)
+    tracked at 1/2/3-year survival horizons — was a July-2022 venue still licensed in July
+    2023 / 2024 / 2025? The reader picks the horizon; survival falls with time but stays flat
+    across distance. Keyed by horizon_years, not cohort_year.
+  * charts 17/18/20/22 (the other CSVs): the §3 hero cohort (HERO_COHORT_YEAR) at the fixed
+    two-year window, so the counterfactual scatter/choropleth/bivariate narrative holds.
+
+This is association only: a ceased licence can be a sale/relocation/rename, not just a
+failure, and proximity is confounded with the metro/regional divide. See wiki/domain/topic.md.
+
+Cohort discovery (hero charts): any `raw/data/licences_YYYY-07.xlsx` snapshot becomes a
+cohort T0 if a snapshot exactly two years later (`licences_(YYYY+2)-07.xlsx`) also exists;
+the two-year window is held constant so the comparison is fair. chart-16's horizons instead
+read the July (base+1/2/3) snapshots directly. Drop more July snapshots into raw/data/ and
+rerun — extra hero cohorts and survival horizons appear automatically; no code change.
 
 Caveat carried into the page: distance-to-stop is computed against the single *current*
 public_transport_stops.geojson for every cohort (we have only one stops file). Stops drift
@@ -30,11 +38,11 @@ Inputs (all gitignored, under raw/):
   raw/data/sa2_boundaries.geojson         SA2 polygons (topo2geo'd from the shipped topojson)
   src/data/sa2_summary_web.csv            SA2 access share + metro/regional (for the SA2 charts)
 
-Outputs (shipped, small) — each gains a `cohort_year` column:
-  src/data/chart_survival_distance_band.csv
-  src/data/chart_sa2_survival.csv
-  src/data/chart_survival_summary.csv
-  src/data/chart_sa2_hospitality_health.csv
+Outputs (shipped, small):
+  src/data/chart_survival_distance_band.csv  keyed by horizon_years (chart-16, 2022 cohort)
+  src/data/chart_sa2_survival.csv            hero cohort
+  src/data/chart_survival_summary.csv        hero cohort
+  src/data/chart_sa2_hospitality_health.csv  hero cohort
 
 Run: .venv/bin/python3 scripts/derive_survival.py
 Deterministic — no randomness.
@@ -63,10 +71,19 @@ SA2_SUMMARY = OUT / "sa2_summary_web.csv"
 SURVIVAL_WINDOW_YEARS = 2  # cohort year Y is measured against the year Y+2 snapshot
 SNAPSHOT_RE = re.compile(r"licences_(\d{4})-07\.xlsx$")
 
-# Only chart-16 (distance bands) carries the year selector across all cohorts. Charts 17
-# (access x survival scatter) and 18 (survival choropleth) stay anchored to the §3 hero
-# cohort, so their CSVs remain single-cohort and the page's counterfactual narrative holds.
+# Only chart-16 (distance bands) carries the interactive selector. Charts 17 (access x
+# survival scatter) and 18 (survival choropleth) stay anchored to the §3 hero cohort with
+# the fixed two-year window, so their CSVs remain single-cohort and the page's
+# counterfactual narrative holds.
 HERO_COHORT_YEAR = 2023
+
+# chart-16 tracks ONE cohort (July CHART16_BASE_YEAR) and lets the reader pick how long
+# after that the venue had to still be licensed: a 1/2/3-year survival horizon. Each
+# horizon is the same base cohort measured against the July (base + h) snapshot, so the
+# distance-band comparison is held fair and only the elapsed time changes. Horizons whose
+# outcome snapshot is not in raw/data/ are skipped automatically.
+CHART16_BASE_YEAR = 2022
+CHART16_HORIZONS = [1, 2, 3]
 
 R_EARTH = 6_371_000.0  # metres
 LAT0 = -37.0           # reference latitude for the equirectangular projection (Victoria)
@@ -114,19 +131,90 @@ def band_of(d: float):
     return BANDS[-1][2], BANDS[-1][3]
 
 
-def discover_cohorts() -> list[tuple[int, Path, Path]]:
-    """Find (year, T0, T1) triples: every snapshot with a partner SURVIVAL_WINDOW_YEARS later."""
+def all_snapshots() -> dict[int, Path]:
+    """Map every July snapshot year present in raw/data/ to its file path."""
     by_year = {}
     for p in RAW.glob("licences_*-07.xlsx"):
         m = SNAPSHOT_RE.search(p.name)
         if m:
             by_year[int(m.group(1))] = p
+    return by_year
+
+
+def discover_cohorts() -> list[tuple[int, Path, Path]]:
+    """Find (year, T0, T1) triples: every snapshot with a partner SURVIVAL_WINDOW_YEARS later."""
+    by_year = all_snapshots()
     cohorts = []
     for year in sorted(by_year):
         outcome = year + SURVIVAL_WINDOW_YEARS
         if outcome in by_year:
             cohorts.append((year, by_year[year], by_year[outcome]))
     return cohorts
+
+
+def tag_distance_and_region(df: pd.DataFrame,
+                            stop_tree: cKDTree, slon: np.ndarray, slat: np.ndarray) -> pd.DataFrame:
+    """Keep valid-coord Victorian Metro/Regional venues and attach nearest-stop distance band.
+
+    Shared by the per-cohort survival pass and the chart-16 horizon pass so both bin venues
+    into bands the same way.
+    """
+    df = df.copy()
+    df["metro_regional"] = df["Metro/Regional"].astype(str).str.strip().str.title()
+    df = df[df["metro_regional"].isin(["Metro", "Regional"])]
+    df = df.dropna(subset=["Latitude", "Longitude"])
+    df = df[(df["Latitude"].between(-39.5, -33.5)) & (df["Longitude"].between(140.5, 150.5))].copy()
+
+    lon = df["Longitude"].to_numpy(float)
+    lat = df["Latitude"].to_numpy(float)
+    _, idx = stop_tree.query(project(lon, lat), k=1)
+    dist_m = haversine_m(lon, lat, slon[idx], slat[idx])
+    df["nearest_stop_distance_m"] = dist_m
+    bands = [band_of(d) for d in dist_m]
+    df["distance_band"] = [b[0] for b in bands]
+    df["distance_band_order"] = [b[1] for b in bands]
+    df["near_400m"] = dist_m <= 400
+    return df
+
+
+def build_chart16(base_year: int, snaps: dict[int, Path],
+                  stop_tree: cKDTree, slon: np.ndarray, slat: np.ndarray) -> pd.DataFrame:
+    """chart-16 source: one base cohort, survival measured at 1/2/3-year horizons.
+
+    The base cohort (July `base_year`) is binned into distance bands once; for each horizon
+    `h` with an outcome snapshot present, a licence "survived" if it is still in the July
+    (base_year + h) snapshot. Rows are keyed by horizon × distance band × metro/regional, plus
+    a venue-weighted `overall_survival_pct` per horizon for the reference floor.
+    """
+    if base_year not in snaps:
+        raise SystemExit(f"chart-16 base cohort July {base_year} not found in {RAW}")
+    base = tag_distance_and_region(load_snapshot(snaps[base_year]), stop_tree, slon, slat)
+    log(f"chart-16 base cohort July {base_year}: {len(base)} venues with valid coords + region")
+
+    frames = []
+    for h in CHART16_HORIZONS:
+        outcome_year = base_year + h
+        if outcome_year not in snaps:
+            log(f"  horizon {h}yr skipped — no July {outcome_year} snapshot")
+            continue
+        out_ids = set(load_snapshot(snaps[outcome_year])["Licence Num"])
+        base["survived"] = base["Licence Num"].isin(out_ids)
+        overall = round(base["survived"].mean() * 100, 1)
+        log(f"  horizon {h}yr (→ July {outcome_year}): {base['survived'].sum()} of {len(base)} "
+            f"survived ({overall:.1f}%)")
+
+        g = (base.groupby(["distance_band", "distance_band_order", "metro_regional"])
+                 .agg(cohort_count=("survived", "size"), survived_count=("survived", "sum"))
+                 .reset_index())
+        g["survival_rate_pct"] = (g["survived_count"] / g["cohort_count"] * 100).round(1)
+        g["horizon_years"] = h
+        g["horizon_label"] = f"{h} year" if h == 1 else f"{h} years"
+        g["outcome_year"] = outcome_year
+        g["overall_survival_pct"] = overall
+        frames.append(g)
+
+    out = pd.concat(frames, ignore_index=True)
+    return out.sort_values(["horizon_years", "metro_regional", "distance_band_order"])
 
 
 def process_cohort(year: int, t0_path: Path, t1_path: Path,
@@ -141,26 +229,12 @@ def process_cohort(year: int, t0_path: Path, t1_path: Path,
     log(f"July {year} cohort: {n_cohort} | survived to July {year + SURVIVAL_WINDOW_YEARS}: "
         f"{t0['survived'].sum()} ({t0['survived'].mean() * 100:.1f}%)")
 
-    # normalise metro/regional to the page's vocabulary ("Metro" / "Regional")
-    t0["metro_regional"] = t0["Metro/Regional"].astype(str).str.strip().str.title()
-    t0 = t0[t0["metro_regional"].isin(["Metro", "Regional"])].copy()
-
-    # drop rows without coordinates (can't place them spatially)
-    t0 = t0.dropna(subset=["Latitude", "Longitude"])
-    t0 = t0[(t0["Latitude"].between(-39.5, -33.5)) & (t0["Longitude"].between(140.5, 150.5))].copy()
+    # normalise metro/regional, drop invalid coords, attach nearest-stop distance band
+    t0 = tag_distance_and_region(t0, stop_tree, slon, slat)
     log(f"  cohort with valid Victorian coords + metro/regional: {len(t0)}")
 
     lon = t0["Longitude"].to_numpy(float)
     lat = t0["Latitude"].to_numpy(float)
-
-    # ---- nearest-stop distance (KD-tree, refined with haversine) ------------------
-    _, idx = stop_tree.query(project(lon, lat), k=1)
-    dist_m = haversine_m(lon, lat, slon[idx], slat[idx])
-    t0["nearest_stop_distance_m"] = dist_m
-    bands = [band_of(d) for d in dist_m]
-    t0["distance_band"] = [b[0] for b in bands]
-    t0["distance_band_order"] = [b[1] for b in bands]
-    t0["near_400m"] = dist_m <= 400
 
     # ---- SA2 via point-in-polygon -------------------------------------------------
     sa2_assigned = []
@@ -228,22 +302,22 @@ def main() -> int:
               for y, t0, t1 in cohorts]
     venues = pd.concat(frames, ignore_index=True)
 
-    # ---- 4a. survival by cohort_year x distance band x metro/regional -------------
-    g = (venues.groupby(["cohort_year", "distance_band", "distance_band_order", "metro_regional"])
-              .agg(cohort_count=("survived", "size"),
-                   survived_count=("survived", "sum"))
-              .reset_index())
-    g["survival_rate_pct"] = (g["survived_count"] / g["cohort_count"] * 100).round(1)
-    g = g.sort_values(["cohort_year", "metro_regional", "distance_band_order"])
+    # ---- 4a. chart-16: one base cohort, survival at 1/2/3-year horizons -----------
+    snaps = all_snapshots()
+    g = build_chart16(CHART16_BASE_YEAR, snaps, stop_tree, slon, slat)
     g.to_csv(OUT / "chart_survival_distance_band.csv", index=False)
-    log(f"wrote chart_survival_distance_band.csv ({len(g)} rows, {g['cohort_year'].nunique()} cohorts)")
+    log(f"wrote chart_survival_distance_band.csv ({len(g)} rows, "
+        f"{g['horizon_years'].nunique()} horizons of the July {CHART16_BASE_YEAR} cohort)")
 
     # paste-ready hints for keeping chart-16's hand-maintained spec in sync with the data
-    years = sorted(int(y) for y in g["cohort_year"].unique())
+    horizons = sorted(int(h) for h in g["horizon_years"].unique())
     lo = math.floor(g["survival_rate_pct"].min() / 5) * 5
     hi = math.ceil(g["survival_rate_pct"].max() / 5) * 5
-    log(f"chart-16 spec hint -> param options: {years}  | value: {max(years)}  "
-        f"| y scale.domain: [{lo}, {hi}]")
+    floors = (g[["horizon_years", "overall_survival_pct"]].drop_duplicates()
+              .sort_values("horizon_years"))
+    floor_map = {int(r.horizon_years): r.overall_survival_pct for r in floors.itertuples()}
+    log(f"chart-16 spec hint -> horizonYears options: {horizons}  "
+        f"| y scale.domain: [{lo}, {hi}]  | overall floors by horizon: {floor_map}")
 
     # charts 17/18 stay on the hero cohort — fall back to the latest cohort if 2023 is absent
     cohort_years = sorted(venues["cohort_year"].unique())
