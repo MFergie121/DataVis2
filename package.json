@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "validate": "node tools/validate.mjs",
-    "build:hexbins": "node tools/build-hexbins.mjs"
+    "build:hexbins": "node tools/build-hexbins.mjs",
+    "build:hexbins:victoria": "node tools/build-hexbins-victoria.mjs"
   },
   "devDependencies": {
     "topojson-server": "3.0.1",

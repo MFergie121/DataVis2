@@ -32,6 +32,9 @@
     },
     {
       "filter": "datum.access_share_pct != null"
+    },
+    {
+      "filter": "datum.venue_count >= 10"
     }
   ],
   "encoding": {

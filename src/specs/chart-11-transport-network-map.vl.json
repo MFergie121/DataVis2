@@ -1,6 +1,6 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Chart 11 — Statewide overview of where venues sit against the transport network. Train + tram ROUTES (where public transport runs) are drawn over the full mesh of ~31,170 PT STOPS (where you can get on), with venues binned into coarse lon/lat cells and plotted as warm density circles. This is a proximity/context map, not a service map — lines show where routes go and dots show where stops are, never when or how often services run (GTFS schedule deliberately deferred; the page says 'near', not 'served by'). Full-width and tall so Victoria fills the frame and the route skeleton is legible. Data: venues_web.csv aggregated in-spec; transport_stops_web.csv as stop points; pt_routes_simplified.topojson as lines; sa2_summary_simplified.topojson as the base.",
+  "description": "Chart 11 — Statewide overview of where venues sit against the transport network. Train + tram ROUTES (where public transport runs) are drawn over the full mesh of ~31,170 PT STOPS (where you can get on), with venues shown as precomputed hexagonal density cells (~8 km, built offline by tools/build-hexbins-victoria.mjs). This is a proximity/context map, not a service map — lines show where routes go and dots show where stops are, never when or how often services run. Full-width and tall so Victoria fills the frame and the route skeleton is legible. Data: venue_hexbins_victoria.topojson (from venues_web.csv); transport_stops_web.csv as stop points; pt_routes_simplified.topojson as lines; sa2_summary_simplified.topojson as the base.",
   "title": {
     "text": "Venues and public transport — Victoria",
     "subtitle": [
@@ -79,67 +79,27 @@
       }
     },
     {
-      "description": "Venue density across Victoria, binned to coarse lon/lat cells so the layer shows concentration without plotting 23k individual points.",
+      "description": "Venue density across Victoria as precomputed hexagonal bins (~8 km cells). Each hexagon is a real geographic polygon built offline by tools/build-hexbins-victoria.mjs, so cells tile seamlessly under the conicEqualArea projection without any in-spec transform. Color encodes venue count per cell on a sqrt scale so both dense metro clusters and smaller regional nodes read clearly.",
       "data": {
-        "url": "data/venues_web.csv",
+        "url": "data/venue_hexbins_victoria.topojson",
         "format": {
-          "parse": {
-            "Longitude": "number",
-            "Latitude": "number"
-          }
+          "type": "topojson",
+          "feature": "venue_hexbins"
         }
       },
-      "transform": [
-        {
-          "calculate": "round(datum.Longitude / 0.05) * 0.05",
-          "as": "lon_bin"
-        },
-        {
-          "calculate": "round(datum.Latitude / 0.04) * 0.04",
-          "as": "lat_bin"
-        },
-        {
-          "aggregate": [
-            {
-              "op": "count",
-              "as": "venue_count"
-            }
-          ],
-          "groupby": [
-            "lon_bin",
-            "lat_bin"
-          ]
-        },
-        {
-          "filter": "datum.venue_count >= 2"
-        }
-      ],
       "mark": {
-        "type": "circle",
-        "color": "#d1495b",
-        "opacity": 0.52,
+        "type": "geoshape",
         "stroke": "#ffffff",
-        "strokeWidth": 0.25
+        "strokeWidth": 0.3
       },
       "encoding": {
-        "longitude": {
-          "field": "lon_bin",
-          "type": "quantitative"
-        },
-        "latitude": {
-          "field": "lat_bin",
-          "type": "quantitative"
-        },
-        "size": {
-          "field": "venue_count",
+        "color": {
+          "field": "properties.count",
           "type": "quantitative",
-          "title": "Venues per area",
+          "title": "Venues per cell",
           "scale": {
-            "type": "sqrt",
-            "range": [
-              8,
-              430
-            ]
+            "scheme": "yelloworangered",
+            "type": "sqrt"
           },
           "legend": {
             "format": ","
@@ -147,9 +107,9 @@
         },
         "tooltip": [
           {
-            "field": "venue_count",
+            "field": "properties.count",
             "type": "quantitative",
-            "title": "Venues in area",
+            "title": "Venues in cell",
             "format": ","
           }
         ]
@@ -213,8 +173,7 @@
   ],
   "resolve": {
     "scale": {
-      "color": "independent",
-      "size": "independent"
+      "color": "independent"
     }
   }
 }
