@@ -1,6 +1,6 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Chart 15 — Venue density under the network, inner Melbourne. The zoomed synthesis: venues are filtered to the Melbourne frame (lon 144.75–145.35, lat −37.92 to −37.67), binned into small lon/lat cells, aggregated to venue count, then plotted as projected density circles underneath the train + tram routes. This keeps the useful heatmap idea but moves it to the scale where it explains something: venue concentration piles up along the tram grid and radial train lines, instead of only identifying Melbourne on a statewide grid. Proximity, not service. Routes are drawn on top; the stop mesh is dropped so the density layer reads. Data: venues_web.csv (filtered and aggregated in-spec) over pt_routes_melbourne.topojson and sa2_melbourne.topojson.",
+  "description": "Chart 15 — Venue density under the network, inner Melbourne. The zoomed synthesis: venues are binned offline into a hexagonal tessellation (venue_hexbins_melbourne.topojson, built by tools/build-hexbins.mjs from venues_web.csv over the same Melbourne frame, lon 144.75–145.35 / lat −37.92 to −37.67) and drawn as projected hexagons underneath the train + tram routes. A true hexbin tiles seamlessly and stays aligned with the route layer at any width, which fixed-size circles or point marks cannot. The message: venue concentration piles up along the tram grid and radial train lines, instead of only identifying Melbourne on a statewide grid. Proximity, not service. Routes are drawn on top; the stop mesh is dropped so the density layer reads. Data: venue_hexbins_melbourne.topojson over pt_routes_melbourne.topojson and sa2_melbourne.topojson.",
   "title": {
     "text": "Venue density hugs the network — inner Melbourne",
     "subtitle": "The heatmap belongs here: density piles up on the tram grid and train corridors, not just on 'Melbourne' as a whole.",
@@ -26,46 +26,26 @@
       "mark": { "type": "geoshape", "fill": "#f4f3ee", "stroke": "#ffffff", "strokeWidth": 0.4 }
     },
     {
-      "description": "Venue density in the Melbourne frame. Coordinates are rounded to small grid cells before aggregation, then the cell centres are drawn as projected circles. Size and colour redundantly encode the venue count per cell.",
+      "description": "Venue density as a hexagonal tessellation, binned offline from venues_web.csv (tools/build-hexbins.mjs) so the cells are real geographic polygons that tile seamlessly. The venue count per hex is encoded by a single sequential warm fill — size is fixed because the cells tile, so this is colour-only, no size channel.",
       "data": {
-        "url": "data/venues_web.csv",
-        "format": { "parse": { "Longitude": "number", "Latitude": "number" } }
+        "url": "data/venue_hexbins_melbourne.topojson",
+        "format": { "type": "topojson", "feature": "venue_hexbins" }
       },
-      "transform": [
-        { "filter": "datum.Longitude >= 144.75 && datum.Longitude <= 145.35 && datum.Latitude >= -37.92 && datum.Latitude <= -37.67" },
-        { "calculate": "round(datum.Longitude / 0.006) * 0.006", "as": "lon_bin" },
-        { "calculate": "round(datum.Latitude / 0.004) * 0.004", "as": "lat_bin" },
-        {
-          "aggregate": [{ "op": "count", "as": "venue_count" }],
-          "groupby": ["lon_bin", "lat_bin"]
-        },
-        { "filter": "datum.venue_count >= 2" }
-      ],
       "mark": {
-        "type": "circle",
-        "opacity": 0.72,
+        "type": "geoshape",
         "stroke": "#ffffff",
-        "strokeWidth": 0.25
+        "strokeWidth": 0.3
       },
       "encoding": {
-        "longitude": { "field": "lon_bin", "type": "quantitative" },
-        "latitude": { "field": "lat_bin", "type": "quantitative" },
-        "size": {
-          "field": "venue_count",
-          "type": "quantitative",
-          "title": "Venues per cell",
-          "scale": { "type": "sqrt", "range": [10, 520] },
-          "legend": { "format": "," }
-        },
         "color": {
-          "field": "venue_count",
+          "field": "properties.count",
           "type": "quantitative",
-          "title": "Venues per cell",
+          "title": "Venues per hex",
           "scale": { "scheme": "yelloworangered", "type": "sqrt" },
-          "legend": { "format": ",", "gradientLength": 160 }
+          "legend": { "format": ".0f", "gradientLength": 160 }
         },
         "tooltip": [
-          { "field": "venue_count", "type": "quantitative", "title": "Venues in cell", "format": "," }
+          { "field": "properties.count", "type": "quantitative", "title": "Venues in hex", "format": "," }
         ]
       }
     },
@@ -99,8 +79,7 @@
   ],
   "resolve": {
     "scale": {
-      "color": "independent",
-      "size": "independent"
+      "color": "independent"
     }
   }
 }

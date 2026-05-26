@@ -45,6 +45,11 @@ const MELBOURNE_TOPO = {
   "pt_routes_melbourne.topojson": { object: "public_transport_lines", features: 53 },
   "sa2_melbourne.topojson": { object: "sa2_summary", features: 224 },
 };
+// chart-15 hexbin density layer: offline-binned venue counts as hexagon polygons.
+// Cell count moves whenever R/THRESHOLD in tools/build-hexbins.mjs are tuned, so
+// assert structure (object present, non-empty, every count is an integer at/above
+// the threshold) rather than an exact feature count.
+const HEX_TOPO = { name: "venue_hexbins_melbourne.topojson", object: "venue_hexbins", minCount: 2 };
 const BAD_TOKENS = new Set(["NaN", "nan", "Infinity", "-Infinity", "inf", "-inf"]);
 
 // ---- 1. Specs: valid JSON + compile clean ----------------------------------
@@ -165,6 +170,23 @@ for (const [name, { object, features }] of Object.entries(MELBOURNE_TOPO)) {
   } catch (e) {
     fail(`${name}: ${e.message}`);
   }
+}
+
+// ---- 6b. Venue hexbin topojson (chart-15) ----------------------------------
+console.log("\n[6b] Venue hexbin topojson (chart-15)");
+try {
+  const t = JSON.parse(readFileSync(join(DATA_DIR, HEX_TOPO.name), "utf8"));
+  const geoms = t.objects?.[HEX_TOPO.object]?.geometries;
+  if (!geoms) fail(`${HEX_TOPO.name}: missing object '${HEX_TOPO.object}'`);
+  else if (geoms.length === 0) fail(`${HEX_TOPO.name}: no hex geometries`);
+  else {
+    pass(`${HEX_TOPO.name}: ${geoms.length} hexes (object '${HEX_TOPO.object}')`);
+    const bad = geoms.filter((g) => !Number.isInteger(g.properties?.count) || g.properties.count < HEX_TOPO.minCount);
+    if (bad.length === 0) pass(`every hex has an integer count >= ${HEX_TOPO.minCount}`);
+    else fail(`${bad.length} hex(es) with a missing/non-integer/below-threshold count`);
+  }
+} catch (e) {
+  fail(`${HEX_TOPO.name}: ${e.message}`);
 }
 
 // ---- 7. Structural parity: manifest ↔ mounts ↔ spec files ------------------

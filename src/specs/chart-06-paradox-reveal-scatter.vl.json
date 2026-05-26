@@ -70,7 +70,7 @@
     },
     {
       "transform": [
-        { "regression": "access_share_pct", "on": "irsad_aus_decile", "groupby": ["metro_regional_majority"] }
+        { "regression": "access_share_pct", "on": "irsad_aus_decile", "groupby": ["metro_regional_majority"], "extent": [1, 10] }
       ],
       "mark": { "type": "line", "strokeWidth": 3 }
     },

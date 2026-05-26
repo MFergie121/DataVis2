@@ -5,9 +5,11 @@
   "description": "FIT2179 Data Visualisation 2 — validation harness for the Vega-Lite specs and data in src/.",
   "type": "module",
   "scripts": {
-    "validate": "node tools/validate.mjs"
+    "validate": "node tools/validate.mjs",
+    "build:hexbins": "node tools/build-hexbins.mjs"
   },
   "devDependencies": {
+    "topojson-server": "3.0.1",
     "vega-lite": "5.21.0"
   }
 }
