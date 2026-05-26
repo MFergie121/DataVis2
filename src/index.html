@@ -230,6 +230,26 @@
             chart-18 · survival choropleth
           </div>
         </figure>
+
+        <figure class="chart">
+          <div class="bivariate-wrap">
+            <div id="chart-22" class="chart-mount" data-pending="true">
+              chart-22 · access × survival bivariate map
+            </div>
+            <div id="chart-22-legend" class="bivariate-legend" data-pending="true"></div>
+          </div>
+          <figcaption class="chart-note">
+            One map, two measures. The horizontal mix of colour is access (how
+            many of an area's venues sit within 400&nbsp;m of a stop); the
+            vertical mix is two-year survival. If proximity bought survival, the
+            transport-rich inner suburbs would glow dark blue — high on both.
+            Instead they read cyan: high access, ordinary survival. Across
+            Greater Melbourne the two barely relate (correlation −0.13), and if
+            anything the best-served third of suburbs survive slightly
+            <em>worse</em> (87% vs 89%). Survival is a licence-presence proxy;
+            association only.
+          </figcaption>
+        </figure>
       </section>
 
       <!-- ===== §4 Why might this be? ===== -->
@@ -382,6 +402,8 @@
         "chart-17": "specs/chart-17-access-survival-scatter.vl.json",
         "chart-20": "specs/chart-20-access-hospitality-health.vl.json",
         "chart-18": "specs/chart-18-survival-choropleth.vl.json",
+        "chart-22": "specs/chart-22-access-survival-bivariate.vl.json",
+        "chart-22-legend": "specs/chart-22-bivariate-legend.vl.json",
         "chart-19": "specs/chart-19-melbourne-pt-patronage.vl.json",
         "chart-21": "specs/chart-21-hospitality-trip-modes.vl.json",
       };
@@ -414,12 +436,13 @@
       // the "find your suburb" box — and a Clear button resets everything. Pre-aggregated
       // CSVs can't cross-filter, so each target just highlights its own rows keyed by
       // sa2_code_2021 (string); SA2s missing from a chart's data simply don't light up.
-      const HIGHLIGHT_TARGETS = ["chart-03", "chart-06", "chart-17", "chart-18"];
+      const HIGHLIGHT_TARGETS = ["chart-03", "chart-06", "chart-17", "chart-18", "chart-22"];
       // Charts that emit a click selection: { mounted id, point-selection signal, its store }.
       const CLICK_SOURCES = [
         { id: "chart-03", signal: "sa2_sel", store: "sa2_sel_store" },
         { id: "chart-17", signal: "pick_17", store: "pick_17_store" },
         { id: "chart-18", signal: "pick_18", store: "pick_18_store" },
+        { id: "chart-22", signal: "pick_22", store: "pick_22_store" },
       ];
 
       function setupLinking() {

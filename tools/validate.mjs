@@ -36,7 +36,13 @@ const EXPECTED_ROWS = {
 };
 // Charts 04/05/07/08/09/10 were cut in the "Close without the Cigar" restructure
 // (issue #9); their four orphaned CSVs were deleted and dropped from the map above.
-const EXPECTED_CHART_COUNT = 11; // post-chart-21: manifest ↔ mounts ↔ spec files must all agree on this.
+const EXPECTED_CHART_COUNT = 12; // post-chart-22: manifest ↔ mounts ↔ spec files must all agree on this.
+// Companion sub-specs that belong to a chart but are NOT charts themselves: they
+// embed beside their parent (own mount id, own spec file) and are excluded from
+// the 1-chart : 1-mount : 1-spec parity totals. chart-22's bivariate map ships a
+// hand-built 3×3 matrix legend as a second small spec.
+const COMPANION_SPECS = new Set(["chart-22-bivariate-legend.vl.json"]);
+const COMPANION_IDS = new Set(["chart-22-legend"]);
 const EXPECTED_GEOMETRIES = 522; // sa2_summary_simplified.topojson (2 of the 524 SA2s are non-spatial)
 const EXPECTED_ROUTE_FEATURES = 54; // pt_routes_simplified.topojson (train+tram routes, variants dissolved)
 // Melbourne close-up support files: routes/base clipped to the inner-Melbourne frame
@@ -198,19 +204,37 @@ console.log("\n[7] Structural parity (manifest ↔ mounts ↔ spec files)");
 try {
   const html = readFileSync(join(ROOT, "src", "index.html"), "utf8");
 
-  // Manifest: id -> spec basename, parsed from the CHARTS object.
+  // Manifest: id -> spec basename, parsed from the CHARTS object. The id pattern
+  // allows a suffix (e.g. chart-22-legend) so companion sub-specs are captured too,
+  // then partitioned out below.
   const manifest = new Map();
-  const manifestRe = /"(chart-\d+)":\s*"(specs\/[^"]+\.vl\.json)"/g;
+  const manifestRe = /"(chart-[\w-]+)":\s*"(specs\/[^"]+\.vl\.json)"/g;
   let mm;
   while ((mm = manifestRe.exec(html)) !== null) manifest.set(mm[1], basename(mm[2]));
 
-  // Mounted elements: every <div id="chart-NN" class="chart-mount">.
+  // Companion sub-specs must be in the manifest (else they never embed) — check
+  // that, then drop them so the parity totals count charts only.
+  for (const cid of COMPANION_IDS) {
+    manifest.has(cid)
+      ? pass(`companion sub-spec ${cid} is wired into the manifest`)
+      : fail(`companion sub-spec ${cid} missing from the manifest`);
+    manifest.delete(cid);
+  }
+
+  // Mounted elements: every <div id="chart-NN" class="chart-mount">. Companion
+  // mounts carry a different class (e.g. bivariate-legend), so they are not counted.
   const mounts = [];
   const mountRe = /id="(chart-\d+)"\s+class="chart-mount"/g;
   while ((mm = mountRe.exec(html)) !== null) mounts.push(mm[1]);
   const mountSet = new Set(mounts);
 
-  const diskSpecs = new Set(specFiles); // .vl.json basenames on disk (from section 1)
+  // Disk specs, with companion sub-specs partitioned out of the chart totals.
+  const diskSpecs = new Set(specFiles.filter((f) => !COMPANION_SPECS.has(f)));
+  for (const cs of COMPANION_SPECS) {
+    specFiles.includes(cs)
+      ? pass(`companion sub-spec file ${cs} exists on disk`)
+      : fail(`companion sub-spec file ${cs} missing from src/specs/`);
+  }
   const manifestIds = new Set(manifest.keys());
   const manifestSpecs = new Set(manifest.values());
 

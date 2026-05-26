@@ -207,6 +207,39 @@ body {
 .vega-embed details,
 .vega-embed summary { font-family: var(--font-body); }
 
+/* Bivariate map (chart-22): the 2D colour matrix legend floats in the map's
+   sparse bottom-left corner (over Port Phillip Bay) so colours can be decoded
+   in place. Wrapper is the positioning context; the legend never steals clicks. */
+.bivariate-wrap {
+  position: relative;
+}
+
+/* Descendant selector (specificity 0-2-0) so it beats vega-embed's runtime
+   `.vega-embed { position: relative }`, which the embed adds as a class on this
+   same mount and injects after our stylesheet. */
+.bivariate-wrap .bivariate-legend {
+  position: absolute;
+  left: 6px;
+  bottom: 6px;
+  z-index: 2;
+  pointer-events: none;
+  padding: 6px 8px 4px;
+  background: rgba(255, 255, 255, 0.82);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+
+/* On a narrow phone the floating legend would crowd the small map; drop it to
+   a static block beneath instead. */
+@media (max-width: 480px) {
+  .bivariate-wrap .bivariate-legend {
+    position: static;
+    background: none;
+    border: none;
+    padding: 6px 0 0;
+  }
+}
+
 abbr[title] {
   text-decoration: underline dotted;
   text-underline-offset: 2px;

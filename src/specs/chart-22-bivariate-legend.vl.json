@@ -1,0 +1,68 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Legend for the bivariate access x survival map (chart-22). A 3x3 matrix of the same nine colours, arranged so the horizontal axis is access (left = low, right = high) and the vertical axis is survival (bottom = low, top = high). The corner labels teach the reader to decode the map: bottom-right = high access but low survival (cyan), top-left = high survival but low access (magenta), top-right = both high (dark blue). Shares chart-22's exact ordinal colour scale so the squares match the map. Built as a standalone unit (a rect mark over a 3x3 grid of class indices) because Vega-Lite emits no native 2D legend for a hand-built bivariate scheme.",
+  "width": 108,
+  "height": 108,
+  "data": {
+    "values": [
+      { "access_class": 0, "survival_class": 0, "biclass": 0 },
+      { "access_class": 0, "survival_class": 1, "biclass": 1 },
+      { "access_class": 0, "survival_class": 2, "biclass": 2 },
+      { "access_class": 1, "survival_class": 0, "biclass": 3 },
+      { "access_class": 1, "survival_class": 1, "biclass": 4 },
+      { "access_class": 1, "survival_class": 2, "biclass": 5 },
+      { "access_class": 2, "survival_class": 0, "biclass": 6 },
+      { "access_class": 2, "survival_class": 1, "biclass": 7 },
+      { "access_class": 2, "survival_class": 2, "biclass": 8 }
+    ]
+  },
+  "mark": { "type": "rect", "stroke": "#ffffff", "strokeWidth": 1.5 },
+  "encoding": {
+    "x": {
+      "field": "access_class",
+      "type": "ordinal",
+      "axis": {
+        "title": "Access →",
+        "titleFontSize": 10,
+        "titleFontWeight": "bold",
+        "labelExpr": "datum.value == 0 ? 'low' : datum.value == 2 ? 'high' : ''",
+        "labelFontSize": 9,
+        "domain": false,
+        "ticks": false,
+        "orient": "bottom"
+      }
+    },
+    "y": {
+      "field": "survival_class",
+      "type": "ordinal",
+      "sort": "descending",
+      "axis": {
+        "title": "Survival →",
+        "titleFontSize": 10,
+        "titleFontWeight": "bold",
+        "labelExpr": "datum.value == 0 ? 'low' : datum.value == 2 ? 'high' : ''",
+        "labelFontSize": 9,
+        "domain": false,
+        "ticks": false,
+        "orient": "left"
+      }
+    },
+    "color": {
+      "field": "biclass",
+      "type": "ordinal",
+      "legend": null,
+      "scale": {
+        "domain": [-1, 0, 1, 2, 3, 4, 5, 6, 7, 8],
+        "range": [
+          "#e0e0e0",
+          "#e8e8e8", "#dfb0d6", "#be64ac",
+          "#ace4e4", "#a5add3", "#8c62aa",
+          "#5ac8c8", "#5698b9", "#3b4994"
+        ]
+      }
+    }
+  },
+  "config": {
+    "view": { "stroke": null }
+  }
+}

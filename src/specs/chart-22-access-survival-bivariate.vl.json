@@ -1,0 +1,105 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Chart 22 — Access AND survival on one map (bivariate choropleth), Greater Melbourne. The §3 spatial synthesis: instead of asking the reader to scan the access map (chart-03) against the survival map (chart-18), both quantities are fused into a single area mark via a 3x3 bivariate colour scheme. Each SA2 is classed into access tertiles (share of venues within 400 m of a stop; cuts 88.9 / 97.8, computed over the 218 graded Melbourne SA2s) and survival tertiles (two-year licence survival; cuts 85.0 / 90.3), giving a 0-8 class. Colour carries both: cyan = high access only, magenta = high survival only, dark blue = both high, light grey = both low. If proximity drove survival, the high-access inner suburbs would crowd the dark-blue 'both high' corner. They don't — they read mostly cyan (high access, ordinary survival), the visible form of the flat-to-slightly-negative access-survival relationship (Pearson r = -0.13 across Melbourne; mean survival 86.9% in the top access tertile vs 89.3% in the bottom). Vega-Lite has no bivariate-choropleth idiom: the two tertile classes and their combined index are built in-spec by calculate transforms, and the 9-colour lookup is a hand-built ordinal scale. The companion 3x3 matrix legend (chart-22-bivariate-legend) decodes the colours. This map is a node of the §3 linked highlight: pick_22 captures a clicked SA2 and selected_sa2 (driven from the scatter chart-17, the maps, or the 'find your suburb' box) dims every other region. Survival is a licence-presence proxy; association only. Data: chart_sa2_survival.csv joined to sa2_melbourne.topojson on sa2_code_2021.",
+  "title": {
+    "text": "Access and survival, together — Greater Melbourne",
+    "subtitle": "Cyan = lots of access. Magenta = high survival. Dark blue = both. The inner, transport-rich suburbs read cyan, not dark blue: access without the survival edge.",
+    "anchor": "start",
+    "subtitleFontStyle": "italic"
+  },
+  "width": "container",
+  "height": 460,
+  "autosize": { "type": "fit-x", "contains": "padding" },
+  "params": [
+    { "name": "selected_sa2", "value": null }
+  ],
+  "projection": {
+    "type": "conicEqualArea",
+    "rotate": [-145, 0, 0],
+    "center": [0, -37],
+    "parallels": [-36, -38]
+  },
+  "layer": [
+    {
+      "params": [
+        {
+          "name": "pick_22",
+          "select": { "type": "point", "fields": ["sa2_code_2021"], "on": "click", "toggle": "event.shiftKey" }
+        }
+      ],
+      "data": {
+        "url": "data/sa2_melbourne.topojson",
+        "format": { "type": "topojson", "feature": "sa2_summary" }
+      },
+      "transform": [
+        {
+          "lookup": "properties.sa2_code_2021",
+          "from": {
+            "data": {
+              "url": "data/chart_sa2_survival.csv",
+              "format": { "parse": { "sa2_code_2021": "string" } }
+            },
+            "key": "sa2_code_2021",
+            "fields": ["survival_rate_pct", "share_400", "sa2_name_2021", "metro_regional_majority", "cohort_count", "median_nearest_stop_distance_m", "irsad_aus_decile"]
+          }
+        },
+        { "calculate": "datum.properties.sa2_code_2021", "as": "sa2_code_2021" },
+        { "calculate": "datum.share_400 < 88.9 ? 0 : (datum.share_400 < 97.8 ? 1 : 2)", "as": "access_class" },
+        { "calculate": "datum.survival_rate_pct < 85.0 ? 0 : (datum.survival_rate_pct < 90.3 ? 1 : 2)", "as": "survival_class" },
+        { "calculate": "datum.cohort_count < 5 ? -1 : datum.access_class * 3 + datum.survival_class", "as": "biclass" }
+      ],
+      "mark": {
+        "type": "geoshape",
+        "stroke": "#ffffff",
+        "strokeWidth": 0.3
+      },
+      "encoding": {
+        "color": {
+          "field": "biclass",
+          "type": "ordinal",
+          "legend": null,
+          "scale": {
+            "domain": [-1, 0, 1, 2, 3, 4, 5, 6, 7, 8],
+            "range": [
+              "#e0e0e0",
+              "#e8e8e8", "#dfb0d6", "#be64ac",
+              "#ace4e4", "#a5add3", "#8c62aa",
+              "#5ac8c8", "#5698b9", "#3b4994"
+            ]
+          }
+        },
+        "opacity": {
+          "condition": { "test": "selected_sa2 == null || datum.sa2_code_2021 == selected_sa2", "value": 1 },
+          "value": 0.25
+        },
+        "stroke": {
+          "condition": { "test": "selected_sa2 != null && datum.sa2_code_2021 == selected_sa2", "value": "#1a1a1a" },
+          "value": "#ffffff"
+        },
+        "strokeWidth": {
+          "condition": { "test": "selected_sa2 != null && datum.sa2_code_2021 == selected_sa2", "value": 1.6 },
+          "value": 0.3
+        },
+        "tooltip": [
+          { "field": "sa2_name_2021", "type": "nominal", "title": "SA2" },
+          { "field": "metro_regional_majority", "type": "nominal", "title": "Region" },
+          { "field": "share_400", "type": "quantitative", "title": "Within 400 m of a stop (%)", "format": ".0f" },
+          { "field": "survival_rate_pct", "type": "quantitative", "title": "Survived 2 yrs (%)", "format": ".1f" },
+          { "field": "median_nearest_stop_distance_m", "type": "quantitative", "title": "Median walk to stop (m)", "format": "," },
+          { "field": "irsad_aus_decile", "type": "ordinal", "title": "SEIFA decile" },
+          { "field": "cohort_count", "type": "quantitative", "title": "Venues (2023)", "format": "," }
+        ]
+      }
+    },
+    {
+      "description": "Persuasive callout anchored over the inner-east, restating what the colour shows: the transport-rich core is not the 'both high' corner.",
+      "data": { "values": [{ "lon": 145.28, "lat": -37.70, "label": ["If proximity paid off, the inner", "suburbs would be dark blue.", "They're cyan: access, not survival."] }] },
+      "mark": { "type": "text", "align": "right", "baseline": "top", "fontSize": 11, "lineHeight": 14, "fontWeight": "bold", "color": "#3b4994" },
+      "encoding": {
+        "longitude": { "field": "lon", "type": "quantitative" },
+        "latitude": { "field": "lat", "type": "quantitative" },
+        "text": { "field": "label", "type": "nominal" }
+      }
+    }
+  ]
+}
