@@ -59,7 +59,7 @@
           "type": "quantitative",
           "title": "Active venues (2023)",
           "scale": { "range": [25, 420] },
-          "legend": { "orient": "bottom", "direction": "horizontal" }
+          "legend": { "orient": "bottom", "direction": "horizontal", "format": "," }
         },
         "tooltip": [
           { "field": "sa2_name", "type": "nominal", "title": "SA2" },
