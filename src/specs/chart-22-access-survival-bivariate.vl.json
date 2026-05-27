@@ -241,6 +241,40 @@
           "type": "nominal"
         }
       }
+    },
+    {
+      "description": "Arrow annotation pointing at the cyan inner-Melbourne cluster — gives a skimmer the spatial pointer without requiring them to read the main callout.",
+      "data": {
+        "values": [
+          {
+            "lon": 145.08,
+            "lat": -37.77,
+            "label": "↙ inner suburbs: cyan here"
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "top",
+        "fontSize": 11,
+        "fontWeight": "bold",
+        "color": "#1a1a1a"
+      },
+      "encoding": {
+        "longitude": {
+          "field": "lon",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "lat",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "label",
+          "type": "nominal"
+        }
+      }
     }
   ]
 }

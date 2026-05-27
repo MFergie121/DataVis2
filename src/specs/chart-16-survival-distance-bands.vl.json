@@ -267,6 +267,29 @@
           "expr": "'July 2022 cohort, ' + horizonYears + (horizonYears == 1 ? ' year on' : ' years on')"
         }
       }
+    },
+    {
+      "description": "Caveat badge reminding the reader that survival is a licence-presence proxy, not a direct closure measure.",
+      "data": {
+        "values": [
+          {}
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "top",
+        "fontStyle": "italic",
+        "fontSize": 10,
+        "color": "#999",
+        "x": {
+          "expr": "4"
+        },
+        "y": {
+          "expr": "4"
+        },
+        "text": "survival = licence presence (proxy)"
+      }
     }
   ]
 }

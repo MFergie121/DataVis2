@@ -184,6 +184,29 @@
           }
         }
       }
+    },
+    {
+      "description": "In-chart badge reinforcing that this is a proximity map, not a service-frequency map.",
+      "data": {
+        "values": [
+          {}
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "bottom",
+        "fontSize": 10,
+        "fontStyle": "italic",
+        "color": "#666",
+        "x": {
+          "expr": "8"
+        },
+        "y": {
+          "expr": "height - 8"
+        },
+        "text": "proximity = walking distance, not service frequency"
+      }
     }
   ],
   "resolve": {

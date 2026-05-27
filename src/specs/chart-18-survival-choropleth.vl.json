@@ -208,6 +208,36 @@
           "type": "nominal"
         }
       }
+    },
+    {
+      "description": "Caveat badge: survival is a licence-presence proxy — a ceased licence can be a sale or rename, not only a closure.",
+      "data": {
+        "values": [
+          {
+            "lon": 140.95,
+            "lat": -39.1
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "bottom",
+        "fontStyle": "italic",
+        "fontSize": 10,
+        "color": "#999",
+        "text": "survival = licence presence (proxy)"
+      },
+      "encoding": {
+        "longitude": {
+          "field": "lon",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "lat",
+          "type": "quantitative"
+        }
+      }
     }
   ]
 }

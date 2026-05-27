@@ -345,6 +345,184 @@
       "encoding": {
         "color": null
       }
+    },
+    {
+      "description": "Label for the actual (solid) regression lines — mirrors the dashed counterfactual label so both lines are named.",
+      "data": {
+        "values": [
+          {
+            "access_share_T": 82,
+            "survival_rate_pct": 88.3
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "right",
+        "baseline": "bottom",
+        "dy": -4,
+        "fontSize": 11,
+        "fontStyle": "italic",
+        "color": "#1b9e77",
+        "text": "actual ≈ flat"
+      },
+      "encoding": {
+        "x": {
+          "field": "access_share_T",
+          "type": "quantitative"
+        },
+        "y": {
+          "field": "survival_rate_pct",
+          "type": "quantitative"
+        },
+        "color": null
+      }
+    },
+    {
+      "description": "Horizontal reference rule at the within-400m group mean survival (87.6%).",
+      "data": {
+        "values": [
+          {
+            "y_val": 87.6
+          }
+        ]
+      },
+      "mark": {
+        "type": "rule",
+        "strokeDash": [
+          3,
+          3
+        ],
+        "strokeWidth": 1,
+        "color": "#888",
+        "strokeOpacity": 0.7
+      },
+      "encoding": {
+        "y": {
+          "field": "y_val",
+          "type": "quantitative"
+        },
+        "color": null
+      }
+    },
+    {
+      "description": "Label for the within-400m group mean — pins the 87.6% prose statistic onto the y-axis.",
+      "data": {
+        "values": [
+          {
+            "x_val": 4,
+            "y_val": 87.6
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "bottom",
+        "dy": -2,
+        "fontSize": 10,
+        "color": "#555"
+      },
+      "encoding": {
+        "x": {
+          "field": "x_val",
+          "type": "quantitative"
+        },
+        "y": {
+          "field": "y_val",
+          "type": "quantitative"
+        },
+        "text": {
+          "value": "within 400 m avg. = 87.6%"
+        },
+        "color": null
+      }
+    },
+    {
+      "description": "Horizontal reference rule at the further-out group mean survival (90.8%).",
+      "data": {
+        "values": [
+          {
+            "y_val": 90.8
+          }
+        ]
+      },
+      "mark": {
+        "type": "rule",
+        "strokeDash": [
+          3,
+          3
+        ],
+        "strokeWidth": 1,
+        "color": "#888",
+        "strokeOpacity": 0.7
+      },
+      "encoding": {
+        "y": {
+          "field": "y_val",
+          "type": "quantitative"
+        },
+        "color": null
+      }
+    },
+    {
+      "description": "Label for the further-out group mean — the 90.8% figure restates the bust: SA2s further from stops survive at least as well.",
+      "data": {
+        "values": [
+          {
+            "x_val": 4,
+            "y_val": 90.8
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "bottom",
+        "dy": -2,
+        "fontSize": 10,
+        "color": "#555"
+      },
+      "encoding": {
+        "x": {
+          "field": "x_val",
+          "type": "quantitative"
+        },
+        "y": {
+          "field": "y_val",
+          "type": "quantitative"
+        },
+        "text": {
+          "value": "further out avg. = 90.8%"
+        },
+        "color": null
+      }
+    },
+    {
+      "description": "Caveat badge: survival is a licence-presence proxy, not a direct closure measure.",
+      "data": {
+        "values": [
+          {}
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "top",
+        "fontStyle": "italic",
+        "fontSize": 10,
+        "color": "#999",
+        "x": {
+          "expr": "4"
+        },
+        "y": {
+          "expr": "4"
+        },
+        "text": "survival = licence presence (proxy)"
+      },
+      "encoding": {
+        "color": null
+      }
     }
   ]
 }

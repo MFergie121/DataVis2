@@ -50,6 +50,33 @@
       "encoding": {
         "text": { "aggregate": "count", "type": "quantitative", "format": "," }
       }
+    },
+    {
+      "description": "400 m threshold marker — labels the within/beyond colour break with the walking-time unit so the reader doesn't have to decode the distance from the axis.",
+      "data": {
+        "values": [
+          {}
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "right",
+        "baseline": "top",
+        "dx": -6,
+        "fontSize": 10,
+        "fontStyle": "italic",
+        "color": "#5b5b5b",
+        "text": "← 400 m ≈ 5-min walk"
+      },
+      "encoding": {
+        "x": {
+          "datum": "400-800m",
+          "type": "ordinal"
+        },
+        "y": {
+          "value": 10
+        }
+      }
     }
   ]
 }

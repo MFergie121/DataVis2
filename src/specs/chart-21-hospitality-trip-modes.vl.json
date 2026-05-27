@@ -27,45 +27,76 @@
       "as": "share_label"
     }
   ],
-  "mark": { "type": "rect", "cornerRadius": 2 },
-  "encoding": {
-    "x": {
-      "field": "col",
-      "type": "ordinal",
-      "title": null,
-      "axis": null,
-      "scale": { "paddingInner": 0.08, "paddingOuter": 0.04 }
-    },
-    "y": {
-      "field": "row",
-      "type": "ordinal",
-      "title": null,
-      "axis": null,
-      "scale": { "paddingInner": 0.08, "paddingOuter": 0.04 }
-    },
-    "color": {
-      "field": "mode_group",
-      "type": "nominal",
-      "title": null,
-      "scale": {
-        "domain": ["Private vehicle", "Walking / cycling", "Public transport", "Taxi / rideshare"],
-        "range": ["#9aa3ad", "#c5cad0", "#1f4e79", "#7a8390"]
-      },
-      "legend": {
-        "orient": "bottom",
-        "columns": 2,
-        "labelFontSize": 12,
-        "labelColor": "#3a3f47",
-        "symbolSize": 120,
-        "columnPadding": 16,
-        "rowPadding": 4
+  "layer": [
+    {
+      "mark": { "type": "rect", "cornerRadius": 2 },
+      "encoding": {
+        "x": {
+          "field": "col",
+          "type": "ordinal",
+          "title": null,
+          "axis": null,
+          "scale": { "paddingInner": 0.08, "paddingOuter": 0.04 }
+        },
+        "y": {
+          "field": "row",
+          "type": "ordinal",
+          "title": null,
+          "axis": null,
+          "scale": { "paddingInner": 0.08, "paddingOuter": 0.04 }
+        },
+        "color": {
+          "field": "mode_group",
+          "type": "nominal",
+          "title": null,
+          "scale": {
+            "domain": ["Private vehicle", "Walking / cycling", "Public transport", "Taxi / rideshare"],
+            "range": ["#9aa3ad", "#c5cad0", "#1f4e79", "#7a8390"]
+          },
+          "legend": {
+            "orient": "bottom",
+            "columns": 2,
+            "labelFontSize": 12,
+            "labelColor": "#3a3f47",
+            "symbolSize": 120,
+            "columnPadding": 16,
+            "rowPadding": 4
+          }
+        },
+        "tooltip": [
+          { "field": "mode_group", "title": "Mode" },
+          { "field": "share_label", "title": "Share of trips" }
+        ]
       }
     },
-    "tooltip": [
-      { "field": "mode_group", "title": "Mode" },
-      { "field": "share_label", "title": "Share of trips" }
-    ]
-  },
+    {
+      "description": "Direct label on the five navy PT squares — makes the 5% figure readable without consulting the legend.",
+      "transform": [
+        { "filter": "datum.index == 96" }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "center",
+        "baseline": "middle",
+        "fontSize": 9,
+        "fontWeight": "bold",
+        "color": "white",
+        "text": "5% PT"
+      },
+      "encoding": {
+        "x": {
+          "field": "col",
+          "type": "ordinal",
+          "scale": { "paddingInner": 0.08, "paddingOuter": 0.04 }
+        },
+        "y": {
+          "field": "row",
+          "type": "ordinal",
+          "scale": { "paddingInner": 0.08, "paddingOuter": 0.04 }
+        }
+      }
+    }
+  ],
   "config": {
     "view": { "stroke": null },
     "axis": { "labelColor": "#3a3f47", "titleColor": "#3a3f47" }
