@@ -15,11 +15,11 @@ and by metro/regional (the axes the rest of the page uses):
     tracked at 1/2/3-year survival horizons — was a July-2022 venue still licensed in July
     2023 / 2024 / 2025? The reader picks the horizon; survival falls with time but stays flat
     across distance. Keyed by horizon_years, not cohort_year.
-  * charts 17/18/22 (chart_sa2_survival.csv): the same July-2022 base cohort as chart-16,
+  * charts 17/18/20/22 (chart_sa2_survival.csv): the same July-2022 base cohort as chart-16,
     with one row per SA2 and separate 1/2/3-year survival columns. The charts pick a horizon
     with a Vega-Lite param while the TopoJSON lookups stay one-to-one.
-  * chart-20 (chart_sa2_hospitality_health.csv): the §3 hero cohort (HERO_COHORT_YEAR) at
-    the fixed two-year window, because it measures net active-venue growth, not survival rate.
+  * chart_sa2_hospitality_health.csv: legacy net active-venue growth companion from the
+    §3 hero cohort (HERO_COHORT_YEAR), retained for audit/backtracking but no longer mounted.
 
 This is association only: a ceased licence can be a sale/relocation/rename, not just a
 failure, and proximity is confounded with the metro/regional divide. See wiki/domain/topic.md.
@@ -74,9 +74,9 @@ SA2_SUMMARY = OUT / "sa2_summary_web.csv"
 SURVIVAL_WINDOW_YEARS = 2  # cohort year Y is measured against the year Y+2 snapshot
 SNAPSHOT_RE = re.compile(r"licences_(\d{4})-07\.xlsx$")
 
-# Charts 16/17/18/22 carry the survival-horizon selector over the July 2022 base cohort.
-# Chart-20 still uses the 2023→2025 hero pair because it measures net active-venue growth,
-# not survival rate.
+# Charts 16/17/18/20/22 carry the survival-horizon selector over the July 2022 base cohort.
+# The legacy hospitality-health CSV still uses the 2023→2025 hero pair because it measures
+# net active-venue growth, not survival rate.
 HERO_COHORT_YEAR = 2023
 
 # chart-16 tracks ONE cohort (July CHART16_BASE_YEAR) and lets the reader pick how long
@@ -404,7 +404,8 @@ def main() -> int:
     sa2.to_csv(OUT / "chart_sa2_survival.csv", index=False)
     log(f"wrote chart_sa2_survival.csv ({len(sa2)} SA2 rows, wide 1/2/3-year survival)")
 
-    # chart-20 stays on the hero cohort — fall back to the latest cohort if 2023 is absent
+    # Legacy hospitality-health CSV stays on the hero cohort — fall back to the latest
+    # cohort if 2023 is absent.
     cohort_years = sorted(venues["cohort_year"].unique())
     hero = HERO_COHORT_YEAR if HERO_COHORT_YEAR in cohort_years else cohort_years[-1]
     hero_venues = venues[venues["cohort_year"] == hero]
