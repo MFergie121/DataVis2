@@ -97,17 +97,17 @@
       ],
       "mark": {
         "type": "text",
-        "align": "left",
+        "align": "center",
         "baseline": "bottom",
         "dy": -3,
         "fontSize": 10,
         "fontStyle": "italic",
-        "color": "#8c8c8c"
+        "color": "#8c8c8c",
+        "x": {
+          "expr": "width / 2"
+        }
       },
       "encoding": {
-        "x": {
-          "value": 5
-        },
         "y": {
           "field": "floor",
           "type": "quantitative",

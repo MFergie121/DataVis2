@@ -1,11 +1,11 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Chart 18 — Where venues last, mapped. Survival of the July 2022 liquor-licence cohort by SA2 at the selected 1/2/3-year horizon, on the same equal-area projection of Victoria as the other choropleths. Colour carries survival; it declines as the horizon lengthens, but there is still no obvious 'near the city / near transport' advantage — the spatial echo of chart-17. SA2s with fewer than 5 cohort venues are left ungraded (grey) to avoid noisy rates. This map is one node of the §3 linked highlight: pick_18 captures a clicked SA2 and selected_sa2 dims every other region, so a single SA2 stays lit on both the map and the scatter at once. Survival is a licence-presence proxy; association only. Data: chart_sa2_survival.csv joined to sa2_summary_simplified.topojson on sa2_code_2021.",
+  "description": "Chart 18 — Where venues last, mapped. Survival of the July 2022 liquor-licence cohort by SA2 at the selected 1/2/3-year horizon, on the same equal-area projection of Victoria as the other choropleths. Colour carries fixed survival classes (<70%, 70–79%, 80–89%, 90–100%) so the legend means the same thing across horizons; survival declines as the horizon lengthens, but there is still no obvious 'near the city / near transport' advantage — the spatial echo of chart-17. SA2s with fewer than 5 cohort venues are left ungraded (grey) to avoid noisy rates. This map is one node of the §3 linked highlight: pick_18 captures a clicked SA2 and selected_sa2 dims every other region, so a single SA2 stays lit on both the map and the scatter at once. Survival is a licence-presence proxy; association only. Data: chart_sa2_survival.csv joined to sa2_summary_simplified.topojson on sa2_code_2021.",
   "title": {
     "text": "Venues last across most of Victoria — city or country",
     "subtitle": [
       "July 2022 venues by SA2. Pick the survival horizon; click a region to pin it above.",
-      "Grey = fewer than 5 venues (rate too noisy to show).",
+      "Colour uses fixed survival bands; grey = fewer than 5 venues (rate too noisy to show).",
       "Alpine towns still survive at about 94%, despite being far from any train."
     ],
     "anchor": "start",
@@ -113,6 +113,10 @@
         {
           "calculate": "horizonYears + (horizonYears === 1 ? ' year' : ' years')",
           "as": "horizon_label_T"
+        },
+        {
+          "calculate": "datum.survival_rate_T == null ? 'Fewer than 5 venues' : (datum.survival_rate_T < 70 ? '<70%' : (datum.survival_rate_T < 80 ? '70-79%' : (datum.survival_rate_T < 90 ? '80-89%' : '90-100%')))",
+          "as": "survival_class"
         }
       ],
       "mark": {
@@ -122,22 +126,31 @@
       },
       "encoding": {
         "color": {
-          "field": "survival_rate_T",
-          "type": "quantitative",
+          "field": "survival_class",
+          "type": "ordinal",
           "title": [
             "Survived selected",
             "horizon (%)"
           ],
           "scale": {
-            "scheme": "teals",
             "domain": [
-              55,
-              100
+              "<70%",
+              "70-79%",
+              "80-89%",
+              "90-100%",
+              "Fewer than 5 venues"
+            ],
+            "range": [
+              "#ccece6",
+              "#66c2a4",
+              "#238b7d",
+              "#00584f",
+              "#cccccc"
             ]
           },
           "legend": {
-            "format": ".0f",
-            "gradientLength": 160
+            "symbolType": "square",
+            "symbolSize": 150
           }
         },
         "opacity": {
@@ -177,6 +190,11 @@
             "type": "quantitative",
             "title": "Still licensed",
             "format": ".1f"
+          },
+          {
+            "field": "survival_class",
+            "type": "ordinal",
+            "title": "Mapped class"
           },
           {
             "field": "horizon_label_T",
