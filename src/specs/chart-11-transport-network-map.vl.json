@@ -1,6 +1,6 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Chart 11 — Statewide overview of where venues sit against the transport network. Train + tram routes are drawn over precomputed hexagonal venue-density cells (~8 km, built offline by tools/build-hexbins-victoria.mjs). Bus stops were removed from the visible layer so the statewide frame reads cleanly as a venue-density plus rail/tram network map. This is a proximity/context map, not a service-frequency map. Data: venue_hexbins_victoria.topojson (from venues_web.csv); pt_routes_simplified.topojson as lines; sa2_summary_simplified.topojson as the base.",
+  "description": "Chart 11 — Statewide overview of where venues sit against the transport network. Train + tram routes are drawn over precomputed hexagonal venue-density cells (~8 km, built offline by tools/build-hexbins-victoria.mjs), with small train/tram stop dots over the route geometry so each stopping point reads without adding the bus-stop cloud. This is a proximity/context map, not a service-frequency map. Data: venue_hexbins_victoria.topojson (from venues_web.csv); pt_routes_simplified.topojson as lines; transport_stops_web.csv filtered to train/tram stops; sa2_summary_simplified.topojson as the base.",
   "title": {
     "text": "Victoria's venues cluster wherever the transport network is densest",
     "subtitle": [
@@ -108,7 +108,7 @@
       }
     },
     {
-      "description": "Train and tram routes as lines — the legible backbone of where rail/tram public transport runs, drawn over the venue density layer. Direction/express variants collapsed to one feature per route; bus routes and bus stops are intentionally not drawn to keep the statewide frame readable.",
+      "description": "Train and tram routes as lines — the legible backbone of where rail/tram public transport runs, drawn over the venue density layer. Direction/express variants collapsed to one feature per route; bus routes are intentionally not drawn to keep the statewide frame readable.",
       "data": {
         "url": "data/pt_routes_simplified.topojson",
         "format": {
@@ -150,6 +150,43 @@
             "direction": "horizontal"
           }
         }
+      }
+    },
+    {
+      "description": "Train/tram stops only. These small dots make the route strokes read as a stopping network without reintroducing the full bus-stop cloud.",
+      "data": {
+        "url": "data/transport_stops_web.csv"
+      },
+      "transform": [
+        {
+          "filter": "indexof(datum.MODE, 'TRAIN') >= 0 || indexof(datum.MODE, 'TRAM') >= 0"
+        }
+      ],
+      "mark": {
+        "type": "circle",
+        "size": 9,
+        "filled": true,
+        "fill": "#f8f7f1",
+        "stroke": "#26384f",
+        "strokeWidth": 0.45,
+        "opacity": 0.92
+      },
+      "encoding": {
+        "longitude": {
+          "field": "Longitude",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "Latitude",
+          "type": "quantitative"
+        },
+        "tooltip": [
+          {
+            "field": "MODE",
+            "type": "nominal",
+            "title": "Stop mode"
+          }
+        ]
       }
     },
     {
