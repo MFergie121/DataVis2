@@ -106,6 +106,10 @@
           "#1b9e77",
           "#d95f02"
         ]
+      },
+      "legend": {
+        "orient": "bottom",
+        "direction": "horizontal"
       }
     }
   },
@@ -138,7 +142,11 @@
               400
             ]
           },
-          "legend": { "format": ",.0f" }
+          "legend": {
+            "orient": "bottom",
+            "direction": "horizontal",
+            "format": ",.0f"
+          }
         },
         "opacity": {
           "condition": {
