@@ -129,7 +129,8 @@
         }
       ],
       "mark": {
-        "type": "circle"
+        "type": "circle",
+        "clip": true
       },
       "encoding": {
         "size": {
@@ -225,6 +226,7 @@
       ],
       "mark": {
         "type": "line",
+        "clip": true,
         "strokeWidth": 3
       }
     },
