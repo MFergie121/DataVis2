@@ -2,11 +2,10 @@
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "description": "Chart 22 — Access AND survival on one map (bivariate choropleth), Greater Melbourne. The §3 spatial synthesis: instead of asking the reader to scan the access map (chart-03) against the survival map (chart-18), both quantities are fused into a single area mark via a 3x3 bivariate colour scheme. Each SA2 is classed into access tertiles (share of venues within 400 m of a stop; cuts 88.9 / 97.8, computed over the 218 graded Melbourne SA2s) and survival tertiles (two-year licence survival; cuts 85.0 / 90.3), giving a 0-8 class. Colour carries both: cyan = high access only, magenta = high survival only, dark blue = both high, light grey = both low. If proximity drove survival, the high-access inner suburbs would crowd the dark-blue 'both high' corner. They don't — they read mostly cyan (high access, ordinary survival), the visible form of the flat-to-slightly-negative access-survival relationship (Pearson r = -0.13 across Melbourne; mean survival 86.9% in the top access tertile vs 89.3% in the bottom). Vega-Lite has no bivariate-choropleth idiom: the two tertile classes and their combined index are built in-spec by calculate transforms, and the 9-colour lookup is a hand-built ordinal scale. The companion 3x3 matrix legend (chart-22-bivariate-legend) decodes the colours. This map is a node of the §3 linked highlight: pick_22 captures a clicked SA2 and selected_sa2 (driven from the scatter chart-17, the maps, or the 'find your suburb' box) dims every other region. Survival is a licence-presence proxy; association only. Data: chart_sa2_survival.csv joined to sa2_melbourne.topojson on sa2_code_2021.",
   "title": {
-    "text": "Access and survival, together — Greater Melbourne",
+    "text": "Inner Melbourne glows cyan — high access, but the survival edge isn't there",
     "subtitle": [
-      "Cyan = lots of access. Magenta = high survival. Dark blue = both.",
-      "The inner, transport-rich suburbs read cyan, not dark blue:",
-      "access without the survival edge."
+      "Each SA2 coloured by access (→) and two-year survival (↑) · dark blue = high on both.",
+      "Cyan = access only, magenta = survival only · 224 SA2s in Greater Melbourne · correlation −0.13."
     ],
     "anchor": "start",
     "subtitleFontStyle": "italic"

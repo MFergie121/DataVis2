@@ -4,8 +4,8 @@
   "title": {
     "text": "Venue density hugs the network — inner Melbourne",
     "subtitle": [
-      "The heatmap belongs here: density piles up on the tram grid and train corridors,",
-      "not just on 'Melbourne' as a whole."
+      "Each hex ≈ 1 km² · train and tram routes overlaid · venue count drives hex colour.",
+      "Proximity to a stop, not service frequency."
     ],
     "anchor": "start",
     "subtitleFontStyle": "italic"

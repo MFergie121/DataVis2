@@ -2,10 +2,10 @@
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "description": "Chart 20 — Access vs Hospitality Health by SA2. One dot per SA2 with at least 10 active venues in July 2023: public-transport access (share of 2023 active venues within 400 m of a stop, x) against net active-venue growth from July 2023 to July 2025 (y), coloured Metro/Regional and sized by the 2023 active venue count. This complements chart-17's fixed-cohort survival view: survival asks whether the same licences persisted; this chart asks whether each SA2's hospitality ecosystem grew or shrank overall. Association only. Data: chart_sa2_hospitality_health.csv.",
   "title": {
-    "text": "Transport-rich areas are not necessarily healthier hospitality areas",
+    "text": "Net venue count growth shows no proximity edge either",
     "subtitle": [
-      "Each dot is an SA2. The chart compares public-transport proximity with active",
-      "hospitality venue growth from 2023 to 2025."
+      "Each dot is an SA2 · net change in active licences, July 2023 → July 2025 · n = 452 SA2s.",
+      "Reference line at 0% — positive means the area's venue count grew."
     ],
     "anchor": "start",
     "subtitleFontStyle": "italic"

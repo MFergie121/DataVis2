@@ -2,10 +2,10 @@
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "description": "Chart 11 — Statewide overview of where venues sit against the transport network. Train + tram ROUTES (where public transport runs) are drawn over the full mesh of ~31,170 PT STOPS (where you can get on), with venues shown as precomputed hexagonal density cells (~8 km, built offline by tools/build-hexbins-victoria.mjs). This is a proximity/context map, not a service map — lines show where routes go and dots show where stops are, never when or how often services run. Full-width and tall so Victoria fills the frame and the route skeleton is legible. Data: venue_hexbins_victoria.topojson (from venues_web.csv); transport_stops_web.csv as stop points; pt_routes_simplified.topojson as lines; sa2_summary_simplified.topojson as the base.",
   "title": {
-    "text": "Venues and public transport — Victoria",
+    "text": "Victoria's venues cluster wherever the transport network is densest",
     "subtitle": [
-      "Venue density, stops, and train/tram routes in one statewide frame.",
-      "Proximity, not service frequency."
+      "Venue density (warm circles), stops and train/tram routes · statewide frame.",
+      "Proximity to a stop, not service frequency."
     ],
     "anchor": "start"
   },

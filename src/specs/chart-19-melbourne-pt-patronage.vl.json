@@ -105,6 +105,7 @@
         "opacity": 0.7
       },
       "encoding": {
+        "x": null,
         "y": {
           "field": "baseline",
           "type": "quantitative"

@@ -10,8 +10,8 @@
     "anchor": "start",
     "subtitleFontStyle": "italic"
   },
-  "width": { "step": 34 },
-  "height": { "step": 34 },
+  "width": { "step": 44 },
+  "height": { "step": 44 },
   "data": {
     "sequence": { "start": 0, "stop": 100, "as": "index" }
   },
