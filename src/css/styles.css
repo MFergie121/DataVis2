@@ -32,7 +32,7 @@
   --bg-soft: #f7f6f2;
 
   /* Layout */
-  --maxw: 1180px;    /* widened to fit two paired charts side by side; prose stays capped at --measure */
+  --maxw: 1120px;    /* shared page width; wide enough for paired charts, but not full-bleed */
   --measure: 68ch;   /* body line length ~60–75 chars */
   --gap: 1.25rem;
 
@@ -132,14 +132,6 @@ body {
 }
 
 .section:first-of-type { border-top: 0; }
-
-/* The opening map pair benefits from width more than prose does. Let only this
-   section use more of a wide laptop viewport while keeping the page text capped. */
-#s1 {
-  width: min(1500px, calc(100vw - 2.5rem));
-  margin-left: 50%;
-  transform: translateX(-50%);
-}
 
 /* The hero (§4) gets the most vertical room. */
 .section--hero {

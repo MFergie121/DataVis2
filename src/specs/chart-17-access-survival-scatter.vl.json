@@ -69,6 +69,9 @@
       "field": "access_share_T",
       "type": "quantitative",
       "title": "Venues within 400 m of a stop (%)",
+      "axis": {
+        "format": ".0f"
+      },
       "scale": {
         "domain": [
           0,
@@ -80,6 +83,9 @@
       "field": "survival_rate_T",
       "type": "quantitative",
       "title": "Venues still licensed at selected horizon (%)",
+      "axis": {
+        "format": ".0f"
+      },
       "scale": {
         "domain": [
           55,
@@ -132,7 +138,7 @@
               400
             ]
           },
-          "legend": { "format": "," }
+          "legend": { "format": ",.0f" }
         },
         "opacity": {
           "condition": {
@@ -177,7 +183,7 @@
             "field": "median_nearest_stop_distance_m",
             "type": "quantitative",
             "title": "Median walk to stop (m)",
-            "format": ","
+            "format": ",.0f"
           },
           {
             "field": "irsad_aus_decile",
@@ -194,7 +200,7 @@
             "field": "cohort_count",
             "type": "quantitative",
             "title": "Venues (2022)",
-            "format": ","
+            "format": ",.0f"
           }
         ]
       }

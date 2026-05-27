@@ -67,6 +67,9 @@
         "y": {
           "field": "floor",
           "type": "quantitative",
+          "axis": {
+            "format": ".0f"
+          },
           "scale": {
             "domain": [
               65,
@@ -108,6 +111,9 @@
         "y": {
           "field": "floor",
           "type": "quantitative",
+          "axis": {
+            "format": ".0f"
+          },
           "scale": {
             "domain": [
               65,
@@ -146,6 +152,9 @@
           "field": "survival_rate_pct",
           "type": "quantitative",
           "title": "Still licensed at the chosen horizon (%)",
+          "axis": {
+            "format": ".0f"
+          },
           "scale": {
             "domain": [
               65,
@@ -194,13 +203,13 @@
             "field": "survived_count",
             "type": "quantitative",
             "title": "Venues surviving",
-            "format": ","
+            "format": ",.0f"
           },
           {
             "field": "cohort_count",
             "type": "quantitative",
             "title": "Venues in band (2022)",
-            "format": ","
+            "format": ",.0f"
           }
         ]
       }
@@ -222,7 +231,10 @@
         },
         "y": {
           "field": "survival_rate_pct",
-          "type": "quantitative"
+          "type": "quantitative",
+          "axis": {
+            "format": ".0f"
+          }
         },
         "color": {
           "field": "metro_regional",

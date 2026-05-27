@@ -1,10 +1,10 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Chart 11 — Statewide overview of where venues sit against the transport network. Train + tram ROUTES (where public transport runs) are drawn over the full mesh of ~31,170 PT STOPS (where you can get on), with venues shown as precomputed hexagonal density cells (~8 km, built offline by tools/build-hexbins-victoria.mjs). This is a proximity/context map, not a service map — lines show where routes go and dots show where stops are, never when or how often services run. Full-width and tall so Victoria fills the frame and the route skeleton is legible. Data: venue_hexbins_victoria.topojson (from venues_web.csv); transport_stops_web.csv as stop points; pt_routes_simplified.topojson as lines; sa2_summary_simplified.topojson as the base.",
+  "description": "Chart 11 — Statewide overview of where venues sit against the transport network. Train + tram routes are drawn over precomputed hexagonal venue-density cells (~8 km, built offline by tools/build-hexbins-victoria.mjs). Bus stops were removed from the visible layer so the statewide frame reads cleanly as a venue-density plus rail/tram network map. This is a proximity/context map, not a service-frequency map. Data: venue_hexbins_victoria.topojson (from venues_web.csv); pt_routes_simplified.topojson as lines; sa2_summary_simplified.topojson as the base.",
   "title": {
     "text": "Victoria's venues cluster wherever the transport network is densest",
     "subtitle": [
-      "Venue density (warm circles), stops and train/tram routes · statewide frame.",
+      "Venue density (warm hexes) with train and tram routes · statewide frame.",
       "Proximity to a stop, not service frequency."
     ],
     "anchor": "start"
@@ -46,52 +46,6 @@
         "fill": "#f0efe9",
         "stroke": "#ffffff",
         "strokeWidth": 0.4
-      }
-    },
-    {
-      "description": "Bus stops in Victoria (METRO BUS, REGIONAL BUS and SKYBUS), drawn as a faint neutral mesh so the dots read as texture showing how dense the bus network is — the 'where you can get on by bus' layer beneath the rail/tram skeleton. Filtered to bus modes only; identified in the legend rather than on hover.",
-      "data": {
-        "url": "data/transport_stops_web.csv"
-      },
-      "transform": [
-        {
-          "filter": "indexof(datum.MODE, 'BUS') >= 0"
-        }
-      ],
-      "mark": {
-        "type": "circle",
-        "size": 2,
-        "opacity": 0.18,
-        "stroke": null
-      },
-      "encoding": {
-        "longitude": {
-          "field": "Longitude",
-          "type": "quantitative"
-        },
-        "latitude": {
-          "field": "Latitude",
-          "type": "quantitative"
-        },
-        "color": {
-          "datum": "Bus stops",
-          "type": "nominal",
-          "title": "Stops",
-          "scale": {
-            "domain": [
-              "Bus stops"
-            ],
-            "range": [
-              "#9aa3ad"
-            ]
-          },
-          "legend": {
-            "symbolType": "circle",
-            "symbolOpacity": 0.9,
-            "symbolSize": 40,
-            "orient": "bottom"
-          }
-        }
       }
     },
     {
@@ -154,7 +108,7 @@
       }
     },
     {
-      "description": "Train and tram routes as lines — the legible backbone of where public transport runs, drawn over the venue density layer. Direction/express variants collapsed to one feature per route; bus routes are intentionally not drawn (they would be spaghetti and blow the data budget) and are represented by the stop mesh instead.",
+      "description": "Train and tram routes as lines — the legible backbone of where rail/tram public transport runs, drawn over the venue density layer. Direction/express variants collapsed to one feature per route; bus routes and bus stops are intentionally not drawn to keep the statewide frame readable.",
       "data": {
         "url": "data/pt_routes_simplified.topojson",
         "format": {

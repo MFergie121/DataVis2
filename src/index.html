@@ -70,10 +70,9 @@
               chart-11 · transport network map
             </div>
             <figcaption class="chart-note">
-              Train and tram lines over every stop (most are bus stops), with
-              venue density added in warm circles. This is where venues and the
-              transport skeleton sit across the state — <strong>not</strong> when
-              services run.
+              Train and tram lines over statewide venue-density hexes. This is
+              where venues and the rail/tram skeleton sit across the state —
+              <strong>not</strong> when services run.
             </figcaption>
           </figure>
 
@@ -97,17 +96,18 @@
         </figure>
       </section>
 
-      <!-- ===== §2 The closeness is real and broad (premise) ===== -->
+      <!-- ===== §2 The transport-built premise ===== -->
       <section class="section" id="s2">
         <p class="kicker">The premise</p>
         <h2 class="section-claim">
-          The closeness is real — and it's everywhere
+          Hospitality is built around the transport mesh
         </h2>
         <div class="prose">
           <p>
-            This isn't a handful of inner-city strips. Across the metropolitan
-            map almost every venue sits within a short walk of a stop, and that
-            closeness barely shifts with wealth. Each region below is an
+            This is not just a few inner-city strips happening to sit near a
+            bus stop. Across the metropolitan map, whole neighbourhood
+            hospitality ecosystems are wrapped around public transport. Each
+            region below is an
             <abbr
               title="ABS Statistical Area Level 2 — a neighbourhood-scale region of roughly 3,000–25,000 people"
               >SA2</abbr
@@ -115,13 +115,11 @@
             from its nearest stop.
           </p>
           <p>
-            Split metro from regional and the apparent income gradient dissolves:
-            inside Melbourne the most and least advantaged neighbourhoods are
-            about equally close to transport — flat across every decile. (Pool
-            the two regions together and a false wealth gradient appears; that's
-            a Simpson's paradox, and it's a trap, not the story.) So you can't
-            duck what's coming by assuming most venues aren't really near a stop.
-            They are.
+            The scatter asks a stronger question than "is there a stop nearby?"
+            It counts how many stops surround the typical venue in each SA2.
+            The large hospitality clusters sit in the stop-rich parts of the
+            network, so the intuitive expectation is reasonable: if transport
+            proximity matters anywhere, surely it should matter here.
           </p>
         </div>
 
@@ -147,7 +145,7 @@
           the scatters.
         </p>
 
-        <!-- §2 pair: access choropleth (chart-03) ▏ its linked scatter (chart-06) -->
+        <!-- §2 pair: access choropleth (chart-03) ▏ stop-richness scatter (chart-06) -->
         <div class="chart-pair">
           <figure class="chart">
             <div id="chart-03" class="chart-mount" data-pending="true">
@@ -157,12 +155,12 @@
 
           <figure class="chart">
             <div id="chart-06" class="chart-mount" data-pending="true">
-              chart-06 · paradox-reveal scatter
+              chart-06 · transport-intensity scatter
             </div>
             <figcaption class="chart-note">
-              Each dot is an SA2. Inside Melbourne (teal) access stays high and
-              flat at every wealth decile; regional SA2s (orange) sit well below.
-              The closeness is broad — not a privilege of the wealthy.
+              Each dot is an SA2 with at least 10 venues. The biggest clusters
+              are not merely close to one stop; they sit where the local stop
+              mesh is thick. That is why the survival test below is worth asking.
             </figcaption>
           </figure>
         </div>
@@ -405,13 +403,18 @@
           tickColor: "#c9c6c0",
           gridColor: "#ececec",
         },
-        numberFormat: ",",
+        // Use fixed-point notation by default so Vega never falls back to labels
+        // like 1e+2 on axes or legends.
+        numberFormat: ",.2~f",
       };
 
       const EMBED_OPTS = {
         config: VL_CONFIG,
         renderer: "canvas",
-        actions: { export: true, source: true, compiled: false, editor: true },
+        // Hide vega-embed's floating three-dot action menu on the submitted page;
+        // it can overlap long in-spec chart titles, and all specs are already
+        // available as human-readable JSON files in this repository.
+        actions: false,
       };
 
       // Manifest: mount id -> spec path. 11 charts across 4 sections.
@@ -464,6 +467,7 @@
       // Charts that emit a click selection: { mounted id, point-selection signal, its store }.
       const CLICK_SOURCES = [
         { id: "chart-03", signal: "sa2_sel", store: "sa2_sel_store" },
+        { id: "chart-06", signal: "pick_06", store: "pick_06_store" },
         { id: "chart-17", signal: "pick_17", store: "pick_17_store" },
         { id: "chart-18", signal: "pick_18", store: "pick_18_store" },
         { id: "chart-22", signal: "pick_22", store: "pick_22_store" },

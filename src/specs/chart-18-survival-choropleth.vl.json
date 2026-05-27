@@ -5,7 +5,8 @@
     "text": "Venues last across most of Victoria — city or country",
     "subtitle": [
       "July 2022 venues by SA2. Pick the survival horizon; click a region to pin it above.",
-      "Grey = fewer than 5 venues (rate too noisy to show)."
+      "Grey = fewer than 5 venues (rate too noisy to show).",
+      "Alpine towns still survive at about 94%, despite being far from any train."
     ],
     "anchor": "start",
     "subtitleFontStyle": "italic"
@@ -192,7 +193,7 @@
             "field": "median_nearest_stop_distance_m",
             "type": "quantitative",
             "title": "Median walk to stop (m)",
-            "format": ","
+            "format": ",.0f"
           },
           {
             "field": "irsad_aus_decile",
@@ -203,46 +204,9 @@
             "field": "cohort_count",
             "type": "quantitative",
             "title": "Venues (2022)",
-            "format": ","
+            "format": ",.0f"
           }
         ]
-      }
-    },
-    {
-      "description": "Callout on the alpine north-east, where venues survive as well as the transport-rich core despite no rail nearby.",
-      "data": {
-        "values": [
-          {
-            "lon": 146.95,
-            "lat": -36.73,
-            "label": "Alpine towns survive ~94% — far from any train"
-          }
-        ]
-      },
-      "mark": {
-        "type": "text",
-        "align": "right",
-        "baseline": "middle",
-        "dx": -10,
-        "fontSize": 12,
-        "fontWeight": "bold",
-        "color": "#0f172a",
-        "stroke": "#ffffff",
-        "strokeWidth": 3
-      },
-      "encoding": {
-        "longitude": {
-          "field": "lon",
-          "type": "quantitative"
-        },
-        "latitude": {
-          "field": "lat",
-          "type": "quantitative"
-        },
-        "text": {
-          "field": "label",
-          "type": "nominal"
-        }
       }
     },
     {

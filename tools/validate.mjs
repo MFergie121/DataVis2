@@ -28,14 +28,15 @@ const pass = (msg) => console.log("  ✓ " + msg);
 const EXPECTED_ROWS = {
   "venues_web.csv": 23658,
   "sa2_summary_web.csv": 524,
-  "chart_scatter_sa2.csv": 524,
   "chart_sa2_hospitality_health.csv": 452,
-  "transport_stops_web.csv": 31145, // every PT stop within Victoria's extent (chart-11 stop mesh; 25 interstate/border stops clipped)
+  "transport_stops_web.csv": 31145, // every PT stop within Victoria's extent; used by access/stop-richness views
   "melbourne_pt_patronage.csv": 290, // §4 chart-19: DOT Victoria monthly metro PT patronage, long format, Jan 2018 – latest (one missing month×mode cell dropped)
   "hospitality_modes.csv": 5, // §4 chart-21: VISTA weighted mode share of hospitality trips, one row per mode group (pooled 2022-23 + 2023-24)
 };
 // Charts 04/05/07/08/09/10 were cut in the "Close without the Cigar" restructure
 // (issue #9); their four orphaned CSVs were deleted and dropped from the map above.
+// The §2 refactor also deleted chart_scatter_sa2.csv because chart-06 now reads
+// sa2_summary_web.csv directly.
 const EXPECTED_CHART_COUNT = 12; // post-chart-22: manifest ↔ mounts ↔ spec files must all agree on this.
 // Companion sub-specs that belong to a chart but are NOT charts themselves: they
 // embed beside their parent (own mount id, own spec file) and are excluded from

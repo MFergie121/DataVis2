@@ -33,6 +33,9 @@
       "field": "access_rate_pct",
       "type": "quantitative",
       "title": "2023 venues within 400 m of public transport (%)",
+      "axis": {
+        "format": ".0f"
+      },
       "scale": {
         "domain": [
           0,
@@ -121,7 +124,7 @@
           "legend": {
             "orient": "bottom",
             "direction": "horizontal",
-            "format": ","
+            "format": ",.0f"
           }
         },
         "tooltip": [
@@ -151,13 +154,13 @@
             "field": "active_venues_2023",
             "type": "quantitative",
             "title": "Active venues 2023",
-            "format": ","
+            "format": ",.0f"
           },
           {
             "field": "active_venues_2025",
             "type": "quantitative",
             "title": "Active venues 2025",
-            "format": ","
+            "format": ",.0f"
           }
         ]
       }

@@ -5,7 +5,8 @@
     "text": "Inner Melbourne glows cyan — high access, but the survival edge isn't there",
     "subtitle": [
       "Each SA2 coloured by access (→) and selected-horizon survival (↑).",
-      "Cyan = access only, magenta = survival only · dark blue = high on both."
+      "Cyan = access only, magenta = survival only · dark blue = high on both.",
+      "If proximity paid off, inner suburbs would be dark blue; instead they mostly read cyan."
     ],
     "anchor": "start",
     "subtitleFontStyle": "italic"
@@ -220,7 +221,7 @@
             "field": "median_nearest_stop_distance_m",
             "type": "quantitative",
             "title": "Median walk to stop (m)",
-            "format": ","
+            "format": ",.0f"
           },
           {
             "field": "irsad_aus_decile",
@@ -231,82 +232,9 @@
             "field": "cohort_count",
             "type": "quantitative",
             "title": "Venues (2022)",
-            "format": ","
+            "format": ",.0f"
           }
         ]
-      }
-    },
-    {
-      "description": "Persuasive callout anchored over the inner-east, restating what the colour shows: the transport-rich core is not the 'both high' corner.",
-      "data": {
-        "values": [
-          {
-            "lon": 145.28,
-            "lat": -37.7,
-            "label": [
-              "If proximity paid off, the inner",
-              "suburbs would be dark blue.",
-              "They're cyan: access, not survival."
-            ]
-          }
-        ]
-      },
-      "mark": {
-        "type": "text",
-        "align": "right",
-        "baseline": "top",
-        "fontSize": 11,
-        "lineHeight": 14,
-        "fontWeight": "bold",
-        "color": "#3b4994"
-      },
-      "encoding": {
-        "longitude": {
-          "field": "lon",
-          "type": "quantitative"
-        },
-        "latitude": {
-          "field": "lat",
-          "type": "quantitative"
-        },
-        "text": {
-          "field": "label",
-          "type": "nominal"
-        }
-      }
-    },
-    {
-      "description": "Arrow annotation pointing at the cyan inner-Melbourne cluster — gives a skimmer the spatial pointer without requiring them to read the main callout.",
-      "data": {
-        "values": [
-          {
-            "lon": 145.08,
-            "lat": -37.77,
-            "label": "↙ inner suburbs: cyan here"
-          }
-        ]
-      },
-      "mark": {
-        "type": "text",
-        "align": "left",
-        "baseline": "top",
-        "fontSize": 11,
-        "fontWeight": "bold",
-        "color": "#1a1a1a"
-      },
-      "encoding": {
-        "longitude": {
-          "field": "lon",
-          "type": "quantitative"
-        },
-        "latitude": {
-          "field": "lat",
-          "type": "quantitative"
-        },
-        "text": {
-          "field": "label",
-          "type": "nominal"
-        }
       }
     }
   ]

@@ -46,7 +46,7 @@
     },
     {
       "description": "On-bar count labels so each band's size is readable directly, not only from the axis.",
-      "mark": { "type": "text", "dy": -6, "fontSize": 11, "color": "#5b5b5b" },
+      "mark": { "type": "text", "dy": -6, "fontSize": 14, "color": "#5b5b5b" },
       "encoding": {
         "text": { "aggregate": "count", "type": "quantitative", "format": "," }
       }
@@ -63,7 +63,7 @@
         "align": "right",
         "baseline": "top",
         "dx": -6,
-        "fontSize": 10,
+        "fontSize": 13,
         "fontStyle": "italic",
         "color": "#5b5b5b",
         "text": "← 400 m ≈ 5-min walk"
