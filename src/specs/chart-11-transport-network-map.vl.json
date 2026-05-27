@@ -49,14 +49,18 @@
       }
     },
     {
-      "description": "Every public-transport stop in Victoria (all modes), as a faint neutral mesh. Most are bus stops, so the dots read as texture showing how dense the stop network is — the 'where you can get on' layer beneath the rail/tram skeleton.",
+      "description": "Bus stops in Victoria (METRO BUS, REGIONAL BUS and SKYBUS), drawn as a faint neutral mesh so the dots read as texture showing how dense the bus network is — the 'where you can get on by bus' layer beneath the rail/tram skeleton. Filtered to bus modes only; identified in the legend rather than on hover.",
       "data": {
         "url": "data/transport_stops_web.csv"
       },
+      "transform": [
+        {
+          "filter": "indexof(datum.MODE, 'BUS') >= 0"
+        }
+      ],
       "mark": {
         "type": "circle",
         "size": 2,
-        "color": "#9aa3ad",
         "opacity": 0.18,
         "stroke": null
       },
@@ -69,13 +73,24 @@
           "field": "Latitude",
           "type": "quantitative"
         },
-        "tooltip": [
-          {
-            "field": "MODE",
-            "type": "nominal",
-            "title": "Stop mode"
+        "color": {
+          "datum": "Bus stops",
+          "type": "nominal",
+          "title": "Stops",
+          "scale": {
+            "domain": [
+              "Bus stops"
+            ],
+            "range": [
+              "#9aa3ad"
+            ]
+          },
+          "legend": {
+            "symbolType": "circle",
+            "symbolOpacity": 0.9,
+            "symbolSize": 40
           }
-        ]
+        }
       }
     },
     {
@@ -98,8 +113,20 @@
           "type": "quantitative",
           "title": "Venues per cell",
           "scale": {
-            "scheme": "yelloworangered",
-            "type": "sqrt"
+            "type": "threshold",
+            "domain": [
+              10,
+              20,
+              50,
+              100
+            ],
+            "range": [
+              "#bdbdbd",
+              "#fed976",
+              "#fd8d3c",
+              "#e31a1c",
+              "#800026"
+            ]
           },
           "legend": {
             "format": ","
@@ -155,19 +182,7 @@
             "symbolType": "stroke",
             "symbolStrokeWidth": 2
           }
-        },
-        "tooltip": [
-          {
-            "field": "properties.SHORT_NAME",
-            "type": "nominal",
-            "title": "Route"
-          },
-          {
-            "field": "properties.MODE",
-            "type": "nominal",
-            "title": "Mode"
-          }
-        ]
+        }
       }
     }
   ],

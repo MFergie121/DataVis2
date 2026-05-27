@@ -1,91 +1,73 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Chart 21 — How trips to hospitality venues are actually made. Weighted share of Victorian trips whose destination is a pub/bar, restaurant/cafe, nightclub, club, reception centre or social venue (VISTA destplace2), by main mode (linkmode) recoded into five groups, POOLED across the 2022-23 and 2023-24 VISTA Trips waves (n = 2,378 surveyed trips). Public transport is just ~5% of these trips — private vehicle (66%) and walking/cycling (28%) dominate — even though 78% of venues sit within 400 m of a stop. This is the §4 'one possible reason' the §3 proximity bust holds: being near a stop is the baseline, not the way most people get to a venue. Composition snapshot, NOT a trend; rideshare-growth context lives in the §4 prose (Roy Morgan). Public-transport bar is highlighted in the §4 context navy; the others are neutral grey, outside the reserved metro/regional teal-orange. Data: VISTA, DTP Victoria, CC BY 4.0; derived by scripts/derive_hospitality_modes.py.",
+  "description": "Chart 21 — Waffle unit chart: 100 squares each = 1 percentage point of trips to a hospitality or social venue by main mode. VISTA 2022-23 + 2023-24 pooled, 2,378 surveyed trips. Each square is generated inline via a sequence transform — no CSV required. Five navy squares (indices 94–98) are public transport (5.3% rounded to 5), sitting in the bottom-right of the grid against a sea of grey (66 car squares) and light-grey (28 walking squares). The visual makes the 5-vs-66 asymmetry visceral rather than merely numerical. The proximity paradox hook ('yet 78% of venues sit within 400 m of a stop') is embedded in subtitle line 2. Data: VISTA, DTP Victoria, CC BY 4.0; derived by scripts/derive_hospitality_modes.py.",
   "title": {
     "text": "Most people don't take public transport to a venue",
     "subtitle": [
-      "Weighted share of trips to a hospitality or social venue, by main mode.",
-      "VISTA 2022–23 + 2023–24 pooled · 2,378 surveyed trips."
+      "Each square = 1% of trips to a hospitality or social venue · VISTA 2022–23 + 2023–24 pooled · 2,378 trips.",
+      "Five navy squares are public transport — yet 78% of venues sit within 400 m of a stop."
     ],
     "anchor": "start",
     "subtitleFontStyle": "italic"
   },
-  "width": "container",
-  "height": { "step": 44 },
-  "data": { "url": "data/hospitality_modes.csv" },
+  "width": { "step": 34 },
+  "height": { "step": 34 },
+  "data": {
+    "sequence": { "start": 0, "stop": 100, "as": "index" }
+  },
+  "transform": [
+    { "calculate": "datum.index % 10", "as": "col" },
+    { "calculate": "floor(datum.index / 10)", "as": "row" },
+    {
+      "calculate": "datum.index < 66 ? 'Private vehicle' : datum.index < 94 ? 'Walking / cycling' : datum.index < 99 ? 'Public transport' : 'Taxi / rideshare'",
+      "as": "mode_group"
+    },
+    {
+      "calculate": "datum.mode_group == 'Private vehicle' ? '65.7%' : datum.mode_group == 'Walking / cycling' ? '27.5%' : datum.mode_group == 'Public transport' ? '5.3%' : '1.2%'",
+      "as": "share_label"
+    }
+  ],
+  "mark": { "type": "rect", "cornerRadius": 2 },
   "encoding": {
+    "x": {
+      "field": "col",
+      "type": "ordinal",
+      "title": null,
+      "axis": null,
+      "scale": { "paddingInner": 0.08, "paddingOuter": 0.04 }
+    },
     "y": {
+      "field": "row",
+      "type": "ordinal",
+      "title": null,
+      "axis": null,
+      "scale": { "paddingInner": 0.08, "paddingOuter": 0.04 }
+    },
+    "color": {
       "field": "mode_group",
       "type": "nominal",
       "title": null,
-      "sort": ["Private vehicle", "Walking / cycling", "Public transport", "Taxi / rideshare", "Other"],
-      "axis": { "labelFontSize": 12, "labelLimit": 180 }
+      "scale": {
+        "domain": ["Private vehicle", "Walking / cycling", "Public transport", "Taxi / rideshare"],
+        "range": ["#9aa3ad", "#c5cad0", "#1f4e79", "#7a8390"]
+      },
+      "legend": {
+        "orient": "bottom",
+        "columns": 2,
+        "labelFontSize": 12,
+        "labelColor": "#3a3f47",
+        "symbolSize": 120,
+        "columnPadding": 16,
+        "rowPadding": 4
+      }
     },
-    "x": {
-      "field": "share_pct",
-      "type": "quantitative",
-      "title": "Share of trips to a hospitality venue (%)",
-      "scale": { "domain": [0, 72] },
-      "axis": { "grid": false, "ticks": false, "labelFlush": true }
-    }
+    "tooltip": [
+      { "field": "mode_group", "title": "Mode" },
+      { "field": "share_label", "title": "Share of trips" }
+    ]
   },
-  "layer": [
-    {
-      "mark": { "type": "bar", "height": 22, "cornerRadiusEnd": 2 },
-      "encoding": {
-        "color": {
-          "field": "mode_group",
-          "type": "nominal",
-          "legend": null,
-          "scale": {
-            "domain": ["Private vehicle", "Walking / cycling", "Public transport", "Taxi / rideshare", "Other"],
-            "range": ["#9aa3ad", "#9aa3ad", "#1f4e79", "#9aa3ad", "#9aa3ad"]
-          }
-        },
-        "tooltip": [
-          { "field": "mode_group", "type": "nominal", "title": "Mode group" },
-          { "field": "share_pct", "type": "quantitative", "title": "Share of hospitality trips (%)", "format": ".1f" },
-          { "field": "weighted_trips", "type": "quantitative", "title": "Weighted trips (pooled)", "format": "," },
-          { "field": "n_unweighted", "type": "quantitative", "title": "Surveyed trips (n)", "format": "," }
-        ]
-      }
-    },
-    {
-      "mark": { "type": "text", "align": "left", "dx": 5, "fontSize": 12, "color": "#3a3f47" },
-      "encoding": {
-        "text": { "field": "share_pct", "type": "quantitative", "format": ".1f" }
-      }
-    },
-    {
-      "data": {
-        "values": [
-          {
-            "mode_group": "Public transport",
-            "share_pct": 5.3,
-            "note": ["Only ~5% by public transport —", "yet 78% of venues sit within", "400 m of a stop. Near a stop is", "the baseline, not the advantage."]
-          }
-        ]
-      },
-      "mark": {
-        "type": "text",
-        "align": "left",
-        "baseline": "middle",
-        "dx": 44,
-        "dy": 1,
-        "fontSize": 11,
-        "fontStyle": "italic",
-        "lineHeight": 14,
-        "color": "#1f4e79"
-      },
-      "encoding": {
-        "x": { "field": "share_pct", "type": "quantitative" },
-        "y": { "field": "mode_group", "type": "nominal" },
-        "text": { "field": "note", "type": "nominal" }
-      }
-    }
-  ],
   "config": {
     "view": { "stroke": null },
-    "axis": { "labelColor": "#3a3f47", "titleColor": "#3a3f47", "titleFontSize": 12 }
+    "axis": { "labelColor": "#3a3f47", "titleColor": "#3a3f47" }
   }
 }

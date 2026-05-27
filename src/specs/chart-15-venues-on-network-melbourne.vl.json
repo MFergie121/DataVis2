@@ -69,12 +69,23 @@
           "type": "quantitative",
           "title": "Venues per hex",
           "scale": {
-            "scheme": "yelloworangered",
-            "type": "sqrt"
+            "type": "threshold",
+            "domain": [
+              10,
+              20,
+              50,
+              100
+            ],
+            "range": [
+              "#bdbdbd",
+              "#fed976",
+              "#fd8d3c",
+              "#e31a1c",
+              "#800026"
+            ]
           },
           "legend": {
-            "format": ".0f",
-            "gradientLength": 160
+            "format": ","
           }
         },
         "tooltip": [
@@ -127,19 +138,7 @@
             "symbolType": "stroke",
             "symbolStrokeWidth": 2
           }
-        },
-        "tooltip": [
-          {
-            "field": "properties.SHORT_NAME",
-            "type": "nominal",
-            "title": "Route"
-          },
-          {
-            "field": "properties.MODE",
-            "type": "nominal",
-            "title": "Mode"
-          }
-        ]
+        }
       }
     }
   ],
