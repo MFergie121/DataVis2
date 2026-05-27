@@ -32,7 +32,7 @@
   --bg-soft: #f7f6f2;
 
   /* Layout */
-  --maxw: 900px;     /* single centred column */
+  --maxw: 1180px;    /* widened to fit two paired charts side by side; prose stays capped at --measure */
   --measure: 68ch;   /* body line length ~60–75 chars */
   --gap: 1.25rem;
 
@@ -147,18 +147,23 @@ body {
   margin: 1.25rem 0;
 }
 
-/* Side-by-side map pairs (§1): two columns on a laptop, stacking to one
-   on narrow screens. minmax keeps each map readable; auto-fit drops to a
-   single column below ~2×300px so there is never horizontal scroll. */
-.map-row {
+/* Side-by-side chart pairs: two columns on a laptop, stacking to one on
+   narrow screens. Holds map+map (§1), map+scatter (§2), scatter+scatter (§3)
+   and line+waffle (§4). minmax(440px) keeps each chart — maps included —
+   readable; auto-fit drops to a single column below ~2×440px+gap (~920px
+   container) so there is never horizontal scroll. align-start tolerates the
+   unequal heights of paired charts/captions. */
+.chart-pair {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  /* min(440px, 100%) caps the track at the container width on phones narrower
+     than 440px, so a collapsed single column never overflows / clips. */
+  grid-template-columns: repeat(auto-fit, minmax(min(440px, 100%), 1fr));
   gap: var(--gap);
   align-items: start;
   margin: 1.25rem 0;
 }
 
-.map-row .chart {
+.chart-pair .chart {
   margin: 0;
   min-width: 0; /* let grid tracks shrink so wide canvases don't force overflow */
 }

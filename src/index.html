@@ -63,29 +63,32 @@
           </p>
         </div>
 
-        <figure class="chart">
-          <div id="chart-11" class="chart-mount" data-pending="true">
-            chart-11 · transport network map
-          </div>
-          <figcaption class="chart-note">
-            Train and tram lines over every stop (most are bus stops), with
-            venue density added in warm circles. This is where venues and the
-            transport skeleton sit across the state — <strong>not</strong> when
-            services run.
-          </figcaption>
-        </figure>
+        <!-- §1 pair: statewide (chart-11) ▏ Melbourne zoom (chart-15) -->
+        <div class="chart-pair">
+          <figure class="chart">
+            <div id="chart-11" class="chart-mount" data-pending="true">
+              chart-11 · transport network map
+            </div>
+            <figcaption class="chart-note">
+              Train and tram lines over every stop (most are bus stops), with
+              venue density added in warm circles. This is where venues and the
+              transport skeleton sit across the state — <strong>not</strong> when
+              services run.
+            </figcaption>
+          </figure>
 
-        <figure class="chart">
-          <div id="chart-15" class="chart-mount" data-pending="true">
-            chart-15 · venues on the network (Melbourne)
-          </div>
-          <figcaption class="chart-note">
-            A hexbin density map of venues sits underneath; the tram grid and
-            train lines are drawn on top. At city scale, counts per hex read far
-            better than raw points — and the venue clusters visibly collect
-            around the public-transport network.
-          </figcaption>
-        </figure>
+          <figure class="chart">
+            <div id="chart-15" class="chart-mount" data-pending="true">
+              chart-15 · venues on the network (Melbourne)
+            </div>
+            <figcaption class="chart-note">
+              A hexbin density map of venues sits underneath; the tram grid and
+              train lines are drawn on top. At city scale, counts per hex read far
+              better than raw points — and the venue clusters visibly collect
+              around the public-transport network.
+            </figcaption>
+          </figure>
+        </div>
 
         <figure class="chart">
           <div id="chart-02" class="chart-mount" data-pending="true">
@@ -122,40 +125,47 @@
           </p>
         </div>
 
-        <figure class="chart">
-          <div class="link-control" id="link-hint">
-            <label class="suburb-label" for="suburb-input">Find your suburb:</label>
-            <input
-              list="sa2-list"
-              id="suburb-input"
-              class="suburb-input"
-              type="text"
-              placeholder="Type an SA2, e.g. Fitzroy"
-              autocomplete="off"
-            />
-            <datalist id="sa2-list"></datalist>
-            <button type="button" id="clear-selection" class="clear-btn" hidden>
-              Clear selection ✕
-            </button>
-          </div>
-          <p class="chart-note">
-            Pick a suburb (or click any region) to highlight it on both maps and
-            the scatters below.
-          </p>
-          <div id="chart-03" class="chart-mount" data-pending="true">
-            chart-03 · access choropleth
-          </div>
-        </figure>
+        <!-- Linked-selection control drives BOTH charts in the pair below, so it
+             sits full-width above them rather than inside either figure. -->
+        <div class="link-control" id="link-hint">
+          <label class="suburb-label" for="suburb-input">Find your suburb:</label>
+          <input
+            list="sa2-list"
+            id="suburb-input"
+            class="suburb-input"
+            type="text"
+            placeholder="Type an SA2, e.g. Fitzroy"
+            autocomplete="off"
+          />
+          <datalist id="sa2-list"></datalist>
+          <button type="button" id="clear-selection" class="clear-btn" hidden>
+            Clear selection ✕
+          </button>
+        </div>
+        <p class="chart-note">
+          Pick a suburb (or click any region) to highlight it on both maps and
+          the scatters.
+        </p>
 
-        <figure class="chart">          <div id="chart-06" class="chart-mount" data-pending="true">
-            chart-06 · paradox-reveal scatter
-          </div>
-          <figcaption class="chart-note">
-            Each dot is an SA2. Inside Melbourne (teal) access stays high and
-            flat at every wealth decile; regional SA2s (orange) sit well below.
-            The closeness is broad — not a privilege of the wealthy.
-          </figcaption>
-        </figure>
+        <!-- §2 pair: access choropleth (chart-03) ▏ its linked scatter (chart-06) -->
+        <div class="chart-pair">
+          <figure class="chart">
+            <div id="chart-03" class="chart-mount" data-pending="true">
+              chart-03 · access choropleth
+            </div>
+          </figure>
+
+          <figure class="chart">
+            <div id="chart-06" class="chart-mount" data-pending="true">
+              chart-06 · paradox-reveal scatter
+            </div>
+            <figcaption class="chart-note">
+              Each dot is an SA2. Inside Melbourne (teal) access stays high and
+              flat at every wealth decile; regional SA2s (orange) sit well below.
+              The closeness is broad — not a privilege of the wealthy.
+            </figcaption>
+          </figure>
+        </div>
       </section>
 
       <!-- ===== §3 The bust (hero) ===== -->
@@ -212,26 +222,32 @@
           </div>
         </figure>
 
-        <figure class="chart">          <div id="chart-17" class="chart-mount" data-pending="true">
-            chart-17 · access × survival scatter
-          </div>
-          <figcaption class="chart-note">
-            The dashed grey line is a hypothetical, not a fitted result: what
-            survival <em>would</em> look like if proximity gave a modest lift
-            (about six points across the full access range). The solid lines are
-            what the data actually shows — flat.
-          </figcaption>
-        </figure>
+        <!-- §3 pair: the two companion scatters — access × survival (chart-17)
+             ▏ access × net hospitality health (chart-20). -->
+        <div class="chart-pair">
+          <figure class="chart">
+            <div id="chart-17" class="chart-mount" data-pending="true">
+              chart-17 · access × survival scatter
+            </div>
+            <figcaption class="chart-note">
+              The dashed grey line is a hypothetical, not a fitted result: what
+              survival <em>would</em> look like if proximity gave a modest lift
+              (about six points across the full access range). The solid lines are
+              what the data actually shows — flat.
+            </figcaption>
+          </figure>
 
-        <figure class="chart">          <div id="chart-20" class="chart-mount" data-pending="true">
-            chart-20 · access × hospitality health scatter
-          </div>
-          <figcaption class="chart-note">
-            This companion view counts each SA2's active licences in July 2023
-            and July 2025. It includes churn and new openings, so it measures
-            net local growth rather than whether the same venues survived.
-          </figcaption>
-        </figure>
+          <figure class="chart">
+            <div id="chart-20" class="chart-mount" data-pending="true">
+              chart-20 · access × hospitality health scatter
+            </div>
+            <figcaption class="chart-note">
+              This companion view counts each SA2's active licences in July 2023
+              and July 2025. It includes churn and new openings, so it measures
+              net local growth rather than whether the same venues survived.
+            </figcaption>
+          </figure>
+        </div>
 
         <figure class="chart">          <div id="chart-18" class="chart-mount" data-pending="true">
             chart-18 · survival choropleth
@@ -322,22 +338,28 @@
           </p>
         </div>
 
-        <figure class="chart">          <div id="chart-19" class="chart-mount" data-pending="true">
-            chart-19 · Melbourne PT patronage
-          </div>
-        </figure>
+        <!-- §4 pair: PT patronage decline (chart-19) ▏ venue trip mode mix (chart-21).
+             Separate panels, each with its own axis — never a shared scale. -->
+        <div class="chart-pair">
+          <figure class="chart">
+            <div id="chart-19" class="chart-mount" data-pending="true">
+              chart-19 · Melbourne PT patronage
+            </div>
+          </figure>
 
-        <figure class="chart">          <div id="chart-21" class="chart-mount" data-pending="true">
-            chart-21 · how trips to a venue are made
-          </div>
-          <figcaption class="chart-note">
-            Each square represents 1 percentage point of surveyed trips whose
-            destination was a hospitality or social venue (VISTA 2022–23 and
-            2023–24 pooled, 2,378 trips). The single taxi/rideshare square rests
-            on just 22 surveyed trips — read it as a rough order of magnitude,
-            not a precise figure.
-          </figcaption>
-        </figure>
+          <figure class="chart">
+            <div id="chart-21" class="chart-mount" data-pending="true">
+              chart-21 · how trips to a venue are made
+            </div>
+            <figcaption class="chart-note">
+              Each square represents 1 percentage point of surveyed trips whose
+              destination was a hospitality or social venue (VISTA 2022–23 and
+              2023–24 pooled, 2,378 trips). The single taxi/rideshare square rests
+              on just 22 surveyed trips — read it as a rough order of magnitude,
+              not a precise figure.
+            </figcaption>
+          </figure>
+        </div>
       </section>
 
       <!-- ===== Footer ===== -->
