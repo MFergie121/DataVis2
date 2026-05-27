@@ -1,6 +1,6 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Chart 21 — Waffle unit chart: 100 squares each = 1 percentage point of trips to a hospitality or social venue by main mode. VISTA 2022-23 + 2023-24 pooled, 2,378 surveyed trips. Each square is generated inline via a sequence transform — no CSV required. Five navy squares (indices 94–98) are public transport (5.3% rounded to 5), sitting in the bottom-right of the grid against a sea of grey (66 car squares) and light-grey (28 walking squares). The visual makes the 5-vs-66 asymmetry visceral rather than merely numerical. The proximity paradox hook ('yet 78% of venues sit within 400 m of a stop') is embedded in subtitle line 2. Data: VISTA, DTP Victoria, CC BY 4.0; derived by scripts/derive_hospitality_modes.py.",
+  "description": "Chart 21 — Waffle unit chart: 100 squares each = 1 percentage point of trips to a hospitality or social venue by main mode. VISTA 2022-23 + 2023-24 pooled, 2,378 surveyed trips. Each square is generated inline via a sequence transform — no CSV required. The layout is a wide 20x5 grid so the right-hand chart in the final pair reads low and landscape rather than as a tall square. Five navy squares (indices 94–98) are public transport (5.3% rounded to 5), sitting in the bottom-right of the grid against a sea of grey (66 car squares) and light-grey (28 walking squares). The visual makes the 5-vs-66 asymmetry visceral rather than merely numerical. The proximity paradox hook ('yet 78% of venues sit within 400 m of a stop') is embedded in subtitle line 2. Data: VISTA, DTP Victoria, CC BY 4.0; derived by scripts/derive_hospitality_modes.py.",
   "title": {
     "text": "Most people don't take public transport to a venue",
     "subtitle": [
@@ -10,14 +10,14 @@
     "anchor": "start",
     "subtitleFontStyle": "italic"
   },
-  "width": { "step": 44 },
-  "height": { "step": 44 },
+  "width": { "step": 26 },
+  "height": { "step": 26 },
   "data": {
     "sequence": { "start": 0, "stop": 100, "as": "index" }
   },
   "transform": [
-    { "calculate": "datum.index % 10", "as": "col" },
-    { "calculate": "floor(datum.index / 10)", "as": "row" },
+    { "calculate": "datum.index % 20", "as": "col" },
+    { "calculate": "floor(datum.index / 20)", "as": "row" },
     {
       "calculate": "datum.index < 66 ? 'Private vehicle' : datum.index < 94 ? 'Walking / cycling' : datum.index < 99 ? 'Public transport' : 'Taxi / rideshare'",
       "as": "mode_group"

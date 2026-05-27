@@ -58,6 +58,12 @@
           "feature": "venue_hexbins"
         }
       },
+      "transform": [
+        {
+          "calculate": "datum.properties.count < 5 ? '<5' : datum.properties.count < 20 ? '5-19' : datum.properties.count < 50 ? '20-49' : datum.properties.count < 100 ? '50-99' : '100+'",
+          "as": "count_band"
+        }
+      ],
       "mark": {
         "type": "geoshape",
         "stroke": "#ffffff",
@@ -65,16 +71,16 @@
       },
       "encoding": {
         "color": {
-          "field": "properties.count",
-          "type": "quantitative",
+          "field": "count_band",
+          "type": "ordinal",
           "title": "Venues per hex",
           "scale": {
-            "type": "threshold",
             "domain": [
-              5,
-              20,
-              50,
-              100
+              "<5",
+              "5-19",
+              "20-49",
+              "50-99",
+              "100+"
             ],
             "range": [
               "#bdbdbd",
@@ -85,7 +91,11 @@
             ]
           },
           "legend": {
-            "format": ","
+            "orient": "bottom",
+            "direction": "horizontal",
+            "columns": 5,
+            "symbolType": "square",
+            "symbolSize": 100
           }
         },
         "tooltip": [
@@ -136,7 +146,9 @@
           },
           "legend": {
             "symbolType": "stroke",
-            "symbolStrokeWidth": 2
+            "symbolStrokeWidth": 2,
+            "orient": "bottom",
+            "direction": "horizontal"
           }
         }
       }

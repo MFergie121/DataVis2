@@ -1,12 +1,11 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Chart 17 — The bust, dramatised, now testable. One dot per SA2 (>=5 venues in the 2023 cohort): transport access (share of the SA2's venues within the CHOSEN distance of a stop, x) against two-year venue survival (y), coloured metro (teal) / regional (orange), dot size = cohort size. A 'near = 200/400/800 m' slider redefines what counts as access: the calculate transform swaps share_200 / share_400 / share_800 into access_share_T, so every dot slides horizontally as the reader moves the threshold — but survival (y) is threshold-independent (a venue either stayed licensed or didn't), so the cloud only slides sideways. The solid per-region regression lines recompute at each threshold and stay flat-to-slightly-negative at all three (metro slope -0.045 to -0.056, regional -0.011 to -0.026): more access never predicts more survival, however you draw 'near'. The DASHED GREY line is a fixed counterfactual prior, NOT a fitted model and NOT threshold-dependent: it is what the access->survival relationship would look like if proximity gave a modest, defensible lift (+6 survival points across the full 0-100% access range, pivoted through (0, 84.8) and (100, 90.8)). Drawing the hypothetical against the flat reality makes the absence of an effect visible rather than inferred. Two SA2s are ringed as live counter-examples — South Yarra - South (near a stop however you measure it, yet only ~77% survived) and Bright - Mount Beauty (low access, ~94% survived); both rings and their labels are data-driven off access_share_T, so they ride their dots and re-state the correct '% near' at every threshold. The chart is also a linked-highlight node: pick_17 captures a clicked SA2 for the page's cross-chart highlight, and selected_sa2 (driven from the survival choropleth chart-18, the access choropleth chart-03, or the 'find your suburb' box) pins one SA2's dot. Mirrors the premise scatter (chart-06): same idiom, opposite expectation. Survival is a licence-presence proxy; association only. share_400 reproduces chart-03's 400 m definition exactly, so the default view matches the choropleth. Data: chart_sa2_survival.csv (augmented by scripts/derive_access_thresholds.py).",
+  "description": "Chart 17 — The bust, now aligned with chart 16's survival-horizon control. One dot per SA2 (>=5 venues in the July 2022 cohort): fixed public-transport access (share of the SA2's venues within 400 m of a stop, x) against licence survival at the selected 1/2/3-year horizon (y), coloured metro (teal) / regional (orange), dot size = cohort size. The transport definition is intentionally fixed at 400 m, matching the page's access choropleth. The survival horizon is dynamic: a Vega-Lite calculate transform swaps survival_rate_1yr_pct / survival_rate_2yr_pct / survival_rate_3yr_pct into survival_rate_T. The per-region regression lines recompute at each horizon and remain flat, so proximity never becomes a strong survival predictor. Two SA2s are ringed as counter-examples — South Yarra - South (near a stop, low survival) and Bright - Mount Beauty (low access, higher survival); both labels update their survival value with the selected horizon. The chart is also a linked-highlight node: pick_17 captures a clicked SA2 for the page's cross-chart highlight, and selected_sa2 (driven from the survival maps, access choropleth, or the 'find your suburb' box) pins one SA2's dot. Survival is a licence-presence proxy; association only. Data: chart_sa2_survival.csv (from scripts/derive_survival.py, augmented by scripts/derive_access_thresholds.py).",
   "title": {
     "text": "Closer to transport, no better odds of surviving",
     "subtitle": [
-      "Each dot is an SA2. Drag the slider to redefine 'near': the dots slide, but",
-      "the solid trend lines stay flat. The dashed grey line is what a modest payoff",
-      "would have looked like."
+      "Each dot is an SA2. Near is fixed at the assignment's 400 m definition.",
+      "Pick the survival horizon: the years change, but the access-survival line stays flat."
     ],
     "anchor": "start",
     "subtitleFontStyle": "italic"
@@ -23,14 +22,21 @@
   },
   "params": [
     {
-      "name": "nearThreshold",
-      "value": 400,
+      "name": "horizonYears",
+      "value": 2,
       "bind": {
-        "input": "range",
-        "min": 200,
-        "max": 800,
-        "step": 200,
-        "name": "Count a venue as 'near' a stop within (m): "
+        "input": "select",
+        "options": [
+          1,
+          2,
+          3
+        ],
+        "labels": [
+          "1 year (still open July 2023)",
+          "2 years (still open July 2024)",
+          "3 years (still open July 2025)"
+        ],
+        "name": "Survival horizon: "
       }
     },
     {
@@ -46,15 +52,23 @@
       "filter": "datum.access_share_pct != null"
     },
     {
-      "calculate": "nearThreshold === 200 ? datum.share_200 : (nearThreshold === 400 ? datum.share_400 : datum.share_800)",
+      "calculate": "datum.share_400",
       "as": "access_share_T"
+    },
+    {
+      "calculate": "horizonYears === 1 ? datum.survival_rate_1yr_pct : (horizonYears === 2 ? datum.survival_rate_2yr_pct : datum.survival_rate_3yr_pct)",
+      "as": "survival_rate_T"
+    },
+    {
+      "calculate": "horizonYears + (horizonYears === 1 ? ' year' : ' years')",
+      "as": "horizon_label_T"
     }
   ],
   "encoding": {
     "x": {
       "field": "access_share_T",
       "type": "quantitative",
-      "title": "Venues within the chosen distance of a stop (%)",
+      "title": "Venues within 400 m of a stop (%)",
       "scale": {
         "domain": [
           0,
@@ -63,12 +77,12 @@
       }
     },
     "y": {
-      "field": "survival_rate_pct",
+      "field": "survival_rate_T",
       "type": "quantitative",
-      "title": "Venues still licensed two years later (%)",
+      "title": "Venues still licensed at selected horizon (%)",
       "scale": {
         "domain": [
-          70,
+          55,
           100
         ]
       }
@@ -111,7 +125,7 @@
         "size": {
           "field": "cohort_count",
           "type": "quantitative",
-          "title": "Venues (2023)",
+          "title": "Venues (2022)",
           "scale": {
             "range": [
               20,
@@ -151,8 +165,13 @@
           {
             "field": "access_share_T",
             "type": "quantitative",
-            "title": "Within chosen distance",
+            "title": "Within 400 m of a stop",
             "format": ".0f"
+          },
+          {
+            "field": "horizon_label_T",
+            "type": "nominal",
+            "title": "Survival horizon"
           },
           {
             "field": "median_nearest_stop_distance_m",
@@ -166,75 +185,24 @@
             "title": "SEIFA decile"
           },
           {
-            "field": "survival_rate_pct",
+            "field": "survival_rate_T",
             "type": "quantitative",
-            "title": "Survived 2 yrs",
+            "title": "Still licensed",
             "format": ".1f"
           },
           {
             "field": "cohort_count",
             "type": "quantitative",
-            "title": "Venues (2023)",
+            "title": "Venues (2022)",
             "format": ","
           }
         ]
       }
     },
     {
-      "description": "Counterfactual prior (hypothetical, NOT fitted, NOT threshold-dependent): a modest +6-point survival lift across the full access range, pivoted through the observed grand mean. Endpoints (0, 84.8) and (100, 90.8).",
-      "data": {
-        "values": [
-          {
-            "access_share_T": 0,
-            "survival_rate_pct": 84.8
-          },
-          {
-            "access_share_T": 100,
-            "survival_rate_pct": 90.8
-          }
-        ]
-      },
-      "mark": {
-        "type": "line",
-        "strokeDash": [
-          6,
-          4
-        ],
-        "strokeWidth": 2,
-        "color": "#8c8c8c"
-      },
-      "encoding": {
-        "color": null
-      }
-    },
-    {
-      "description": "Label for the counterfactual line, placed just above the sparse low-access end so the dashed line does not run through the text.",
-      "data": {
-        "values": [
-          {
-            "access_share_T": 6,
-            "survival_rate_pct": 89.2
-          }
-        ]
-      },
-      "mark": {
-        "type": "text",
-        "align": "left",
-        "baseline": "bottom",
-        "dy": -4,
-        "color": "#8c8c8c",
-        "fontStyle": "italic",
-        "fontSize": 11,
-        "text": "if proximity helped (hypothetical)"
-      },
-      "encoding": {
-        "color": null
-      }
-    },
-    {
       "transform": [
         {
-          "regression": "survival_rate_pct",
+          "regression": "survival_rate_T",
           "on": "access_share_T",
           "groupby": [
             "metro_regional_majority"
@@ -247,7 +215,7 @@
       }
     },
     {
-      "description": "Counter-example rings, data-driven so they ride their dots as the threshold changes: South Yarra - South (206061516) and Bright - Mount Beauty (204031069).",
+      "description": "Counter-example rings at the fixed 400 m access definition: South Yarra - South (206061516) and Bright - Mount Beauty (204031069).",
       "transform": [
         {
           "filter": "datum.sa2_code_2021 == '206061516' || datum.sa2_code_2021 == '204031069'"
@@ -267,13 +235,13 @@
       }
     },
     {
-      "description": "Dynamic label for the high-access / low-survival counter-example (South Yarra - South); the '% near' restates correctly at every threshold.",
+      "description": "Dynamic compact multi-line label for the high-access / low-survival counter-example (South Yarra - South); survival updates with the selected horizon.",
       "transform": [
         {
           "filter": "datum.sa2_code_2021 == '206061516'"
         },
         {
-          "calculate": "'South Yarra — ' + format(datum.access_share_T, '.0f') + '% near a stop, just ' + format(datum.survival_rate_pct, '.0f') + '% survived'",
+          "calculate": "['South Yarra', format(datum.access_share_T, '.0f') + '% near', format(datum.survival_rate_T, '.0f') + '% survived']",
           "as": "calloutLabel"
         }
       ],
@@ -282,6 +250,7 @@
         "align": "right",
         "baseline": "middle",
         "dx": -12,
+        "lineHeight": 13,
         "fontSize": 11,
         "color": "#1a1a1a"
       },
@@ -294,13 +263,13 @@
       }
     },
     {
-      "description": "Dynamic label for the low-access / high-survival counter-example (Bright - Mount Beauty).",
+      "description": "Dynamic compact multi-line label for the low-access / higher-survival counter-example (Bright - Mount Beauty).",
       "transform": [
         {
           "filter": "datum.sa2_code_2021 == '204031069'"
         },
         {
-          "calculate": "'Bright–Mt Beauty — only ' + format(datum.access_share_T, '.0f') + '% near a stop, ' + format(datum.survival_rate_pct, '.0f') + '% survived'",
+          "calculate": "['Bright–Mt Beauty', 'only ' + format(datum.access_share_T, '.0f') + '% near', format(datum.survival_rate_T, '.0f') + '% survived']",
           "as": "calloutLabel"
         }
       ],
@@ -309,6 +278,7 @@
         "align": "left",
         "baseline": "middle",
         "dx": 12,
+        "lineHeight": 13,
         "fontSize": 11,
         "color": "#1a1a1a"
       },
@@ -321,7 +291,7 @@
       }
     },
     {
-      "description": "Corner readout of the active threshold, so the reader always knows how 'near' is currently defined (mirrors chart-16's cohort-year label).",
+      "description": "Corner readout of the active survival horizon and fixed access threshold.",
       "data": {
         "values": [
           {}
@@ -339,7 +309,7 @@
         },
         "y": 4,
         "text": {
-          "expr": "'near = within ' + nearThreshold + ' m of a stop'"
+          "expr": "'near = within 400 m; survival = ' + horizonYears + (horizonYears === 1 ? ' year' : ' years')"
         }
       },
       "encoding": {
@@ -347,12 +317,12 @@
       }
     },
     {
-      "description": "Label for the actual (solid) regression lines — mirrors the dashed counterfactual label so both lines are named.",
+      "description": "Label for the actual (solid) regression lines.",
       "data": {
         "values": [
           {
             "access_share_T": 82,
-            "survival_rate_pct": 88.3
+            "survival_rate_T": 81
           }
         ]
       },
@@ -372,6 +342,34 @@
           "type": "quantitative"
         },
         "y": {
+          "field": "survival_rate_T",
+          "type": "quantitative"
+        },
+        "color": null
+      }
+    },
+    {
+      "description": "Dynamic horizontal reference rule at the Metro within-400m group mean survival for the selected horizon.",
+      "data": {
+        "url": "data/chart_survival_summary.csv"
+      },
+      "transform": [
+        {
+          "filter": "datum.horizon_years == horizonYears && datum.metro_regional == 'Metro' && datum.proximity == 'Within 400 m of a stop'"
+        }
+      ],
+      "mark": {
+        "type": "rule",
+        "strokeDash": [
+          3,
+          3
+        ],
+        "strokeWidth": 1,
+        "color": "#888",
+        "strokeOpacity": 0.7
+      },
+      "encoding": {
+        "y": {
           "field": "survival_rate_pct",
           "type": "quantitative"
         },
@@ -379,14 +377,52 @@
       }
     },
     {
-      "description": "Horizontal reference rule at the within-400m group mean survival (87.6%).",
+      "description": "Dynamic label for the Metro within-400m group mean.",
       "data": {
-        "values": [
-          {
-            "y_val": 87.6
-          }
-        ]
+        "url": "data/chart_survival_summary.csv"
       },
+      "transform": [
+        {
+          "filter": "datum.horizon_years == horizonYears && datum.metro_regional == 'Metro' && datum.proximity == 'Within 400 m of a stop'"
+        },
+        {
+          "calculate": "'within 400 m avg. = ' + format(datum.survival_rate_pct, '.1f') + '%'",
+          "as": "label"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "bottom",
+        "dy": -2,
+        "fontSize": 10,
+        "color": "#555"
+      },
+      "encoding": {
+        "x": {
+          "value": 4
+        },
+        "y": {
+          "field": "survival_rate_pct",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "label",
+          "type": "nominal"
+        },
+        "color": null
+      }
+    },
+    {
+      "description": "Dynamic horizontal reference rule at the Metro further-than-400m group mean survival for the selected horizon.",
+      "data": {
+        "url": "data/chart_survival_summary.csv"
+      },
+      "transform": [
+        {
+          "filter": "datum.horizon_years == horizonYears && datum.metro_regional == 'Metro' && datum.proximity == 'Further than 400 m'"
+        }
+      ],
       "mark": {
         "type": "rule",
         "strokeDash": [
@@ -399,22 +435,26 @@
       },
       "encoding": {
         "y": {
-          "field": "y_val",
+          "field": "survival_rate_pct",
           "type": "quantitative"
         },
         "color": null
       }
     },
     {
-      "description": "Label for the within-400m group mean — pins the 87.6% prose statistic onto the y-axis.",
+      "description": "Dynamic label for the Metro further-than-400m group mean.",
       "data": {
-        "values": [
-          {
-            "x_val": 4,
-            "y_val": 87.6
-          }
-        ]
+        "url": "data/chart_survival_summary.csv"
       },
+      "transform": [
+        {
+          "filter": "datum.horizon_years == horizonYears && datum.metro_regional == 'Metro' && datum.proximity == 'Further than 400 m'"
+        },
+        {
+          "calculate": "'further out avg. = ' + format(datum.survival_rate_pct, '.1f') + '%'",
+          "as": "label"
+        }
+      ],
       "mark": {
         "type": "text",
         "align": "left",
@@ -425,75 +465,15 @@
       },
       "encoding": {
         "x": {
-          "field": "x_val",
-          "type": "quantitative"
+          "value": 4
         },
         "y": {
-          "field": "y_val",
+          "field": "survival_rate_pct",
           "type": "quantitative"
         },
         "text": {
-          "value": "within 400 m avg. = 87.6%"
-        },
-        "color": null
-      }
-    },
-    {
-      "description": "Horizontal reference rule at the further-out group mean survival (90.8%).",
-      "data": {
-        "values": [
-          {
-            "y_val": 90.8
-          }
-        ]
-      },
-      "mark": {
-        "type": "rule",
-        "strokeDash": [
-          3,
-          3
-        ],
-        "strokeWidth": 1,
-        "color": "#888",
-        "strokeOpacity": 0.7
-      },
-      "encoding": {
-        "y": {
-          "field": "y_val",
-          "type": "quantitative"
-        },
-        "color": null
-      }
-    },
-    {
-      "description": "Label for the further-out group mean — the 90.8% figure restates the bust: SA2s further from stops survive at least as well.",
-      "data": {
-        "values": [
-          {
-            "x_val": 4,
-            "y_val": 90.8
-          }
-        ]
-      },
-      "mark": {
-        "type": "text",
-        "align": "left",
-        "baseline": "bottom",
-        "dy": -2,
-        "fontSize": 10,
-        "color": "#555"
-      },
-      "encoding": {
-        "x": {
-          "field": "x_val",
-          "type": "quantitative"
-        },
-        "y": {
-          "field": "y_val",
-          "type": "quantitative"
-        },
-        "text": {
-          "value": "further out avg. = 90.8%"
+          "field": "label",
+          "type": "nominal"
         },
         "color": null
       }

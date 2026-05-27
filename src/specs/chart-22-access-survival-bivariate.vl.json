@@ -1,11 +1,11 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Chart 22 — Access AND survival on one map (bivariate choropleth), Greater Melbourne. The §3 spatial synthesis: instead of asking the reader to scan the access map (chart-03) against the survival map (chart-18), both quantities are fused into a single area mark via a 3x3 bivariate colour scheme. Each SA2 is classed into access tertiles (share of venues within 400 m of a stop; cuts 88.9 / 97.8, computed over the 218 graded Melbourne SA2s) and survival tertiles (two-year licence survival; cuts 85.0 / 90.3), giving a 0-8 class. Colour carries both: cyan = high access only, magenta = high survival only, dark blue = both high, light grey = both low. If proximity drove survival, the high-access inner suburbs would crowd the dark-blue 'both high' corner. They don't — they read mostly cyan (high access, ordinary survival), the visible form of the flat-to-slightly-negative access-survival relationship (Pearson r = -0.13 across Melbourne; mean survival 86.9% in the top access tertile vs 89.3% in the bottom). Vega-Lite has no bivariate-choropleth idiom: the two tertile classes and their combined index are built in-spec by calculate transforms, and the 9-colour lookup is a hand-built ordinal scale. The companion 3x3 matrix legend (chart-22-bivariate-legend) decodes the colours. This map is a node of the §3 linked highlight: pick_22 captures a clicked SA2 and selected_sa2 (driven from the scatter chart-17, the maps, or the 'find your suburb' box) dims every other region. Survival is a licence-presence proxy; association only. Data: chart_sa2_survival.csv joined to sa2_melbourne.topojson on sa2_code_2021.",
+  "description": "Chart 22 — Access AND survival on one map (bivariate choropleth), Greater Melbourne. The §3 spatial synthesis: instead of asking the reader to scan the access map (chart-03) against the survival map (chart-18), both quantities are fused into a single area mark via a 3x3 bivariate colour scheme. Each SA2 is classed into access tertiles (share of venues within 400 m of a stop; cuts 88.9 / 97.8) and survival tertiles at the selected 1/2/3-year horizon. Colour carries both: cyan = high access only, magenta = high survival only, dark blue = both high, light grey = both low. If proximity drove survival, the high-access inner suburbs would crowd the dark-blue 'both high' corner. They do not. Vega-Lite has no bivariate-choropleth idiom: the two tertile classes and their combined index are built in-spec by calculate transforms, and the 9-colour lookup is a hand-built ordinal scale. The companion 3x3 matrix legend (chart-22-bivariate-legend) decodes the colours. This map is a node of the §3 linked highlight. Survival is a licence-presence proxy; association only. Data: chart_sa2_survival.csv joined to sa2_melbourne.topojson on sa2_code_2021.",
   "title": {
     "text": "Inner Melbourne glows cyan — high access, but the survival edge isn't there",
     "subtitle": [
-      "Each SA2 coloured by access (→) and two-year survival (↑) · dark blue = high on both.",
-      "Cyan = access only, magenta = survival only · 224 SA2s in Greater Melbourne · correlation −0.13."
+      "Each SA2 coloured by access (→) and selected-horizon survival (↑).",
+      "Cyan = access only, magenta = survival only · dark blue = high on both."
     ],
     "anchor": "start",
     "subtitleFontStyle": "italic"
@@ -17,6 +17,24 @@
     "contains": "padding"
   },
   "params": [
+    {
+      "name": "horizonYears",
+      "value": 2,
+      "bind": {
+        "input": "select",
+        "options": [
+          1,
+          2,
+          3
+        ],
+        "labels": [
+          "1 year (still open July 2023)",
+          "2 years (still open July 2024)",
+          "3 years (still open July 2025)"
+        ],
+        "name": "Survival horizon: "
+      }
+    },
     {
       "name": "selected_sa2",
       "value": null
@@ -75,6 +93,9 @@
             "key": "sa2_code_2021",
             "fields": [
               "survival_rate_pct",
+              "survival_rate_1yr_pct",
+              "survival_rate_2yr_pct",
+              "survival_rate_3yr_pct",
               "share_400",
               "sa2_name_2021",
               "metro_regional_majority",
@@ -89,11 +110,19 @@
           "as": "sa2_code_2021"
         },
         {
+          "calculate": "horizonYears === 1 ? datum.survival_rate_1yr_pct : (horizonYears === 2 ? datum.survival_rate_2yr_pct : datum.survival_rate_3yr_pct)",
+          "as": "survival_rate_T"
+        },
+        {
+          "calculate": "horizonYears + (horizonYears === 1 ? ' year' : ' years')",
+          "as": "horizon_label_T"
+        },
+        {
           "calculate": "datum.share_400 < 88.9 ? 0 : (datum.share_400 < 97.8 ? 1 : 2)",
           "as": "access_class"
         },
         {
-          "calculate": "datum.survival_rate_pct < 85.0 ? 0 : (datum.survival_rate_pct < 90.3 ? 1 : 2)",
+          "calculate": "horizonYears === 1 ? (datum.survival_rate_T < 78.4 ? 0 : (datum.survival_rate_T < 84.8 ? 1 : 2)) : (horizonYears === 2 ? (datum.survival_rate_T < 77.8 ? 0 : (datum.survival_rate_T < 83.8 ? 1 : 2)) : (datum.survival_rate_T < 68.6 ? 0 : (datum.survival_rate_T < 76.9 ? 1 : 2)))",
           "as": "survival_class"
         },
         {
@@ -177,10 +206,15 @@
             "format": ".0f"
           },
           {
-            "field": "survival_rate_pct",
+            "field": "survival_rate_T",
             "type": "quantitative",
-            "title": "Survived 2 yrs (%)",
+            "title": "Still licensed (%)",
             "format": ".1f"
+          },
+          {
+            "field": "horizon_label_T",
+            "type": "nominal",
+            "title": "Survival horizon"
           },
           {
             "field": "median_nearest_stop_distance_m",
@@ -196,7 +230,7 @@
           {
             "field": "cohort_count",
             "type": "quantitative",
-            "title": "Venues (2023)",
+            "title": "Venues (2022)",
             "format": ","
           }
         ]

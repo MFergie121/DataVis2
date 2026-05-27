@@ -1,10 +1,10 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Chart 18 — Where venues last, mapped. Two-year survival of the July 2023 liquor-licence cohort by SA2 (still licensed July 2025), on the same equal-area projection of Victoria as the other choropleths. Colour carries survival; it is high and fairly even statewide (mostly 85–95%), with no obvious 'near the city / near transport' advantage — the spatial echo of the access map (chart-03). SA2s with fewer than 5 cohort venues are left ungraded (grey) to avoid noisy rates. A text callout anchored on the alpine north-east makes the 'high even far from rail' point explicit. This map is one node of the §3 linked highlight: pick_18 captures a clicked SA2 and selected_sa2 (driven from the access×survival scatter chart-17 or the 'find your suburb' box) dims every other region, so a single SA2 stays lit on both the map and the scatter at once — the reader can pin a high-access suburb and watch it sit on the flat survival cloud. Survival is a licence-presence proxy; association only. Data: chart_sa2_survival.csv joined to sa2_summary_simplified.topojson on sa2_code_2021.",
+  "description": "Chart 18 — Where venues last, mapped. Survival of the July 2022 liquor-licence cohort by SA2 at the selected 1/2/3-year horizon, on the same equal-area projection of Victoria as the other choropleths. Colour carries survival; it declines as the horizon lengthens, but there is still no obvious 'near the city / near transport' advantage — the spatial echo of chart-17. SA2s with fewer than 5 cohort venues are left ungraded (grey) to avoid noisy rates. This map is one node of the §3 linked highlight: pick_18 captures a clicked SA2 and selected_sa2 dims every other region, so a single SA2 stays lit on both the map and the scatter at once. Survival is a licence-presence proxy; association only. Data: chart_sa2_survival.csv joined to sa2_summary_simplified.topojson on sa2_code_2021.",
   "title": {
     "text": "Venues last across most of Victoria — city or country",
     "subtitle": [
-      "Two-year survival of 2023 venues by SA2. Click a region to pin it on the scatter above.",
+      "July 2022 venues by SA2. Pick the survival horizon; click a region to pin it above.",
       "Grey = fewer than 5 venues (rate too noisy to show)."
     ],
     "anchor": "start",
@@ -13,6 +13,24 @@
   "width": "container",
   "height": 460,
   "params": [
+    {
+      "name": "horizonYears",
+      "value": 2,
+      "bind": {
+        "input": "select",
+        "options": [
+          1,
+          2,
+          3
+        ],
+        "labels": [
+          "1 year (still open July 2023)",
+          "2 years (still open July 2024)",
+          "3 years (still open July 2025)"
+        ],
+        "name": "Survival horizon: "
+      }
+    },
     {
       "name": "selected_sa2",
       "value": null
@@ -71,6 +89,9 @@
             "key": "sa2_code_2021",
             "fields": [
               "survival_rate_pct",
+              "survival_rate_1yr_pct",
+              "survival_rate_2yr_pct",
+              "survival_rate_3yr_pct",
               "sa2_name_2021",
               "metro_regional_majority",
               "cohort_count",
@@ -83,6 +104,14 @@
         {
           "calculate": "datum.properties.sa2_code_2021",
           "as": "sa2_code_2021"
+        },
+        {
+          "calculate": "horizonYears === 1 ? datum.survival_rate_1yr_pct : (horizonYears === 2 ? datum.survival_rate_2yr_pct : datum.survival_rate_3yr_pct)",
+          "as": "survival_rate_T"
+        },
+        {
+          "calculate": "horizonYears + (horizonYears === 1 ? ' year' : ' years')",
+          "as": "horizon_label_T"
         }
       ],
       "mark": {
@@ -92,16 +121,16 @@
       },
       "encoding": {
         "color": {
-          "field": "survival_rate_pct",
+          "field": "survival_rate_T",
           "type": "quantitative",
           "title": [
-            "Survived two",
-            "years (%)"
+            "Survived selected",
+            "horizon (%)"
           ],
           "scale": {
             "scheme": "teals",
             "domain": [
-              80,
+              55,
               100
             ]
           },
@@ -143,10 +172,15 @@
             "title": "Region"
           },
           {
-            "field": "survival_rate_pct",
+            "field": "survival_rate_T",
             "type": "quantitative",
-            "title": "Survived 2 yrs",
+            "title": "Still licensed",
             "format": ".1f"
+          },
+          {
+            "field": "horizon_label_T",
+            "type": "nominal",
+            "title": "Survival horizon"
           },
           {
             "field": "access_share_pct",
@@ -168,7 +202,7 @@
           {
             "field": "cohort_count",
             "type": "quantitative",
-            "title": "Venues (2023)",
+            "title": "Venues (2022)",
             "format": ","
           }
         ]
@@ -190,9 +224,11 @@
         "align": "right",
         "baseline": "middle",
         "dx": -10,
-        "fontSize": 11,
+        "fontSize": 12,
         "fontWeight": "bold",
-        "color": "#1a3a3a"
+        "color": "#0f172a",
+        "stroke": "#ffffff",
+        "strokeWidth": 3
       },
       "encoding": {
         "longitude": {

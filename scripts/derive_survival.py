@@ -15,8 +15,11 @@ and by metro/regional (the axes the rest of the page uses):
     tracked at 1/2/3-year survival horizons — was a July-2022 venue still licensed in July
     2023 / 2024 / 2025? The reader picks the horizon; survival falls with time but stays flat
     across distance. Keyed by horizon_years, not cohort_year.
-  * charts 17/18/20/22 (the other CSVs): the §3 hero cohort (HERO_COHORT_YEAR) at the fixed
-    two-year window, so the counterfactual scatter/choropleth/bivariate narrative holds.
+  * charts 17/18/22 (chart_sa2_survival.csv): the same July-2022 base cohort as chart-16,
+    with one row per SA2 and separate 1/2/3-year survival columns. The charts pick a horizon
+    with a Vega-Lite param while the TopoJSON lookups stay one-to-one.
+  * chart-20 (chart_sa2_hospitality_health.csv): the §3 hero cohort (HERO_COHORT_YEAR) at
+    the fixed two-year window, because it measures net active-venue growth, not survival rate.
 
 This is association only: a ceased licence can be a sale/relocation/rename, not just a
 failure, and proximity is confounded with the metro/regional divide. See wiki/domain/topic.md.
@@ -40,8 +43,8 @@ Inputs (all gitignored, under raw/):
 
 Outputs (shipped, small):
   src/data/chart_survival_distance_band.csv  keyed by horizon_years (chart-16, 2022 cohort)
-  src/data/chart_sa2_survival.csv            hero cohort
-  src/data/chart_survival_summary.csv        hero cohort
+  src/data/chart_sa2_survival.csv            2022 cohort SA2 survival, wide by horizon
+  src/data/chart_survival_summary.csv        2022 cohort near/far survival, long by horizon
   src/data/chart_sa2_hospitality_health.csv  hero cohort
 
 Run: .venv/bin/python3 scripts/derive_survival.py
@@ -71,10 +74,9 @@ SA2_SUMMARY = OUT / "sa2_summary_web.csv"
 SURVIVAL_WINDOW_YEARS = 2  # cohort year Y is measured against the year Y+2 snapshot
 SNAPSHOT_RE = re.compile(r"licences_(\d{4})-07\.xlsx$")
 
-# Only chart-16 (distance bands) carries the interactive selector. Charts 17 (access x
-# survival scatter) and 18 (survival choropleth) stay anchored to the §3 hero cohort with
-# the fixed two-year window, so their CSVs remain single-cohort and the page's
-# counterfactual narrative holds.
+# Charts 16/17/18/22 carry the survival-horizon selector over the July 2022 base cohort.
+# Chart-20 still uses the 2023→2025 hero pair because it measures net active-venue growth,
+# not survival rate.
 HERO_COHORT_YEAR = 2023
 
 # chart-16 tracks ONE cohort (July CHART16_BASE_YEAR) and lets the reader pick how long
@@ -319,41 +321,94 @@ def main() -> int:
     log(f"chart-16 spec hint -> horizonYears options: {horizons}  "
         f"| y scale.domain: [{lo}, {hi}]  | overall floors by horizon: {floor_map}")
 
-    # charts 17/18 stay on the hero cohort — fall back to the latest cohort if 2023 is absent
-    cohort_years = sorted(venues["cohort_year"].unique())
-    hero = HERO_COHORT_YEAR if HERO_COHORT_YEAR in cohort_years else cohort_years[-1]
-    hero_venues = venues[venues["cohort_year"] == hero]
-    log(f"hero cohort for charts 17/18: {hero}")
+    # charts 17/18/22 use the same base cohort and horizons as chart-16. Keep the SA2 output
+    # wide (one row per SA2) so TopoJSON lookups remain one-to-one.
+    base = tag_distance_and_region(load_snapshot(snaps[CHART16_BASE_YEAR]), stop_tree, slon, slat)
+    lon = base["Longitude"].to_numpy(float)
+    lat = base["Latitude"].to_numpy(float)
+    sa2_assigned = []
+    for x, y in zip(lon, lat):
+        pt = Point(x, y)
+        hit = None
+        for j in sa2_tree.query(pt):
+            if sa2_geoms[j].contains(pt):
+                hit = sa2_codes[j]
+                break
+        sa2_assigned.append(hit)
+    base["sa2_code_2021"] = sa2_assigned
+    base = base.dropna(subset=["sa2_code_2021"]).copy()
 
-    # ---- 4b. near/far x metro/regional headline (hero cohort only) ----------------
-    hero_venues = hero_venues.assign(
-        proximity=np.where(hero_venues["near_400m"],
-                           "Within 400 m of a stop", "Further than 400 m"))
-    s = (hero_venues.groupby(["metro_regional", "proximity"])
-                    .agg(cohort_count=("survived", "size"),
-                         survived_count=("survived", "sum"))
-                    .reset_index())
-    s["survival_rate_pct"] = (s["survived_count"] / s["cohort_count"] * 100).round(1)
-    s.to_csv(OUT / "chart_survival_summary.csv", index=False)
-    log(f"wrote chart_survival_summary.csv ({len(s)} rows)")
+    horizon_sa2 = None
+    summary_frames = []
+    for h in horizons:
+        outcome_year = CHART16_BASE_YEAR + h
+        out_ids = set(load_snapshot(snaps[outcome_year])["Licence Num"])
+        base["survived"] = base["Licence Num"].isin(out_ids)
 
-    # ---- 4c. per-SA2 survival, joined to access share (hero cohort only) ----------
-    sa2 = (hero_venues.dropna(subset=["sa2_code_2021"])
-                      .groupby("sa2_code_2021")
-                      .agg(cohort_count=("survived", "size"),
-                           survived_count=("survived", "sum"))
-                      .reset_index())
-    sa2["survival_rate_pct"] = (sa2["survived_count"] / sa2["cohort_count"] * 100).round(1)
+        base_h = base.assign(
+            proximity=np.where(base["near_400m"], "Within 400 m of a stop", "Further than 400 m")
+        )
+        s = (base_h.groupby(["metro_regional", "proximity"])
+                   .agg(cohort_count=("survived", "size"),
+                        survived_count=("survived", "sum"))
+                   .reset_index())
+        s["horizon_years"] = h
+        s["horizon_label"] = f"{h} year" if h == 1 else f"{h} years"
+        s["outcome_year"] = outcome_year
+        s["survival_rate_pct"] = (s["survived_count"] / s["cohort_count"] * 100).round(1)
+        summary_frames.append(s)
+
+        sa2_h = (base.dropna(subset=["sa2_code_2021"])
+                     .groupby("sa2_code_2021")
+                     .agg(cohort_count=("survived", "size"),
+                          survived_count=("survived", "sum"))
+                     .reset_index())
+        sa2_h = sa2_h[sa2_h["cohort_count"] >= 5].copy()
+        suffix = f"{h}yr"
+        sa2_h[f"survived_count_{suffix}"] = sa2_h["survived_count"]
+        sa2_h[f"survival_rate_{suffix}_pct"] = (
+            sa2_h["survived_count"] / sa2_h["cohort_count"] * 100
+        ).round(1)
+        sa2_h = sa2_h.drop(columns=["survived_count"])
+        if horizon_sa2 is None:
+            horizon_sa2 = sa2_h.rename(columns={"cohort_count": "cohort_count_2022"})
+        else:
+            horizon_sa2 = horizon_sa2.merge(
+                sa2_h.drop(columns=["cohort_count"]),
+                on="sa2_code_2021",
+                how="outer",
+            )
+
+    summary_out = pd.concat(summary_frames, ignore_index=True)
+    summary_out = summary_out[[
+        "horizon_years",
+        "horizon_label",
+        "outcome_year",
+        "metro_regional",
+        "proximity",
+        "cohort_count",
+        "survived_count",
+        "survival_rate_pct",
+    ]]
+    summary_out.to_csv(OUT / "chart_survival_summary.csv", index=False)
+    log(f"wrote chart_survival_summary.csv ({len(summary_out)} horizon × near/far rows)")
 
     summary = pd.read_csv(SA2_SUMMARY, dtype={"sa2_code_2021": str})
     keep = ["sa2_code_2021", "sa2_name_2021", "access_share_pct", "metro_regional_majority"]
     keep = [c for c in keep if c in summary.columns]
-    sa2 = sa2.merge(summary[keep], on="sa2_code_2021", how="left")
-    # only keep SA2s with a meaningful cohort so rates aren't noise
-    sa2 = sa2[sa2["cohort_count"] >= 5].copy()
+    sa2 = horizon_sa2.merge(summary[keep], on="sa2_code_2021", how="left")
+    sa2["cohort_count"] = sa2["cohort_count_2022"]
+    sa2["survived_count"] = sa2["survived_count_2yr"]
+    sa2["survival_rate_pct"] = sa2["survival_rate_2yr_pct"]
     sa2["access_share_pct"] = sa2["access_share_pct"].round(1)
     sa2.to_csv(OUT / "chart_sa2_survival.csv", index=False)
-    log(f"wrote chart_sa2_survival.csv ({len(sa2)} SA2-cohort rows with cohort >= 5)")
+    log(f"wrote chart_sa2_survival.csv ({len(sa2)} SA2 rows, wide 1/2/3-year survival)")
+
+    # chart-20 stays on the hero cohort — fall back to the latest cohort if 2023 is absent
+    cohort_years = sorted(venues["cohort_year"].unique())
+    hero = HERO_COHORT_YEAR if HERO_COHORT_YEAR in cohort_years else cohort_years[-1]
+    hero_venues = venues[venues["cohort_year"] == hero]
+    log(f"hero cohort for chart-20: {hero}")
 
     # ---- 4d. per-SA2 net hospitality health, 2023 active count vs 2025 active count ----
     # This complements chart-17's fixed-cohort survival view: it asks whether each SA2's

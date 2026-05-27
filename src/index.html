@@ -191,19 +191,16 @@
             doesn't buy extra years.
           </p>
           <p>
-            The rest of this section zooms in on the freshest cohort we can
-            follow a full two years — July 2023 — and across places the answer is
-            the same. <strong>Being near a stop gives a venue no survival
-            advantage.</strong> Survival sits high almost everywhere, 87 to 93
-            per cent, and proximity doesn't lift it; inside Melbourne the venues
-            packed closest to transport actually closed a touch more often
-            (87.6% within 400&nbsp;m vs 90.8% further out), while regional venues
-            last just as well far from a stop. If closeness paid off, the
-            access–survival line would tilt upward; the faint dashed line on the
-            first scatter shows what even a modest payoff would look like. The
-            real line is flat. A second scatter asks a broader question — did
-            each area's active venue count grow or shrink overall? That line is
-            weak too.
+            The rest of this section uses the same July 2022 cohort and
+            1/2/3-year survival horizons, then fixes "near" at the page's
+            400&nbsp;m definition. Across places the answer is the same:
+            <strong>being near a stop gives a venue no survival advantage.</strong>
+            Survival falls as the horizon lengthens, but the access-survival
+            line stays flat. Inside Melbourne, venues within 400&nbsp;m survive
+            about as often as venues further out, and regional venues last just
+            as well far from a stop. A second scatter asks a broader question —
+            did each area's active venue count grow or shrink overall? That line
+            is weak too.
           </p>
           <p class="caveat">
             Why this is, we can only speculate (see below). And a cancelled
@@ -230,10 +227,9 @@
               chart-17 · access × survival scatter
             </div>
             <figcaption class="chart-note">
-              The dashed grey line is a hypothetical, not a fitted result: what
-              survival <em>would</em> look like if proximity gave a modest lift
-              (about six points across the full access range). The solid lines are
-              what the data actually shows — flat.
+              "Near" is fixed at 400&nbsp;m here, matching the access maps. Use
+              the survival-horizon selector to test whether the flat
+              access-survival relationship changes after one, two or three years.
             </figcaption>
           </figure>
 
@@ -264,13 +260,10 @@
           <figcaption class="chart-note">
             One map, two measures. The horizontal mix of colour is access (how
             many of an area's venues sit within 400&nbsp;m of a stop); the
-            vertical mix is two-year survival. If proximity bought survival, the
-            transport-rich inner suburbs would glow dark blue — high on both.
-            Instead they read cyan: high access, ordinary survival. Across
-            Greater Melbourne the two barely relate (correlation −0.13), and if
-            anything the best-served third of suburbs survive slightly
-            <em>worse</em> (87% vs 89%). Survival is a licence-presence proxy;
-            association only.
+            vertical mix is survival at the selected horizon. If proximity bought
+            survival, the transport-rich inner suburbs would glow dark blue —
+            high on both. Instead they mostly read cyan: high access, ordinary
+            survival. Survival is a licence-presence proxy; association only.
           </figcaption>
         </figure>
       </section>
@@ -467,6 +460,7 @@
       // CSVs can't cross-filter, so each target just highlights its own rows keyed by
       // sa2_code_2021 (string); SA2s missing from a chart's data simply don't light up.
       const HIGHLIGHT_TARGETS = ["chart-03", "chart-06", "chart-17", "chart-18", "chart-22"];
+      const SURVIVAL_HORIZON_TARGETS = ["chart-16", "chart-17", "chart-18", "chart-22"];
       // Charts that emit a click selection: { mounted id, point-selection signal, its store }.
       const CLICK_SOURCES = [
         { id: "chart-03", signal: "sa2_sel", store: "sa2_sel_store" },
@@ -490,6 +484,21 @@
           if (input && !fromInput) input.value = code ? nameByCode.get(code) || "" : "";
         }
 
+        let syncingHorizon = false;
+        function setSurvivalHorizon(value, sourceId) {
+          if (syncingHorizon || value == null) return;
+          syncingHorizon = true;
+          const updates = [];
+          for (const id of SURVIVAL_HORIZON_TARGETS) {
+            if (id !== sourceId && views[id]) {
+              updates.push(views[id].signal("horizonYears", value).runAsync());
+            }
+          }
+          Promise.all(updates).finally(() => {
+            syncingHorizon = false;
+          });
+        }
+
         // Pull a single SA2 code out of a Vega point-selection signal value.
         function codeFrom(value) {
           return value && value.sa2_code_2021 && value.sa2_code_2021.length
@@ -502,6 +511,16 @@
           if (views[id]) {
             views[id].addSignalListener(signal, (_n, value) =>
               setSelectedSA2(codeFrom(value), false)
+            );
+          }
+        }
+
+        // Keep the 1/2/3-year survival definition consistent across every §3
+        // survival chart. Chart-20 is excluded because it is net venue growth.
+        for (const id of SURVIVAL_HORIZON_TARGETS) {
+          if (views[id]) {
+            views[id].addSignalListener("horizonYears", (_n, value) =>
+              setSurvivalHorizon(value, id)
             );
           }
         }
