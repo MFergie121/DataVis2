@@ -83,6 +83,10 @@
         {
           "calculate": "datum.properties.sa2_code_2021",
           "as": "sa2_code_2021"
+        },
+        {
+          "calculate": "datum.access_share_pct == null ? 'No data' : datum.access_share_pct < 20 ? '0–20%' : datum.access_share_pct < 40 ? '20–40%' : datum.access_share_pct < 60 ? '40–60%' : datum.access_share_pct < 80 ? '60–80%' : '80–100%'",
+          "as": "access_class"
         }
       ],
       "mark": {
@@ -92,22 +96,19 @@
       },
       "encoding": {
         "color": {
-          "field": "access_share_pct",
-          "type": "quantitative",
+          "field": "access_class",
+          "type": "ordinal",
           "title": [
             "Venues within",
             "400 m of a stop"
           ],
           "scale": {
-            "scheme": "teals",
-            "domain": [
-              0,
-              100
-            ]
+            "domain": ["0–20%", "20–40%", "40–60%", "60–80%", "80–100%", "No data"],
+            "range": ["#cceef0", "#80cdc1", "#35978f", "#01665e", "#003c30", "#cccccc"]
           },
           "legend": {
-            "format": ".0f",
-            "gradientLength": 160
+            "symbolType": "square",
+            "symbolSize": 150
           }
         },
         "opacity": {

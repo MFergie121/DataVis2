@@ -115,7 +115,7 @@
           "scale": {
             "type": "threshold",
             "domain": [
-              10,
+              5,
               20,
               50,
               100
