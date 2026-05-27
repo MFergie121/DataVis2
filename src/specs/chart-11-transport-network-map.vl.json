@@ -17,19 +17,9 @@
   },
   "projection": {
     "type": "conicEqualArea",
-    "rotate": [
-      -145,
-      0,
-      0
-    ],
-    "center": [
-      0,
-      -37
-    ],
-    "parallels": [
-      -36,
-      -38
-    ]
+    "rotate": [-145, 0, 0],
+    "center": [0, -37],
+    "parallels": [-36, -38]
   },
   "layer": [
     {
@@ -72,22 +62,10 @@
         "color": {
           "field": "count_band",
           "type": "ordinal",
-          "title": "Venues per cell",
+          "title": "Venues per hex cell",
           "scale": {
-            "domain": [
-              "<5",
-              "5-19",
-              "20-49",
-              "50-99",
-              "100+"
-            ],
-            "range": [
-              "#bdbdbd",
-              "#fed976",
-              "#fd8d3c",
-              "#e31a1c",
-              "#800026"
-            ]
+            "domain": ["<5", "5-19", "20-49", "50-99", "100+"],
+            "range": ["#bdbdbd", "#fed976", "#fd8d3c", "#e31a1c", "#800026"]
           },
           "legend": {
             "orient": "bottom",
@@ -134,14 +112,8 @@
           "type": "nominal",
           "title": "Routes (train & tram)",
           "scale": {
-            "domain": [
-              "Train",
-              "Tram"
-            ],
-            "range": [
-              "#33475f",
-              "#7e8a98"
-            ]
+            "domain": ["Train", "Tram"],
+            "range": ["#33475f", "#7e8a98"]
           },
           "legend": {
             "symbolType": "stroke",
@@ -192,9 +164,7 @@
     {
       "description": "In-chart badge reinforcing that this is a proximity map, not a service-frequency map.",
       "data": {
-        "values": [
-          {}
-        ]
+        "values": [{}]
       },
       "mark": {
         "type": "text",

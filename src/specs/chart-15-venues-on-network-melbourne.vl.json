@@ -18,19 +18,9 @@
   },
   "projection": {
     "type": "conicEqualArea",
-    "rotate": [
-      -145,
-      0,
-      0
-    ],
-    "center": [
-      0,
-      -37
-    ],
-    "parallels": [
-      -36,
-      -38
-    ]
+    "rotate": [-145, 0, 0],
+    "center": [0, -37],
+    "parallels": [-36, -38]
   },
   "layer": [
     {
@@ -73,22 +63,10 @@
         "color": {
           "field": "count_band",
           "type": "ordinal",
-          "title": "Venues per hex",
+          "title": "Venues per hex cell",
           "scale": {
-            "domain": [
-              "<5",
-              "5-19",
-              "20-49",
-              "50-99",
-              "100+"
-            ],
-            "range": [
-              "#bdbdbd",
-              "#fed976",
-              "#fd8d3c",
-              "#e31a1c",
-              "#800026"
-            ]
+            "domain": ["<5", "5-19", "20-49", "50-99", "100+"],
+            "range": ["#bdbdbd", "#fed976", "#fd8d3c", "#e31a1c", "#800026"]
           },
           "legend": {
             "orient": "bottom",
@@ -135,14 +113,8 @@
           "type": "nominal",
           "title": "Routes (train & tram)",
           "scale": {
-            "domain": [
-              "Train",
-              "Tram"
-            ],
-            "range": [
-              "#26384f",
-              "#657385"
-            ]
+            "domain": ["Train", "Tram"],
+            "range": ["#26384f", "#657385"]
           },
           "legend": {
             "symbolType": "stroke",
@@ -193,9 +165,7 @@
     {
       "description": "In-chart proximity clarification badge — reinforces that the map shows walking distance to stops, not service frequency.",
       "data": {
-        "values": [
-          {}
-        ]
+        "values": [{}]
       },
       "mark": {
         "type": "text",
