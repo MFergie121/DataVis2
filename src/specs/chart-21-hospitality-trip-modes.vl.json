@@ -1,6 +1,6 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Chart 21 — Waffle unit chart: 100 squares each = 1 percentage point of trips to a hospitality or social venue by main mode. VISTA 2022-23 + 2023-24 pooled, 2,378 surveyed trips. Each square is generated inline via a sequence transform — no CSV required. The layout is a 10x10 grid with 34 px square cells, giving a 340 px plotted grid so the actual waffle height aligns with chart-19's 340 px plotted line chart. Five navy squares (indices 94–98) are public transport (5.3% rounded to 5), sitting in the bottom row against a sea of grey (66 car squares) and light-grey (28 walking squares). The visual makes the 5-vs-66 asymmetry visceral rather than merely numerical. The proximity paradox hook ('yet 78% of venues sit within 400 m of a stop') is embedded in subtitle line 2. Data: VISTA, DTP Victoria, CC BY 4.0; derived by scripts/derive_hospitality_modes.py.",
+  "description": "Chart 21 — Waffle unit chart: 100 boxes each = 1 percentage point of trips to a hospitality or social venue by main mode. VISTA 2022-23 + 2023-24 pooled, 2,378 surveyed trips. Each box is generated inline via a sequence transform — no CSV required. The layout is a 10x10 grid with 44 px horizontal steps and 34 px vertical steps, keeping the plotted height aligned with chart-19 while making the boxes wider. Five navy boxes (indices 94–98) are public transport (5.3% rounded to 5), sitting in the bottom row against a sea of grey (66 car boxes) and light-grey (28 walking boxes). The visual makes the 5-vs-66 asymmetry visceral rather than merely numerical. The proximity paradox hook ('yet 78% of venues sit within 400 m of a stop') is embedded in subtitle line 2. Data: VISTA, DTP Victoria, CC BY 4.0; derived by scripts/derive_hospitality_modes.py.",
   "title": {
     "text": "Most people don't take public transport to a venue",
     "subtitle": [
@@ -10,7 +10,7 @@
     "anchor": "start",
     "subtitleFontStyle": "italic"
   },
-  "width": { "step": 34 },
+  "width": { "step": 44 },
   "height": { "step": 34 },
   "data": {
     "sequence": { "start": 0, "stop": 100, "as": "index" }
