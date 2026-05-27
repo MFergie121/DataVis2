@@ -11,7 +11,7 @@
     "subtitleFontStyle": "italic"
   },
   "width": "container",
-  "height": 460,
+  "height": 520,
   "autosize": {
     "type": "fit-x",
     "contains": "padding"

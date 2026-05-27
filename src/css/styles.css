@@ -212,9 +212,10 @@ body {
 .vega-embed details,
 .vega-embed summary { font-family: var(--font-body); }
 
-/* Bivariate map (chart-22): the 2D colour matrix legend floats in the map's
-   sparse bottom-left corner (over Port Phillip Bay) so colours can be decoded
-   in place. Wrapper is the positioning context; the legend never steals clicks. */
+/* Bivariate map (chart-22): the 2D colour matrix legend floats inside the map's
+   top-right corner so colours can be decoded in place without blocking the
+   southern suburbs. Wrapper is the positioning context; the legend never steals
+   clicks. */
 .bivariate-wrap {
   position: relative;
 }
@@ -224,8 +225,8 @@ body {
    same mount and injects after our stylesheet. */
 .bivariate-wrap .bivariate-legend {
   position: absolute;
-  left: 6px;
-  bottom: 6px;
+  top: 6px;
+  right: 6px;
   z-index: 2;
   pointer-events: none;
   width: fit-content;
