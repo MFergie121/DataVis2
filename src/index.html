@@ -218,8 +218,8 @@
           </div>
         </figure>
 
-        <!-- §3 pair: the two companion survival scatters — access × survival
-             (chart-17) and the larger-cohort robustness check (chart-20). -->
+        <!-- §3 pair: access × survival (chart-17) and access × net venue growth
+             (chart-20). Same spatial question, different outcome measures. -->
         <div class="chart-pair">
           <figure class="chart">
             <div id="chart-17" class="chart-mount" data-pending="true">
@@ -234,12 +234,12 @@
 
           <figure class="chart">
             <div id="chart-20" class="chart-mount" data-pending="true">
-              chart-20 · access × larger-cohort survival scatter
+              chart-20 · access × venue growth scatter
             </div>
             <figcaption class="chart-note">
-              This companion view uses the same survival-horizon selector as
-              chart-17, but keeps only SA2s with at least 10 venues in the July
-              2022 cohort so the denominator is steadier.
+              This companion view switches from licence survival to net active
+              venue growth: did each SA2 gain or lose active licences between
+              July 2023 and July 2025?
             </figcaption>
           </figure>
         </div>
@@ -470,7 +470,7 @@
       // CSVs can't cross-filter, so each target just highlights its own rows keyed by
       // sa2_code_2021 (string); SA2s missing from a chart's data simply don't light up.
       const HIGHLIGHT_TARGETS = ["chart-03", "chart-06", "chart-17", "chart-20", "chart-18", "chart-22"];
-      const SURVIVAL_HORIZON_TARGETS = ["chart-16", "chart-17", "chart-20", "chart-18", "chart-22"];
+      const SURVIVAL_HORIZON_TARGETS = ["chart-16", "chart-17", "chart-18", "chart-22"];
       // Charts that emit a click selection: { mounted id, point-selection signal, its store }.
       const CLICK_SOURCES = [
         { id: "chart-03", signal: "sa2_sel", store: "sa2_sel_store" },

@@ -132,13 +132,16 @@
       "transform": [
         {
           "filter": "indexof(datum.MODE, 'TRAIN') >= 0 || indexof(datum.MODE, 'TRAM') >= 0"
+        },
+        {
+          "calculate": "'Train/tram stops'",
+          "as": "stop_layer"
         }
       ],
       "mark": {
         "type": "circle",
         "size": 9,
         "filled": true,
-        "fill": "#f8f7f1",
         "stroke": "#26384f",
         "strokeWidth": 0.45,
         "opacity": 0.92
@@ -151,6 +154,23 @@
         "latitude": {
           "field": "Latitude",
           "type": "quantitative"
+        },
+        "color": {
+          "field": "stop_layer",
+          "type": "nominal",
+          "title": "Stops",
+          "scale": {
+            "domain": ["Train/tram stops"],
+            "range": ["#f8f7f1"]
+          },
+          "legend": {
+            "orient": "bottom",
+            "direction": "horizontal",
+            "symbolType": "circle",
+            "symbolSize": 70,
+            "symbolStrokeColor": "#26384f",
+            "symbolStrokeWidth": 1
+          }
         },
         "tooltip": [
           {
