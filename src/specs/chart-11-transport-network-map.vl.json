@@ -4,8 +4,7 @@
   "title": {
     "text": "Victoria's venues cluster wherever the transport network is densest",
     "subtitle": [
-      "Venue density (warm hexes) with train and tram routes · statewide frame.",
-      "Proximity to a stop, not service frequency."
+      "Venue density (warm hexes) with train and tram routes · statewide frame."
     ],
     "anchor": "start"
   },
@@ -198,8 +197,7 @@
         },
         "y": {
           "expr": "height - 8"
-        },
-        "text": "proximity = walking distance, not service frequency"
+        }
       }
     }
   ],

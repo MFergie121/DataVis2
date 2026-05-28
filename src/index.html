@@ -3,7 +3,9 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Close without the Cigar — Victoria's venues and public transport</title>
+    <title>
+      Close without the Cigar — Victoria's venues and public transport
+    </title>
     <meta
       name="description"
       content="A data story: Victorian hospitality crowds in tight against public transport — but that closeness doesn't keep a venue's doors open."
@@ -33,7 +35,8 @@
         <h1 class="page-title">Close without the Cigar</h1>
         <p class="deck">
           Victoria's hospitality crowds in tight against public transport. You'd
-          expect that closeness to pay off. It doesn't keep a venue's doors open.
+          expect that closeness to pay off how it doesn't keep a venue's doors
+          open.
         </p>
         <p class="byline">
           Max Fergie · FIT2179 Data Visualisation 2 · May 2026
@@ -48,18 +51,19 @@
         </h2>
         <div class="prose">
           <p>
-            Where the state drinks, dines and gathers — and how short the walk is
-            to a stop. Across all of Victoria, then zoomed in on Melbourne, the
+            Where the state drinks, dines and gathers, how short the walk is to
+            a stop? Across all of Victoria, then zoomed in on Melbourne, the
             venues settle exactly where the network is densest. It's hard not to
-            assume that closeness pays off: a tram at the door should mean passing
-            trade, a steady flow of people who never had to find a park. Hold onto
-            that assumption — the rest of the page puts it to the test.
+            assume that closeness pays off. A tram at the door should mean
+            passing trade, a steady flow of people who never had to find a park,
+            more foot traffic for people to stumble into your venue. Hold onto
+            that assumption, the rest of the page puts it to the test.
           </p>
           <p>
             One clarification first. Throughout, <em>near a stop</em> means
             proximity — how far you'd walk to board — <strong>not</strong> how
             often a service actually runs. Colour on these maps is distance, not
-            timetable.
+            frequency of service.
           </p>
         </div>
 
@@ -72,7 +76,7 @@
             <figcaption class="chart-note">
               Train and tram lines, with stop dots, over statewide venue-density
               hexes. This is where venues and the rail/tram skeleton sit across
-              the state — <strong>not</strong> when services run.
+              the state.
             </figcaption>
           </figure>
 
@@ -106,33 +110,35 @@
         </h2>
         <div class="prose">
           <p>
-            Start with the place that should benefit most. Each region on the
-            map is an
+            Let's start with the place that should benefit most. Each region on
+            the map is an
             <abbr
-              title="ABS Statistical Area Level 2 — a neighbourhood-scale region of roughly 3,000–25,000 people"
+              title="Statistcal term for a suburb. It's an ABS Statistical Area Level 2 — a neighbourhood-scale region of roughly 3,000–25,000 people"
               >SA2</abbr
             >, a neighbourhood of a few thousand people, and
             <em>within 400 m</em> means a venue is roughly a five-minute walk
             from its nearest stop. Across inner Melbourne the map is almost
-            uniformly dark: in the typical neighbourhood about nine in ten
+            uniformly dark. In the typical neighbourhood about nine in ten
             venues sit within that five-minute walk. This is not a few
-            inner-city strips happening to sit near a bus stop — whole
-            hospitality districts are wrapped around the transport mesh.
+            inner-city strips happening to sit near a bus/tram stop but whole
+            hospitality districts are wrapped around this transport mesh.
           </p>
           <p>
-            And inner Melbourne is in a class of its own. The strip on the
-            right lines up every area by the share of its venues near a stop:
-            metro neighbourhoods crowd up against 100%, while regional Victoria
-            trails nearly thirty points behind. So if being close to public
-            transport helps a venue at all, this is where the help should show
-            up. The next section puts that expectation to the test.
+            And inner Melbourne is in a class of its own. The chart on the right
+            lines up every area by the share of its venues near a stop. Metro
+            neighbourhoods crowd up against 100%, while regional Victoria trails
+            nearly thirty points behind. So if being close to public transport
+            helps a venue at all, this is where the help should show up. The
+            next section puts that expectation to the test.
           </p>
         </div>
 
         <!-- Linked-selection control drives BOTH charts in the pair below, so it
              sits full-width above them rather than inside either figure. -->
         <div class="link-control" id="link-hint">
-          <label class="suburb-label" for="suburb-input">Find your suburb:</label>
+          <label class="suburb-label" for="suburb-input"
+            >Find your suburb:</label
+          >
           <input
             list="sa2-list"
             id="suburb-input"
@@ -183,48 +189,54 @@
         </h2>
         <div class="prose">
           <p>
-            If proximity paid off anywhere, it would be inner Melbourne. It
-            doesn't. We can test it: the licence list is published every month,
-            so we take every venue licensed in July 2022 and follow it forward —
+            If proximity paid off anywhere, it would be inner Melbourne but it
+            doesn't. To test it, the licence list is published every month, so
+            we take every venue licensed in July 2022 and follow it forward —
             still licensed one year later? Two? Three? (A licence that vanishes
-            is our stand-in for a venue that closed.) The first chart splits that
-            cohort by region, and the surprise is the <strong>gap between the
-            lines</strong>: regional Victoria, with far <em>less</em> transport
-            access, out-survives metro at every distance band and every horizon.
-            The places with the most access fare the worst.
+            is our stand-in for a venue that closed.) The first chart splits
+            that cohort by region, and the surprise is the
+            <strong>gap between the lines</strong>: regional Victoria, with far
+            <em>less</em> transport access, out-survives metro at every distance
+            band and every horizon. The places with the most access fare the
+            worst.
           </p>
+          <p class="caveat">
+            Read the metro–regional gap as a striking pattern, not a cause. The
+            two are different markets in dozens of ways beyond transport —
+            rents, competition, the lingering hit to the CBD — so the gap can't
+            be pinned on access alone; the cleaner evidence is the flat line
+            <em>within</em> each region. Throughout, the relationship is an
+            <em>association</em>, never proof that proximity does or doesn't
+            make a venue last. A cancelled licence can also mean a sale, a
+            rename or a move, not only a failure, so survival here is a proxy;
+            and distance is measured against today's stops for every cohort, so
+            it is exact for recent venues and only approximate the further back
+            a cohort sits. What the data shows is firm; the reasons are not.
+          </p>
+        </div>
+
+        <figure class="chart">
+          <div id="chart-16" class="chart-mount" data-pending="true">
+            chart-16 · survival by distance band
+          </div>
+        </figure>
+
+        <div class="prose">
           <p>
             Look <em>within</em> each region and the point lands a second way.
             Slide the <em>survival horizon</em> selector from one year out to
             three: survival <strong>slips as the years pass</strong> — about 84%
             of the 2022 cohort is still trading after a year, around 76% after
-            three — but at every horizon each line stays <strong>flat across
-            distance</strong>. Venues right beside a stop last no better than
-            those a long walk away. Whether you compare high-access metro against
-            lower-access regional, or near against far inside a single region,
-            more access simply doesn't translate into more years. The rest of
-            this section checks the same claim three more ways — a per-area
-            scatter, a companion growth measure and a map — and the answer holds.
-          </p>
-          <p class="caveat">
-            Read the metro–regional gap as a striking pattern, not a cause. The
-            two are different markets in dozens of ways beyond transport — rents,
-            competition, the lingering hit to the CBD — so the gap can't be
-            pinned on access alone; the cleaner evidence is the flat line
-            <em>within</em> each region. Throughout, the relationship is an
-            <em>association</em>, never proof that proximity does or doesn't make
-            a venue last. A cancelled licence can also mean a sale, a rename or a
-            move, not only a failure, so survival here is a proxy; and distance
-            is measured against today's stops for every cohort, so it is exact
-            for recent venues and only approximate the further back a cohort
-            sits. What the data shows is firm; the reasons are not.
+            three — but at every horizon each line stays
+            <strong>flat across distance</strong>. Venues right beside a stop
+            last no better than those a long walk away. Whether you compare
+            high-access metro against lower-access regional, or near against far
+            inside a single region, more access simply doesn't translate into
+            more years. The rest of this section checks the same claim again: an
+            SA2 scatter, a companion growth measure, and two maps. The answer
+            holds.
           </p>
         </div>
-
-        <figure class="chart">          <div id="chart-16" class="chart-mount" data-pending="true">
-            chart-16 · survival by distance band
-          </div>
-        </figure>
 
         <!-- §3 pair: access × survival (chart-17) and access × net venue growth
              (chart-20). Same spatial question, different outcome measures. -->
@@ -254,7 +266,8 @@
           </figure>
         </div>
 
-        <figure class="chart">          <div id="chart-18" class="chart-mount" data-pending="true">
+        <figure class="chart">
+          <div id="chart-18" class="chart-mount" data-pending="true">
             chart-18 · survival choropleth
           </div>
         </figure>
@@ -264,15 +277,20 @@
             <div id="chart-22" class="chart-mount" data-pending="true">
               chart-22 · access × survival bivariate map
             </div>
-            <div id="chart-22-legend" class="bivariate-legend" data-pending="true"></div>
+            <div
+              id="chart-22-legend"
+              class="bivariate-legend"
+              data-pending="true"
+            ></div>
           </div>
           <figcaption class="chart-note">
             One map, two measures. The horizontal mix of colour is access (how
             many of an area's venues sit within 400&nbsp;m of a stop); the
-            vertical mix is survival at the selected horizon. If proximity bought
-            survival, the transport-rich inner suburbs would glow dark blue —
-            high on both. Instead they mostly read cyan: high access, ordinary
-            survival. Survival is a licence-presence proxy; association only.
+            vertical mix is survival at the selected horizon. If proximity
+            bought survival, the transport-rich inner suburbs would glow dark
+            blue — high on both. Instead they mostly read cyan: high access,
+            ordinary survival. Survival is a licence-presence proxy; association
+            only.
           </figcaption>
         </figure>
       </section>
@@ -280,9 +298,7 @@
       <!-- ===== §4 Why might this be? ===== -->
       <section class="section" id="s4">
         <p class="kicker">One possible reason</p>
-        <h2 class="section-claim">
-          Fewer people are riding to the door
-        </h2>
+        <h2 class="section-claim">Fewer people are riding to the door</h2>
         <div class="prose">
           <p>
             §3 showed the venues with the most transport access didn't last
@@ -300,9 +316,10 @@
           </p>
           <p>
             Some of that travel has shifted to rideshare. Roy Morgan's quarterly
-            tracker (June 2025) puts <strong>7.4&nbsp;million Australians aged
-            14+ using Uber</strong> in the March 2025 quarter — 32.3% of the
-            14+ population, and <strong>40.6% above the pre-pandemic peak</strong>
+            tracker (June 2025) puts
+            <strong>7.4&nbsp;million Australians aged 14+ using Uber</strong> in
+            the March 2025 quarter — 32.3% of the 14+ population, and
+            <strong>40.6% above the pre-pandemic peak</strong>
             of 5.27&nbsp;million. Taxi use has stagnated at 4.2&nbsp;million.
             None of this proves rideshare drained PT-near venues — those figures
             are national, not Melbourne, and a usage rate, not trip counts — but
@@ -315,29 +332,30 @@
             transport was never how most people reach a venue. Victoria's travel
             survey (VISTA) records how people actually travelled to pubs, bars,
             restaurants, cafes and clubs — and across its two most recent waves
-            only about <strong>5% of those trips arrived by public
-            transport</strong>. Two in three came by car; a quarter came on foot.
-            If barely a twentieth of venue visits use a stop, then sitting near
-            one was always the baseline, not the edge — which is just what the §3
-            bust shows.
+            only about
+            <strong>5% of those trips arrived by public transport</strong>. Two
+            in three came by car; a quarter came on foot. If barely a twentieth
+            of venue visits use a stop, then sitting near one was always the
+            baseline, not the edge — which is just what the §3 bust shows.
           </p>
           <p>
             And travel habits are only one of several plausible reasons.
             Hospitality is already so concentrated near public transport (78% of
-            venues within 400&nbsp;m statewide) that proximity is a near-universal
-            condition rather than a distinguishing advantage; rents, lease length
-            and venue type plausibly matter more than the walk to a tram.
+            venues within 400&nbsp;m statewide) that proximity is a
+            near-universal condition rather than a distinguishing advantage;
+            rents, lease length and venue type plausibly matter more than the
+            walk to a tram.
           </p>
           <p class="caveat">
             Patronage figures count PTV trips in Melbourne (Department of
             Transport &amp; Planning Victoria, CC BY 4.0). The mode mix is from
-            VISTA (the same department's travel survey): a sample of trips, so the
-            shares are weighted estimates pooled across 2022–23 and 2023–24, and
-            some bars — rideshare especially — rest on only a handful of surveyed
-            trips. The Uber/taxi figures count the share of Australians 14+ who
-            used the service in a quarter (Roy Morgan, June 2025). Three different
-            units; placed beside each other, never compared on a single axis.
-            Context, not causation.
+            VISTA (the same department's travel survey): a sample of trips, so
+            the shares are weighted estimates pooled across 2022–23 and 2023–24,
+            and some bars — rideshare especially — rest on only a handful of
+            surveyed trips. The Uber/taxi figures count the share of Australians
+            14+ who used the service in a quarter (Roy Morgan, June 2025). Three
+            different units; placed beside each other, never compared on a
+            single axis. Context, not causation.
           </p>
         </div>
 
@@ -363,9 +381,9 @@
             <figcaption class="chart-note">
               Each square represents 1 percentage point of surveyed trips whose
               destination was a hospitality or social venue (VISTA 2022–23 and
-              2023–24 pooled, 2,378 trips). The single taxi/rideshare square rests
-              on just 22 surveyed trips — read it as a rough order of magnitude,
-              not a precise figure.
+              2023–24 pooled, 2,378 trips). The single taxi/rideshare square
+              rests on just 22 surveyed trips — read it as a rough order of
+              magnitude, not a precise figure.
             </figcaption>
           </figure>
         </div>
@@ -380,10 +398,11 @@
         <p>
           Data: Liquor Control Victoria (data.vic.gov.au); Department of
           Transport &amp; Planning Victoria (PT stops, lines, monthly patronage
-          by mode, and the VISTA travel survey); ABS (SEIFA, Regional Population,
-          ASGS 2021 SA2 boundaries). §4 also cites Roy Morgan Research (rideshare
-          and taxi usage, June 2025). "Near public transport" means proximity to a stop,
-          not service frequency. Associations only — not causal.
+          by mode, and the VISTA travel survey); ABS (SEIFA, Regional
+          Population, ASGS 2021 SA2 boundaries). §4 also cites Roy Morgan
+          Research (rideshare and taxi usage, June 2025). "Near public
+          transport" means proximity to a stop, not service frequency.
+          Associations only — not causal.
         </p>
         <p>
           Headings set in Fraunces (SIL Open Font License 1.1). Built with
@@ -480,8 +499,20 @@
       // the "find your suburb" box — and a Clear button resets everything. Pre-aggregated
       // CSVs can't cross-filter, so each target just highlights its own rows keyed by
       // sa2_code_2021 (string); SA2s missing from a chart's data simply don't light up.
-      const HIGHLIGHT_TARGETS = ["chart-03", "chart-06", "chart-17", "chart-20", "chart-18", "chart-22"];
-      const SURVIVAL_HORIZON_TARGETS = ["chart-16", "chart-17", "chart-18", "chart-22"];
+      const HIGHLIGHT_TARGETS = [
+        "chart-03",
+        "chart-06",
+        "chart-17",
+        "chart-20",
+        "chart-18",
+        "chart-22",
+      ];
+      const SURVIVAL_HORIZON_TARGETS = [
+        "chart-16",
+        "chart-17",
+        "chart-18",
+        "chart-22",
+      ];
       // Charts that emit a click selection: { mounted id, point-selection signal, its store }.
       const CLICK_SOURCES = [
         { id: "chart-03", signal: "sa2_sel", store: "sa2_sel_store" },
@@ -506,14 +537,20 @@
         function setSelectedSA2(code, fromInput) {
           for (const id of HIGHLIGHT_TARGETS) {
             let c = code;
-            if (id === "chart-03" && c && metroMapCodes && !metroMapCodes.has(c)) {
+            if (
+              id === "chart-03" &&
+              c &&
+              metroMapCodes &&
+              !metroMapCodes.has(c)
+            ) {
               c = null;
             }
             if (views[id]) views[id].signal("selected_sa2", c || null).run();
           }
           if (clearBtn) clearBtn.hidden = !code;
           // Reflect the pinned SA2 in the box (unless the box is what changed).
-          if (input && !fromInput) input.value = code ? nameByCode.get(code) || "" : "";
+          if (input && !fromInput)
+            input.value = code ? nameByCode.get(code) || "" : "";
         }
 
         let syncingHorizon = false;
@@ -542,7 +579,7 @@
         for (const { id, signal } of CLICK_SOURCES) {
           if (views[id]) {
             views[id].addSignalListener(signal, (_n, value) =>
-              setSelectedSA2(codeFrom(value), false)
+              setSelectedSA2(codeFrom(value), false),
             );
           }
         }
@@ -552,7 +589,7 @@
         for (const id of SURVIVAL_HORIZON_TARGETS) {
           if (views[id]) {
             views[id].addSignalListener("horizonYears", (_n, value) =>
-              setSurvivalHorizon(value, id)
+              setSurvivalHorizon(value, id),
             );
           }
         }
@@ -560,7 +597,8 @@
         // "Find your suburb": resolve the typed/picked SA2 name to its code.
         if (input) {
           input.addEventListener("change", () => {
-            const code = codeByName.get(input.value.trim().toLowerCase()) || null;
+            const code =
+              codeByName.get(input.value.trim().toLowerCase()) || null;
             setSelectedSA2(code, true);
           });
         }
@@ -570,7 +608,7 @@
             // Empty the native selection stores so a re-click of the same SA2 re-fires,
             // then clear the shared highlight.
             const resets = CLICK_SOURCES.filter((s) => views[s.id]).map((s) =>
-              views[s.id].data(s.store, []).runAsync()
+              views[s.id].data(s.store, []).runAsync(),
             );
             Promise.all(resets).then(() => setSelectedSA2(null, false));
           });
@@ -584,7 +622,7 @@
             const geoms =
               (t.objects.sa2_summary && t.objects.sa2_summary.geometries) || [];
             metroMapCodes = new Set(
-              geoms.map((g) => String(g.properties.sa2_code_2021))
+              geoms.map((g) => String(g.properties.sa2_code_2021)),
             );
           })
           .catch((err) => console.error("metro map codes", err));

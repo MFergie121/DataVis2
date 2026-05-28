@@ -47,20 +47,10 @@
       "type": "quantitative",
       "title": "Share of an SA2's venues within 400 m of a stop (%)",
       "scale": {
-        "domain": [
-          0,
-          100
-        ]
+        "domain": [0, 100]
       },
       "axis": {
-        "values": [
-          0,
-          20,
-          40,
-          60,
-          80,
-          100
-        ],
+        "values": [0, 20, 40, 60, 80, 100],
         "format": ".0f",
         "grid": true
       }
@@ -70,10 +60,7 @@
       "type": "nominal",
       "title": null,
       "scale": {
-        "domain": [
-          "Metro",
-          "Regional"
-        ]
+        "domain": ["Metro", "Regional"]
       },
       "axis": {
         "labelFontSize": 13,
@@ -91,9 +78,7 @@
           "name": "pick_06",
           "select": {
             "type": "point",
-            "fields": [
-              "sa2_code_2021"
-            ],
+            "fields": ["sa2_code_2021"],
             "on": "click",
             "clear": "dblclick"
           }
@@ -112,14 +97,8 @@
           "type": "nominal",
           "legend": null,
           "scale": {
-            "domain": [
-              "Metro",
-              "Regional"
-            ],
-            "range": [
-              "#1b9e77",
-              "#d95f02"
-            ]
+            "domain": ["Metro", "Regional"],
+            "range": ["#1b9e77", "#d95f02"]
           }
         },
         "size": {
@@ -127,23 +106,15 @@
           "type": "quantitative",
           "title": "Venues in SA2",
           "scale": {
-            "domain": [
-              10,
-              700
-            ],
-            "range": [
-              20,
-              420
-            ]
+            "domain": [10, 700],
+            "range": [20, 420]
           },
           "legend": {
-            "orient": "bottom-right",
+            "orient": "right",
+            "direction": "vertical",
             "format": "d",
-            "values": [
-              25,
-              200,
-              600
-            ]
+            "values": [25, 200, 600],
+            "padding": 8
           }
         },
         "opacity": {
@@ -206,9 +177,7 @@
               "as": "mean_access"
             }
           ],
-          "groupby": [
-            "metro_regional_majority"
-          ]
+          "groupby": ["metro_regional_majority"]
         }
       ],
       "mark": {
@@ -236,9 +205,7 @@
               "as": "mean_access"
             }
           ],
-          "groupby": [
-            "metro_regional_majority"
-          ]
+          "groupby": ["metro_regional_majority"]
         },
         {
           "calculate": "'avg ' + format(datum.mean_access, '.0f') + '%'",

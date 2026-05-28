@@ -20,19 +20,9 @@
   ],
   "projection": {
     "type": "conicEqualArea",
-    "rotate": [
-      -145.05,
-      0,
-      0
-    ],
-    "center": [
-      0,
-      -37.795
-    ],
-    "parallels": [
-      -37.7,
-      -37.9
-    ]
+    "rotate": [-145.05, 0, 0],
+    "center": [0, -37.795],
+    "parallels": [-37.7, -37.9]
   },
   "layer": [
     {
@@ -41,9 +31,7 @@
           "name": "sa2_sel",
           "select": {
             "type": "point",
-            "fields": [
-              "sa2_code_2021"
-            ],
+            "fields": ["sa2_code_2021"],
             "on": "click",
             "toggle": "event.shiftKey"
           }
@@ -98,17 +86,31 @@
         "color": {
           "field": "access_class",
           "type": "ordinal",
-          "title": [
-            "Venues within",
-            "400 m of a stop"
-          ],
+          "title": ["Venues within", "400 m of a stop"],
           "scale": {
-            "domain": ["0–20%", "20–40%", "40–60%", "60–80%", "80–100%", "No data"],
-            "range": ["#cceef0", "#80cdc1", "#35978f", "#01665e", "#003c30", "#cccccc"]
+            "domain": [
+              "0–20%",
+              "20–40%",
+              "40–60%",
+              "60–80%",
+              "80–100%",
+              "No data"
+            ],
+            "range": [
+              "#cceef0",
+              "#80cdc1",
+              "#35978f",
+              "#01665e",
+              "#003c30",
+              "#cccccc"
+            ]
           },
           "legend": {
             "symbolType": "square",
-            "symbolSize": 150
+            "symbolSize": 150,
+            "orient": "bottom",
+            "direction": "horizontal",
+            "padding": 8
           }
         },
         "opacity": {

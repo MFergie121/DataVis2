@@ -4,8 +4,7 @@
   "title": {
     "text": "Venue density hugs the network — inner Melbourne",
     "subtitle": [
-      "Each hex ≈ 1 km² · train and tram routes overlaid · venue count drives hex colour.",
-      "Proximity to a stop, not service frequency."
+      "Each hex ≈ 1 km² · train and tram routes overlaid · venue count drives hex colour."
     ],
     "anchor": "start",
     "subtitleFontStyle": "italic"

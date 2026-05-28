@@ -5,13 +5,17 @@
     "text": "Most venues are a short walk from a stop",
     "subtitle": "14,342 venues — 61% — are within 200 m; 78% are within 400 m.",
     "anchor": "start",
-    "subtitleFontStyle": "italic"
+    "subtitleFontStyle": "italic",
+    "offset": 16
   },
   "width": "container",
   "height": 300,
   "data": { "url": "data/venues_web.csv" },
   "transform": [
-    { "calculate": "datum.distance_band_order <= 2 ? 'Within 400 m' : 'Beyond 400 m'", "as": "access_threshold" }
+    {
+      "calculate": "datum.distance_band_order <= 2 ? 'Within 400 m' : 'Beyond 400 m'",
+      "as": "access_threshold"
+    }
   ],
   "encoding": {
     "x": {
@@ -28,7 +32,12 @@
     },
     "tooltip": [
       { "field": "distance_band", "type": "nominal", "title": "Band" },
-      { "aggregate": "count", "type": "quantitative", "title": "Venues", "format": "," }
+      {
+        "aggregate": "count",
+        "type": "quantitative",
+        "title": "Venues",
+        "format": ","
+      }
     ]
   },
   "layer": [
@@ -39,7 +48,10 @@
           "field": "access_threshold",
           "type": "nominal",
           "title": null,
-          "scale": { "domain": ["Within 400 m", "Beyond 400 m"], "range": ["#238b8b", "#cbd2d0"] },
+          "scale": {
+            "domain": ["Within 400 m", "Beyond 400 m"],
+            "range": ["#238b8b", "#cbd2d0"]
+          },
           "legend": { "orient": "top-right" }
         }
       }
@@ -54,9 +66,7 @@
     {
       "description": "400 m threshold marker — labels the within/beyond colour break with the walking-time unit so the reader doesn't have to decode the distance from the axis.",
       "data": {
-        "values": [
-          {}
-        ]
+        "values": [{}]
       },
       "mark": {
         "type": "text",
