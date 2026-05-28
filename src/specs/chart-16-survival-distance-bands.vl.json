@@ -245,7 +245,7 @@
         "lineHeight": 14,
         "x": 8,
         "y": {
-          "expr": "height + 20 "
+          "expr": "height - 30 "
         },
         "text": [
           "Regional (orange) outlasts metro (teal)",
