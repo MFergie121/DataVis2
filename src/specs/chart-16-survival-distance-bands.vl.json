@@ -21,11 +21,7 @@
       "value": 2,
       "bind": {
         "input": "select",
-        "options": [
-          1,
-          2,
-          3
-        ],
+        "options": [1, 2, 3],
         "labels": [
           "1 year (still open July 2023)",
           "2 years (still open July 2024)",
@@ -56,10 +52,7 @@
       ],
       "mark": {
         "type": "rule",
-        "strokeDash": [
-          4,
-          4
-        ],
+        "strokeDash": [4, 4],
         "strokeWidth": 1,
         "color": "#8c8c8c"
       },
@@ -71,10 +64,7 @@
             "format": ".0f"
           },
           "scale": {
-            "domain": [
-              65,
-              92
-            ]
+            "domain": [65, 92]
           }
         }
       }
@@ -115,10 +105,7 @@
             "format": ".0f"
           },
           "scale": {
-            "domain": [
-              65,
-              92
-            ]
+            "domain": [65, 92]
           }
         },
         "text": {
@@ -156,10 +143,7 @@
             "format": ".0f"
           },
           "scale": {
-            "domain": [
-              65,
-              92
-            ]
+            "domain": [65, 92]
           }
         },
         "color": {
@@ -167,14 +151,8 @@
           "type": "nominal",
           "title": "Region",
           "scale": {
-            "domain": [
-              "Metro",
-              "Regional"
-            ],
-            "range": [
-              "#1b9e77",
-              "#d95f02"
-            ]
+            "domain": ["Metro", "Regional"],
+            "range": ["#1b9e77", "#d95f02"]
           }
         },
         "tooltip": [
@@ -240,14 +218,8 @@
           "field": "metro_regional",
           "type": "nominal",
           "scale": {
-            "domain": [
-              "Metro",
-              "Regional"
-            ],
-            "range": [
-              "#1b9e77",
-              "#d95f02"
-            ]
+            "domain": ["Metro", "Regional"],
+            "range": ["#1b9e77", "#d95f02"]
           },
           "legend": null
         },
@@ -261,9 +233,7 @@
     {
       "description": "Metro-gap callout: names the vertical separation between the two lines as the section's hook — regional out-survives metro despite having less transport access. Pixel-positioned in bottom-left whitespace (mark-property x/y, no y encoding, so it can't clash with the survival scale), clear of both lines at every horizon.",
       "data": {
-        "values": [
-          {}
-        ]
+        "values": [{}]
       },
       "mark": {
         "type": "text",
@@ -275,7 +245,7 @@
         "lineHeight": 14,
         "x": 8,
         "y": {
-          "expr": "height - 6"
+          "expr": "height"
         },
         "text": [
           "Regional (orange) outlasts metro (teal)",
@@ -285,9 +255,7 @@
     },
     {
       "data": {
-        "values": [
-          {}
-        ]
+        "values": [{}]
       },
       "mark": {
         "type": "text",
@@ -308,9 +276,7 @@
     {
       "description": "Caveat badge reminding the reader that survival is a licence-presence proxy, not a direct closure measure.",
       "data": {
-        "values": [
-          {}
-        ]
+        "values": [{}]
       },
       "mark": {
         "type": "text",
