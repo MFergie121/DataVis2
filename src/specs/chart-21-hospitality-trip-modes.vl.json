@@ -51,8 +51,18 @@
           "type": "nominal",
           "title": null,
           "scale": {
-            "domain": ["Private vehicle / rideshare", "Walking / cycling", "Public transport", "Taxi"],
-            "range": ["#d4541a", "#4a8f5c", "#1f4e79", "#8e5ea2"]
+            "domain": [
+              "Private vehicle / rideshare",
+              "Walking / cycling",
+              "Public transport",
+              "Taxi"
+            ],
+            "range": [
+              "#6d6d6d",
+              "#e7a6b8",
+              "#1f4e79",
+              "#8e5ea2"
+            ]
           },
           "legend": {
             "orient": "bottom",
@@ -72,9 +82,7 @@
     },
     {
       "description": "Direct label on the five navy PT squares — makes the 5% figure readable without consulting the legend.",
-      "transform": [
-        { "filter": "datum.index == 96" }
-      ],
+      "transform": [{ "filter": "datum.index == 96" }],
       "mark": {
         "type": "text",
         "align": "center",
