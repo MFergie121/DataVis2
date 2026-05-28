@@ -33,7 +33,6 @@
 
   /* Layout */
   --maxw: 1120px;    /* shared page width; wide enough for paired charts, but not full-bleed */
-  --measure: 68ch;   /* body line length ~60–75 chars */
   --gap: 1.25rem;
 
   /* Typography: Fraunces throughout — headings and body share one typeface for a
@@ -72,15 +71,15 @@ body {
   font-size: clamp(2rem, 5vw, 2.9rem);
   line-height: 1.12;
   font-weight: 700;
-  letter-spacing: -0.01em;
+  letter-spacing: 0;
   margin: 0 0 0.4rem;
-  max-width: 22ch;
+  width: 100%;
 }
 
 .deck {
   font-size: 1.15rem;
   color: var(--muted);
-  max-width: var(--measure);
+  width: 100%;
   margin: 0 0 0.75rem;
 }
 
@@ -96,7 +95,7 @@ body {
   line-height: 1.2;
   font-weight: 700;
   margin: 0 0 0.35rem;
-  max-width: 24ch;
+  width: 100%;
 }
 
 .kicker {
@@ -109,7 +108,7 @@ body {
 }
 
 .prose {
-  max-width: var(--measure);
+  width: 100%;
   color: var(--ink);
 }
 
@@ -176,7 +175,7 @@ body {
   font-size: 0.85rem;
   color: var(--muted);
   margin: 0.4rem 0 0;
-  max-width: var(--measure);
+  width: 100%;
 }
 
 /* Mount point: holds a vega-embed view. Placeholder look until a spec lands. */
