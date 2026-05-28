@@ -214,7 +214,7 @@
           },
           {
             "place": "Bright - Mount Beauty",
-            "lon": 146.96,
+            "lon": 147.26,
             "lat": -36.73,
             "order": 2
           },
@@ -226,7 +226,7 @@
           },
           {
             "place": "Omeo",
-            "lon": 147.6,
+            "lon": 147.9,
             "lat": -37.1,
             "order": 2
           }
@@ -262,11 +262,11 @@
       "data": {
         "values": [
           {
-            "lon": 146.96,
+            "lon": 147.26,
             "lat": -36.73
           },
           {
-            "lon": 147.6,
+            "lon": 147.9,
             "lat": -37.1
           }
         ]
@@ -296,7 +296,7 @@
         "values": [
           {
             "place": "Mount Beauty",
-            "lon": 146.05,
+            "lon": 146.35,
             "lat": -35.45,
             "access_share_pct": 34.6,
             "survival_rate_1yr_pct": 91.0,
@@ -305,7 +305,7 @@
           },
           {
             "place": "Omeo",
-            "lon": 147.35,
+            "lon": 147.65,
             "lat": -35.75,
             "access_share_pct": 31.6,
             "survival_rate_1yr_pct": 94.4,

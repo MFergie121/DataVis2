@@ -199,8 +199,7 @@
         },
         "y": {
           "expr": "height - 8"
-        },
-        "text": "proximity = walking distance, not service frequency"
+        }
       }
     }
   ],
