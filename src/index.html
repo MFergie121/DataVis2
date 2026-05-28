@@ -101,26 +101,31 @@
       <section class="section" id="s2">
         <p class="kicker">The premise</p>
         <h2 class="section-claim">
-          Hospitality is built around the transport mesh
+          If being near transport helps a venue anywhere, it should help in
+          inner Melbourne
         </h2>
         <div class="prose">
           <p>
-            This is not just a few inner-city strips happening to sit near a
-            bus stop. Across the metropolitan map, whole neighbourhood
-            hospitality ecosystems are wrapped around public transport. Each
-            region below is an
+            Start with the place that should benefit most. Each region on the
+            map is an
             <abbr
               title="ABS Statistical Area Level 2 — a neighbourhood-scale region of roughly 3,000–25,000 people"
               >SA2</abbr
-            >; <em>within 400 m</em> means a venue is roughly a five-minute walk
-            from its nearest stop.
+            >, a neighbourhood of a few thousand people, and
+            <em>within 400 m</em> means a venue is roughly a five-minute walk
+            from its nearest stop. Across inner Melbourne the map is almost
+            uniformly dark: in the typical neighbourhood about nine in ten
+            venues sit within that five-minute walk. This is not a few
+            inner-city strips happening to sit near a bus stop — whole
+            hospitality districts are wrapped around the transport mesh.
           </p>
           <p>
-            The scatter asks a stronger question than "is there a stop nearby?"
-            It counts how many stops surround the typical venue in each SA2.
-            The large hospitality clusters sit in the stop-rich parts of the
-            network, so the intuitive expectation is reasonable: if transport
-            proximity matters anywhere, surely it should matter here.
+            And inner Melbourne is in a class of its own. The strip on the
+            right lines up every area by the share of its venues near a stop:
+            metro neighbourhoods crowd up against 100%, while regional Victoria
+            trails nearly thirty points behind. So if being close to public
+            transport helps a venue at all, this is where the help should show
+            up. The next section puts that expectation to the test.
           </p>
         </div>
 
@@ -142,26 +147,28 @@
           </button>
         </div>
         <p class="chart-note">
-          Pick a suburb (or click any region) to highlight it on both maps and
-          the scatters.
+          Pick a suburb (or click any region) to highlight it on the map, the
+          strip plot and the survival charts further down.
         </p>
 
-        <!-- §2 pair: access choropleth (chart-03) ▏ stop-richness scatter (chart-06) -->
+        <!-- §2 pair: inner-Melbourne access choropleth (chart-03) ▏ metro-vs-regional access strip (chart-06) -->
         <div class="chart-pair">
           <figure class="chart">
             <div id="chart-03" class="chart-mount" data-pending="true">
-              chart-03 · access choropleth
+              chart-03 · inner-Melbourne access choropleth
             </div>
           </figure>
 
           <figure class="chart">
             <div id="chart-06" class="chart-mount" data-pending="true">
-              chart-06 · transport-intensity scatter
+              chart-06 · metro-vs-regional access strip
             </div>
             <figcaption class="chart-note">
-              Each dot is an SA2 with at least 10 venues. The biggest clusters
-              are not merely close to one stop; they sit where the local stop
-              mesh is thick. That is why the survival test below is worth asking.
+              Each dot is an SA2 with at least 10 venues, sized by how many.
+              Metro areas (teal) cluster near 100%; regional Victoria (orange)
+              sits well to the left. Metro holds a clear access advantage —
+              which is exactly why the survival test in the next section is
+              worth asking.
             </figcaption>
           </figure>
         </div>
@@ -171,45 +178,46 @@
       <section class="section section--hero" id="s3">
         <p class="kicker">Close without the cigar</p>
         <h2 class="section-claim">
-          All that closeness — and it doesn't keep the doors open
+          It didn't. Inner Melbourne had the most access — and the worst
+          survival
         </h2>
         <div class="prose">
           <p>
-            So does sitting near a stop actually help a venue last — and for how
-            long? We can test it. The licence list is published every month, so
-            we take every venue licensed in July 2022 and follow it forward: was
-            it still licensed one year later? Two? Three? A licence that vanishes
-            is our stand-in for a venue that closed. Slide the <em>survival
-            horizon</em> selector beneath the chart from one year out to three,
-            and two things show up. Survival <strong>slips as the years
-            pass</strong> — about 84% of the 2022 cohort is still trading after a
-            year, around 76% after three. But at every horizon the line stays
-            <strong>flat across distance</strong>: venues right beside a stop
-            last no better than those a long walk away, and the bands closest to
-            transport are no exception. Closeness might buy foot traffic — it
-            doesn't buy extra years.
+            If proximity paid off anywhere, it would be inner Melbourne. It
+            doesn't. We can test it: the licence list is published every month,
+            so we take every venue licensed in July 2022 and follow it forward —
+            still licensed one year later? Two? Three? (A licence that vanishes
+            is our stand-in for a venue that closed.) The first chart splits that
+            cohort by region, and the surprise is the <strong>gap between the
+            lines</strong>: regional Victoria, with far <em>less</em> transport
+            access, out-survives metro at every distance band and every horizon.
+            The places with the most access fare the worst.
           </p>
           <p>
-            The rest of this section uses the same July 2022 cohort and
-            1/2/3-year survival horizons, then fixes "near" at the page's
-            400&nbsp;m definition. Across places the answer is the same:
-            <strong>being near a stop gives a venue no survival advantage.</strong>
-            Survival falls as the horizon lengthens, but the access-survival
-            line stays flat. Inside Melbourne, venues within 400&nbsp;m survive
-            about as often as venues further out, and regional venues last just
-            as well far from a stop. A second scatter checks the same claim on
-            larger local cohorts, so the finding does not rest on tiny SA2
-            denominators. That line is weak too.
+            Look <em>within</em> each region and the point lands a second way.
+            Slide the <em>survival horizon</em> selector from one year out to
+            three: survival <strong>slips as the years pass</strong> — about 84%
+            of the 2022 cohort is still trading after a year, around 76% after
+            three — but at every horizon each line stays <strong>flat across
+            distance</strong>. Venues right beside a stop last no better than
+            those a long walk away. Whether you compare high-access metro against
+            lower-access regional, or near against far inside a single region,
+            more access simply doesn't translate into more years. The rest of
+            this section checks the same claim three more ways — a per-area
+            scatter, a companion growth measure and a map — and the answer holds.
           </p>
           <p class="caveat">
-            Why this is, we can only speculate (see below). And a cancelled
-            licence can mean a sale, a rename or a move, not only a failure — so
-            survival here is a proxy and the relationship is an
-            <em>association</em>, never proof that proximity does or doesn't
-            cause a venue to last. Distance, too, is measured against today's
-            stops for every cohort, so it is exact for recent venues and only
-            approximate the further back a cohort sits. What the data shows is
-            firm; the reasons are not.
+            Read the metro–regional gap as a striking pattern, not a cause. The
+            two are different markets in dozens of ways beyond transport — rents,
+            competition, the lingering hit to the CBD — so the gap can't be
+            pinned on access alone; the cleaner evidence is the flat line
+            <em>within</em> each region. Throughout, the relationship is an
+            <em>association</em>, never proof that proximity does or doesn't make
+            a venue last. A cancelled licence can also mean a sale, a rename or a
+            move, not only a failure, so survival here is a proxy; and distance
+            is measured against today's stops for every cohort, so it is exact
+            for recent venues and only approximate the further back a cohort
+            sits. What the data shows is firm; the reasons are not.
           </p>
         </div>
 
@@ -226,9 +234,10 @@
               chart-17 · access × survival scatter
             </div>
             <figcaption class="chart-note">
-              "Near" is fixed at 400&nbsp;m here, matching the access maps. Use
-              the survival-horizon selector to test whether the flat
-              access-survival relationship changes after one, two or three years.
+              "Near" is fixed at 400&nbsp;m here, matching the access map. Each
+              dot is an SA2, coloured metro or regional; use the
+              survival-horizon selector to see whether the flat line — and
+              metro's lag behind regional — holds after one, two or three years.
             </figcaption>
           </figure>
 
@@ -239,7 +248,8 @@
             <figcaption class="chart-note">
               This companion view switches from licence survival to net active
               venue growth: did each SA2 gain or lose active licences between
-              July 2023 and July 2025?
+              July 2023 and July 2025? Same split by region — and again, more
+              access buys metro no edge.
             </figcaption>
           </figure>
         </div>
@@ -275,9 +285,10 @@
         </h2>
         <div class="prose">
           <p>
-            §3 showed proximity doesn't predict survival. It can't say
-            <em>why</em> — but one thing has plainly changed since most of these
-            venues opened: how Melburnians actually travel.
+            §3 showed the venues with the most transport access didn't last
+            better — if anything, worse. It can't say <em>why</em> — but one
+            thing has plainly changed since most of these venues opened: how
+            Melburnians actually travel.
           </p>
           <p>
             Public-transport patronage has not recovered to pre-pandemic levels.
@@ -464,7 +475,7 @@
       // The page's linked selection (its custom interaction). One SA2 code is the
       // single source of truth: `setSelectedSA2(code)` pushes it into the
       // `selected_sa2` signal of every linked chart, so the same neighbourhood lights
-      // up on both choropleths and both scatters at once. Three things can set it —
+      // up across the maps, the access strip and the scatters at once. Three things can set it —
       // clicking the access map (chart-03), clicking the survival map (chart-18), or
       // the "find your suburb" box — and a Clear button resets everything. Pre-aggregated
       // CSVs can't cross-filter, so each target just highlights its own rows keyed by
@@ -486,10 +497,19 @@
         const input = document.getElementById("suburb-input");
         const nameByCode = new Map(); // "206071139" -> "Abbotsford"
         const codeByName = new Map(); // "abbotsford" -> "206071139"
+        // chart-03 is zoomed to inner-Melbourne (224 SA2s). A selection of any SA2
+        // not on that map (regional, or outer metro) would dim every metro polygon
+        // and highlight none — so we suppress it for chart-03 only and let the map
+        // stay fully lit. Populated from the same topojson the map draws.
+        let metroMapCodes = null;
 
         function setSelectedSA2(code, fromInput) {
           for (const id of HIGHLIGHT_TARGETS) {
-            if (views[id]) views[id].signal("selected_sa2", code || null).run();
+            let c = code;
+            if (id === "chart-03" && c && metroMapCodes && !metroMapCodes.has(c)) {
+              c = null;
+            }
+            if (views[id]) views[id].signal("selected_sa2", c || null).run();
           }
           if (clearBtn) clearBtn.hidden = !code;
           // Reflect the pinned SA2 in the box (unless the box is what changed).
@@ -555,6 +575,19 @@
             Promise.all(resets).then(() => setSelectedSA2(null, false));
           });
         }
+
+        // Inner-Melbourne SA2 codes that chart-03 actually draws — used to suppress
+        // off-map selections on that one chart (see setSelectedSA2).
+        fetch("data/sa2_melbourne.topojson")
+          .then((r) => r.json())
+          .then((t) => {
+            const geoms =
+              (t.objects.sa2_summary && t.objects.sa2_summary.geometries) || [];
+            metroMapCodes = new Set(
+              geoms.map((g) => String(g.properties.sa2_code_2021))
+            );
+          })
+          .catch((err) => console.error("metro map codes", err));
 
         // Populate the suburb datalist from the SA2 summary (already fetched for the maps).
         fetch("data/sa2_summary_web.csv")

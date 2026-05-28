@@ -1,11 +1,11 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Chart 06 — Transport intensity scatter. One point per SA2 with at least 10 venues: the median number of stops within 400 m of each venue (x) against the SA2's venue count (y, log scale), coloured metro/regional. This replaces the old SEIFA-decile paradox chart so section 2 builds the expectation that hospitality is organised around stop-rich transport nodes, not merely near any one stop. Labels identify major clusters such as the Melbourne CBD, Fitzroy, Geelong, St Kilda and Southbank. Receives and emits the page-wide selected_sa2 highlight.",
+  "description": "Chart 06 — Metro-vs-regional access strip plot. One jittered dot per SA2 (≥10 venues), placed horizontally by the share of that SA2's venues within 400 m of a stop, split into a Metro band (teal) and a Regional band (orange) and sized by venue count. It carries section 2's comparative claim — Greater Melbourne hospitality sits on far better transport access than regional Victoria — now that the access map (chart-03) is zoomed to metro only and can no longer show the contrast itself. A short tick + label marks each band's mean (metro ≈87%, regional ≈59%). The teal/orange split deliberately rhymes with chart-16 in §3, where the same two groups reappear and regional out-survives metro despite less access. Receives and emits the page-wide selected_sa2 highlight; clicking a regional dot highlights it here and on the statewide §3 charts, but leaves the metro-only map fully lit (handled in index.html). Data: sa2_summary_web.csv.",
   "title": {
-    "text": "The biggest hospitality clusters sit in stop-rich places",
+    "text": "Melbourne's venues are far more likely to sit near transport",
     "subtitle": [
-      "Each dot is an SA2. The x-axis counts how many stops the typical venue has within 400 m;",
-      "the largest clusters sit where that local transport mesh is thickest."
+      "Each dot is an SA2 with at least 10 venues, placed by the share of its venues within 400 m of a stop.",
+      "Metro areas crowd up against 100%; regional Victoria trails well behind."
     ],
     "anchor": "start",
     "subtitleFontStyle": "italic"
@@ -31,65 +31,56 @@
       "filter": "datum.metro_regional_majority == 'Metro' || datum.metro_regional_majority == 'Regional'"
     },
     {
-      "filter": "datum.median_stops_within_400m != null"
+      "filter": "datum.access_share_pct != null"
     },
     {
       "filter": "datum.venue_count >= 10"
+    },
+    {
+      "calculate": "random()",
+      "as": "jitter"
     }
   ],
   "encoding": {
     "x": {
-      "field": "median_stops_within_400m",
+      "field": "access_share_pct",
       "type": "quantitative",
-      "title": "Median stops within 400 m of a venue",
+      "title": "Share of an SA2's venues within 400 m of a stop (%)",
       "scale": {
         "domain": [
           0,
-          26
-        ]
-      },
-      "axis": {
-        "tickMinStep": 2,
-        "grid": true
-      }
-    },
-    "y": {
-      "field": "venue_count",
-      "type": "quantitative",
-      "title": "Licensed hospitality venues in the SA2",
-      "scale": {
-        "type": "log",
-        "domain": [
-          10,
-          700
+          100
         ]
       },
       "axis": {
         "values": [
-          10,
+          0,
           20,
-          50,
-          100,
-          200,
-          500
+          40,
+          60,
+          80,
+          100
         ],
-        "format": ","
+        "format": ".0f",
+        "grid": true
       }
     },
-    "color": {
+    "y": {
       "field": "metro_regional_majority",
       "type": "nominal",
-      "title": "Region",
-      "legend": null,
+      "title": null,
       "scale": {
         "domain": [
           "Metro",
           "Regional"
-        ],
-        "range": [
-          "#1b9e77",
-          "#d95f02"
         ]
+      },
+      "axis": {
+        "labelFontSize": 13,
+        "labelFontWeight": "bold",
+        "labelPadding": 6,
+        "domain": false,
+        "ticks": false
       }
     }
   },
@@ -112,19 +103,55 @@
         "type": "circle"
       },
       "encoding": {
+        "yOffset": {
+          "field": "jitter",
+          "type": "quantitative"
+        },
+        "color": {
+          "field": "metro_regional_majority",
+          "type": "nominal",
+          "legend": null,
+          "scale": {
+            "domain": [
+              "Metro",
+              "Regional"
+            ],
+            "range": [
+              "#1b9e77",
+              "#d95f02"
+            ]
+          }
+        },
+        "size": {
+          "field": "venue_count",
+          "type": "quantitative",
+          "title": "Venues in SA2",
+          "scale": {
+            "domain": [
+              10,
+              700
+            ],
+            "range": [
+              20,
+              420
+            ]
+          },
+          "legend": {
+            "orient": "bottom-right",
+            "format": "d",
+            "values": [
+              25,
+              200,
+              600
+            ]
+          }
+        },
         "opacity": {
           "condition": {
             "test": "selected_sa2 == null || datum.sa2_code_2021 == selected_sa2",
-            "value": 0.58
+            "value": 0.55
           },
           "value": 0.08
-        },
-        "size": {
-          "condition": {
-            "test": "selected_sa2 != null && datum.sa2_code_2021 == selected_sa2",
-            "value": 240
-          },
-          "value": 46
         },
         "stroke": {
           "condition": {
@@ -134,7 +161,7 @@
           "value": null
         },
         "strokeWidth": {
-          "value": 1.2
+          "value": 1.4
         },
         "tooltip": [
           {
@@ -148,22 +175,16 @@
             "title": "Region"
           },
           {
-            "field": "venue_count",
-            "type": "quantitative",
-            "title": "Venues",
-            "format": ","
-          },
-          {
-            "field": "median_stops_within_400m",
-            "type": "quantitative",
-            "title": "Median stops within 400 m",
-            "format": ".0f"
-          },
-          {
             "field": "access_share_pct",
             "type": "quantitative",
             "title": "Venues within 400 m",
             "format": ".0f"
+          },
+          {
+            "field": "venue_count",
+            "type": "quantitative",
+            "title": "Venues",
+            "format": ","
           },
           {
             "field": "median_nearest_stop_distance_m",
@@ -175,113 +196,97 @@
       }
     },
     {
+      "description": "Per-band mean access: a short vertical tick at the group average, so the ~28-point metro/regional gap reads as a single comparison.",
       "transform": [
         {
-          "regression": "venue_count",
-          "on": "median_stops_within_400m",
-          "method": "log",
+          "aggregate": [
+            {
+              "op": "mean",
+              "field": "access_share_pct",
+              "as": "mean_access"
+            }
+          ],
           "groupby": [
             "metro_regional_majority"
-          ],
-          "extent": [
-            0,
-            26
           ]
         }
       ],
       "mark": {
-        "type": "line",
-        "strokeWidth": 3,
-        "opacity": 0.8
+        "type": "tick",
+        "thickness": 3,
+        "size": 70,
+        "color": "#2f3a3d",
+        "opacity": 0.9
+      },
+      "encoding": {
+        "x": {
+          "field": "mean_access",
+          "type": "quantitative"
+        }
       }
     },
     {
-      "description": "Labels for recognisable large clusters that sit at different points in the transport mesh.",
+      "description": "Label for each band's mean, sitting just above the tick.",
       "transform": [
         {
-          "filter": "indexof(['Melbourne CBD - East', 'Melbourne CBD - West', 'Fitzroy', 'Geelong', 'St Kilda', 'Southbank'], datum.sa2_name_2021) >= 0"
+          "aggregate": [
+            {
+              "op": "mean",
+              "field": "access_share_pct",
+              "as": "mean_access"
+            }
+          ],
+          "groupby": [
+            "metro_regional_majority"
+          ]
+        },
+        {
+          "calculate": "'avg ' + format(datum.mean_access, '.0f') + '%'",
+          "as": "mean_label"
         }
       ],
       "mark": {
         "type": "text",
-        "align": "left",
-        "baseline": "middle",
-        "dx": 7,
-        "fontSize": 11,
-        "fontWeight": "bold"
-      },
-      "encoding": {
-        "text": {
-          "field": "sa2_name_2021"
-        },
-        "opacity": {
-          "condition": {
-            "test": "selected_sa2 == null || datum.sa2_code_2021 == selected_sa2",
-            "value": 0.88
-          },
-          "value": 0.18
-        }
-      }
-    },
-    {
-      "description": "Narrative callout anchoring the expectation: the CBD is not just near transport, it is surrounded by stops.",
-      "data": {
-        "values": [
-          {
-            "x": 24.8,
-            "y": 420
-          }
-        ]
-      },
-      "mark": {
-        "type": "text",
-        "text": [
-          "CBD venues are not just close",
-          "to one stop; the typical venue",
-          "has about 25 nearby stops."
-        ],
-        "align": "right",
-        "baseline": "middle",
-        "fontSize": 12,
+        "dy": -40,
         "fontWeight": "bold",
+        "fontSize": 12,
         "color": "#2f3a3d"
       },
       "encoding": {
         "x": {
-          "field": "x",
+          "field": "mean_access",
           "type": "quantitative"
         },
-        "y": {
-          "field": "y",
-          "type": "quantitative"
-        },
-        "color": null
+        "text": {
+          "field": "mean_label",
+          "type": "nominal"
+        }
       }
     },
     {
-      "description": "Direct labels for the region trend lines.",
+      "description": "Callout anchoring the gap as the section's setup: metro has the access advantage, so it has the most to gain.",
       "data": {
         "values": [
           {
-            "x": 18,
-            "y": 190,
-            "label": "Metro clusters climb with stop richness",
-            "region": "Metro"
-          },
-          {
-            "x": 9,
-            "y": 55,
-            "label": "Regional clusters are smaller",
-            "region": "Regional"
+            "x": 2,
+            "y": "Regional",
+            "label": [
+              "A ~28-point access gap.",
+              "If proximity to transport is",
+              "an advantage, metro holds it."
+            ]
           }
         ]
       },
       "mark": {
         "type": "text",
         "align": "left",
-        "baseline": "middle",
+        "baseline": "bottom",
+        "dy": 36,
         "fontSize": 12,
-        "fontWeight": "bold"
+        "fontStyle": "italic",
+        "color": "#555",
+        "lineHeight": 15
       },
       "encoding": {
         "x": {
@@ -290,25 +295,11 @@
         },
         "y": {
           "field": "y",
-          "type": "quantitative"
+          "type": "nominal"
         },
         "text": {
-          "field": "label"
-        },
-        "color": {
-          "field": "region",
-          "type": "nominal",
-          "scale": {
-            "domain": [
-              "Metro",
-              "Regional"
-            ],
-            "range": [
-              "#1b9e77",
-              "#d95f02"
-            ]
-          },
-          "legend": null
+          "field": "label",
+          "type": "nominal"
         }
       }
     }

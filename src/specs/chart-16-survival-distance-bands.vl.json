@@ -2,10 +2,10 @@
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "description": "Chart 16 — Does proximity to transport help venues survive, and for how long? One cohort of venues (every Victorian liquor licence held in July 2022) tracked forward: a 'Survival horizon' dropdown asks whether each venue was still licensed 1, 2 or 3 years later (the July 2023 / 2024 / 2025 snapshots), broken down by walking distance to the nearest stop and split metro (teal) / regional (orange). Survival slides DOWN as the horizon lengthens, but stays flat across the distance bands: being near a stop buys a venue no extra years. Lines/points (not bars) so the y-axis can zoom to the band where the small differences live without a misleading truncated-bar baseline. Survival is a proxy: a ceased licence can be a sale/relocation/rename, not only a closure — association, never causation. Distance is measured against present-day stops, so the older the cohort the more approximate (one stops file). Data: chart_survival_distance_band.csv (8 rows per horizon). NOTE: when new licences_YYYY-07.xlsx snapshots are added and derive_survival.py is rerun, it prints the exact 'horizonYears options' / 'y scale.domain' / 'overall floors by horizon' to keep this hand-maintained spec in sync.",
   "title": {
-    "text": "Being near transport doesn't keep venues open",
+    "text": "Being near transport doesn't keep venues open — and metro fares worst",
     "subtitle": [
-      "Venues licensed in July 2022, by distance to the nearest stop. Pick how long they had to stay open —",
-      "1, 2 or 3 years. Survival slips as the years pass, but stays flat across distance: closeness buys no extra years."
+      "Venues licensed in July 2022, by distance to the nearest stop, split metro (teal) vs regional (orange). Pick a horizon —",
+      "1, 2 or 3 years. Lines stay flat across distance, yet regional sits above metro at every band: more access, fewer survivors."
     ],
     "anchor": "start",
     "subtitleFontStyle": "italic"
@@ -91,7 +91,7 @@
           ]
         },
         {
-          "calculate": "'≈' + format(datum.floor, '.0f') + '% of the cohort survives — near or far'",
+          "calculate": "'whole-cohort average ≈' + format(datum.floor, '.0f') + '%'",
           "as": "label"
         }
       ],
@@ -256,6 +256,31 @@
           "type": "quantitative",
           "format": ".0f"
         }
+      }
+    },
+    {
+      "description": "Metro-gap callout: names the vertical separation between the two lines as the section's hook — regional out-survives metro despite having less transport access. Pixel-positioned in bottom-left whitespace (mark-property x/y, no y encoding, so it can't clash with the survival scale), clear of both lines at every horizon.",
+      "data": {
+        "values": [
+          {}
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "bottom",
+        "fontSize": 12,
+        "fontWeight": "bold",
+        "color": "#b3541e",
+        "lineHeight": 14,
+        "x": 8,
+        "y": {
+          "expr": "height - 6"
+        },
+        "text": [
+          "Regional (orange) outlasts metro (teal)",
+          "at every distance — despite less access."
+        ]
       }
     },
     {
