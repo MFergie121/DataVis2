@@ -20,11 +20,11 @@
     { "calculate": "datum.index % 10", "as": "col" },
     { "calculate": "floor(datum.index / 10)", "as": "row" },
     {
-      "calculate": "datum.index < 66 ? 'Private vehicle' : datum.index < 94 ? 'Walking / cycling' : datum.index < 99 ? 'Public transport' : 'Taxi / rideshare'",
+      "calculate": "datum.index < 66 ? 'Private vehicle / rideshare' : datum.index < 94 ? 'Walking / cycling' : datum.index < 99 ? 'Public transport' : 'Taxi'",
       "as": "mode_group"
     },
     {
-      "calculate": "datum.mode_group == 'Private vehicle' ? '65.7%' : datum.mode_group == 'Walking / cycling' ? '27.5%' : datum.mode_group == 'Public transport' ? '5.3%' : '1.2%'",
+      "calculate": "datum.mode_group == 'Private vehicle / rideshare' ? '65.7%' : datum.mode_group == 'Walking / cycling' ? '27.5%' : datum.mode_group == 'Public transport' ? '5.3%' : '1.2%'",
       "as": "share_label"
     }
   ],
@@ -51,8 +51,8 @@
           "type": "nominal",
           "title": null,
           "scale": {
-            "domain": ["Private vehicle", "Walking / cycling", "Public transport", "Taxi / rideshare"],
-            "range": ["#9aa3ad", "#c5cad0", "#1f4e79", "#7a8390"]
+            "domain": ["Private vehicle / rideshare", "Walking / cycling", "Public transport", "Taxi"],
+            "range": ["#d4541a", "#4a8f5c", "#1f4e79", "#8e5ea2"]
           },
           "legend": {
             "orient": "bottom",
