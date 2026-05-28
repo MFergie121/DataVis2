@@ -228,6 +228,123 @@
       }
     },
     {
+      "description": "Leader line from the Alpine annotation to Bright - Mount Beauty, the high-survival low-access alpine SA2.",
+      "data": {
+        "values": [
+          {
+            "lon": 146.35,
+            "lat": -35.65,
+            "order": 1
+          },
+          {
+            "lon": 146.96,
+            "lat": -36.73,
+            "order": 2
+          }
+        ]
+      },
+      "mark": {
+        "type": "line",
+        "stroke": "#1a1a1a",
+        "strokeWidth": 1,
+        "strokeDash": [
+          3,
+          3
+        ]
+      },
+      "encoding": {
+        "longitude": {
+          "field": "lon",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "lat",
+          "type": "quantitative"
+        },
+        "order": {
+          "field": "order",
+          "type": "ordinal"
+        }
+      }
+    },
+    {
+      "description": "Arrowhead at Bright - Mount Beauty.",
+      "data": {
+        "values": [
+          {
+            "lon": 146.96,
+            "lat": -36.73
+          }
+        ]
+      },
+      "mark": {
+        "type": "point",
+        "shape": "triangle-down",
+        "angle": 25,
+        "filled": true,
+        "size": 70,
+        "color": "#1a1a1a"
+      },
+      "encoding": {
+        "longitude": {
+          "field": "lon",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "lat",
+          "type": "quantitative"
+        }
+      }
+    },
+    {
+      "description": "Alpine callout text in the top-right quarter. Values use the same selected survival horizon as the choropleth.",
+      "data": {
+        "values": [
+          {
+            "lon": 146.2,
+            "lat": -35.45,
+            "access_share_pct": 34.6,
+            "survival_rate_1yr_pct": 91.0,
+            "survival_rate_2yr_pct": 91.0,
+            "survival_rate_3yr_pct": 86.0
+          }
+        ]
+      },
+      "transform": [
+        {
+          "calculate": "horizonYears === 1 ? datum.survival_rate_1yr_pct : (horizonYears === 2 ? datum.survival_rate_2yr_pct : datum.survival_rate_3yr_pct)",
+          "as": "survival_rate_T"
+        },
+        {
+          "calculate": "['Alpine', format(datum.access_share_pct, '.0f') + '% venue proximity', format(datum.survival_rate_T, '.0f') + '% survival']",
+          "as": "calloutLabel"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "lineHeight": 14,
+        "fontSize": 11,
+        "fontWeight": 600,
+        "color": "#1a1a1a"
+      },
+      "encoding": {
+        "longitude": {
+          "field": "lon",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "lat",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "calloutLabel",
+          "type": "nominal"
+        }
+      }
+    },
+    {
       "description": "Caveat badge: survival is a licence-presence proxy — a ceased licence can be a sale or rename, not only a closure.",
       "data": {
         "values": [
