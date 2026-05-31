@@ -8,10 +8,10 @@
 // Run:  npm install && npm run validate
 // Exits non-zero on any failure, so it can gate a deploy.
 
-import { readFileSync, readdirSync, existsSync } from "node:fs";
-import { join, basename, dirname } from "node:path";
-import { fileURLToPath } from "node:url";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { createRequire } from "node:module";
+import { basename, dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 
 const require = createRequire(import.meta.url);
 const vl = require("vega-lite");
@@ -21,7 +21,10 @@ const SPECS_DIR = join(ROOT, "src", "specs");
 const DATA_DIR = join(ROOT, "src", "data");
 
 let failures = 0;
-const fail = (msg) => { console.error("  ✗ " + msg); failures++; };
+const fail = (msg) => {
+  console.error("  ✗ " + msg);
+  failures++;
+};
 const pass = (msg) => console.log("  ✓ " + msg);
 
 // Expected data-row counts (rows excluding header; geometries for the TopoJSON).
@@ -33,7 +36,7 @@ const EXPECTED_ROWS = {
   "melbourne_pt_patronage.csv": 290, // §4 chart-19: DOT Victoria monthly metro PT patronage, long format, Jan 2018 – latest (one missing month×mode cell dropped)
   "hospitality_modes.csv": 5, // §4 chart-21: VISTA weighted mode share of hospitality trips, one row per mode group (pooled 2022-23 + 2023-24)
 };
-// Charts 04/05/07/08/09/10 were cut in the "Close without the Cigar" restructure
+// Charts 04/05/07/08/09/10 were cut in the "Close but no Cigar" restructure
 // (issue #9); their four orphaned CSVs were deleted and dropped from the map above.
 // The §2 refactor also deleted chart_scatter_sa2.csv because chart-06 now reads
 // sa2_summary_web.csv directly.
@@ -49,15 +52,29 @@ const EXPECTED_ROUTE_FEATURES = 54; // pt_routes_simplified.topojson (train+tram
 // Melbourne close-up support files: routes/base clipped to the inner-Melbourne frame
 // (now used by chart-15's density-over-network overlay).
 const MELBOURNE_TOPO = {
-  "pt_routes_melbourne.topojson": { object: "public_transport_lines", features: 53 },
+  "pt_routes_melbourne.topojson": {
+    object: "public_transport_lines",
+    features: 53,
+  },
   "sa2_melbourne.topojson": { object: "sa2_summary", features: 224 },
 };
 // chart-15 hexbin density layer: offline-binned venue counts as hexagon polygons.
 // Cell count moves whenever R/THRESHOLD in tools/build-hexbins.mjs are tuned, so
 // assert structure (object present, non-empty, every count is an integer at/above
 // the threshold) rather than an exact feature count.
-const HEX_TOPO = { name: "venue_hexbins_melbourne.topojson", object: "venue_hexbins", minCount: 2 };
-const BAD_TOKENS = new Set(["NaN", "nan", "Infinity", "-Infinity", "inf", "-inf"]);
+const HEX_TOPO = {
+  name: "venue_hexbins_melbourne.topojson",
+  object: "venue_hexbins",
+  minCount: 2,
+};
+const BAD_TOKENS = new Set([
+  "NaN",
+  "nan",
+  "Infinity",
+  "-Infinity",
+  "inf",
+  "-inf",
+]);
 
 // ---- 1. Specs: valid JSON + compile clean ----------------------------------
 console.log("\n[1] Vega-Lite specs compile");
@@ -79,8 +96,14 @@ for (const file of specFiles) {
   // compile, capturing error-level log messages
   const errors = [];
   const logger = {
-    level: () => logger, error: (...a) => { errors.push(a.join(" ")); return logger; },
-    warn: () => logger, info: () => logger, debug: () => logger,
+    level: () => logger,
+    error: (...a) => {
+      errors.push(a.join(" "));
+      return logger;
+    },
+    warn: () => logger,
+    info: () => logger,
+    debug: () => logger,
   };
   try {
     vl.compile(spec, { logger });
@@ -103,7 +126,10 @@ for (const url of [...referencedData].sort()) {
 console.log("\n[3] Data integrity");
 for (const [name, expected] of Object.entries(EXPECTED_ROWS)) {
   const path = join(DATA_DIR, name);
-  if (!existsSync(path)) { fail(`${name}: missing`); continue; }
+  if (!existsSync(path)) {
+    fail(`${name}: missing`);
+    continue;
+  }
   const rows = parseCsv(path);
   if (rows.length === expected) pass(`${name}: ${rows.length} rows`);
   else fail(`${name}: expected ${expected} rows, got ${rows.length}`);
@@ -121,27 +147,46 @@ if (totalBad === 0) pass("no NaN/Infinity strings in any CSV");
 // SA2 join coverage: TopoJSON geometries ⊆ summary codes; 524 vs 522 gap expected
 console.log("\n[4] SA2 join coverage (sa2_code_2021)");
 try {
-  const topo = JSON.parse(readFileSync(join(DATA_DIR, "sa2_summary_simplified.topojson"), "utf8"));
+  const topo = JSON.parse(
+    readFileSync(join(DATA_DIR, "sa2_summary_simplified.topojson"), "utf8"),
+  );
   const geoms = topo.objects?.sa2_summary?.geometries ?? [];
-  if (geoms.length === EXPECTED_GEOMETRIES) pass(`topojson: ${geoms.length} geometries`);
-  else fail(`topojson: expected ${EXPECTED_GEOMETRIES} geometries, got ${geoms.length}`);
+  if (geoms.length === EXPECTED_GEOMETRIES)
+    pass(`topojson: ${geoms.length} geometries`);
+  else
+    fail(
+      `topojson: expected ${EXPECTED_GEOMETRIES} geometries, got ${geoms.length}`,
+    );
 
-  const geoCodes = new Set(geoms.map((g) => String(g.properties.sa2_code_2021)));
+  const geoCodes = new Set(
+    geoms.map((g) => String(g.properties.sa2_code_2021)),
+  );
   const summary = parseCsv(join(DATA_DIR, "sa2_summary_web.csv"));
   const sumCodes = new Set(summary.map((r) => r.sa2_code_2021));
   const missing = [...geoCodes].filter((c) => !sumCodes.has(c));
-  if (missing.length === 0) pass("every geometry code is present in sa2_summary_web.csv");
-  else fail(`geometry codes missing from summary: ${missing.slice(0, 5).join(", ")}`);
+  if (missing.length === 0)
+    pass("every geometry code is present in sa2_summary_web.csv");
+  else
+    fail(
+      `geometry codes missing from summary: ${missing.slice(0, 5).join(", ")}`,
+    );
 
   const gap = sumCodes.size - geoCodes.size;
-  if (gap === 2) pass(`524 summary vs 522 geometries — 2 non-spatial SA2s as expected`);
+  if (gap === 2)
+    pass(`524 summary vs 522 geometries — 2 non-spatial SA2s as expected`);
   else fail(`unexpected summary/geometry gap: ${gap} (expected 2)`);
 
   // venue SA2 codes ⊆ summary codes
-  const venueCodes = new Set(parseCsv(join(DATA_DIR, "venues_web.csv")).map((r) => r.sa2_code_2021));
+  const venueCodes = new Set(
+    parseCsv(join(DATA_DIR, "venues_web.csv")).map((r) => r.sa2_code_2021),
+  );
   const orphanVenues = [...venueCodes].filter((c) => c && !sumCodes.has(c));
-  if (orphanVenues.length === 0) pass("every venue SA2 code is present in the summary");
-  else fail(`venue SA2 codes not in summary: ${orphanVenues.slice(0, 5).join(", ")}`);
+  if (orphanVenues.length === 0)
+    pass("every venue SA2 code is present in the summary");
+  else
+    fail(
+      `venue SA2 codes not in summary: ${orphanVenues.slice(0, 5).join(", ")}`,
+    );
 } catch (e) {
   fail(`join coverage check failed: ${e.message}`);
 }
@@ -149,16 +194,28 @@ try {
 // ---- 5. Transport routes topojson (chart-11) -------------------------------
 console.log("\n[5] Transport routes topojson (chart-11)");
 try {
-  const routes = JSON.parse(readFileSync(join(DATA_DIR, "pt_routes_simplified.topojson"), "utf8"));
+  const routes = JSON.parse(
+    readFileSync(join(DATA_DIR, "pt_routes_simplified.topojson"), "utf8"),
+  );
   const obj = routes.objects?.public_transport_lines;
-  if (!obj) fail("pt_routes_simplified.topojson: missing object 'public_transport_lines'");
+  if (!obj)
+    fail(
+      "pt_routes_simplified.topojson: missing object 'public_transport_lines'",
+    );
   else {
     const feats = obj.geometries ?? [];
-    if (feats.length === EXPECTED_ROUTE_FEATURES) pass(`routes: ${feats.length} train+tram features`);
-    else fail(`routes: expected ${EXPECTED_ROUTE_FEATURES} features, got ${feats.length}`);
+    if (feats.length === EXPECTED_ROUTE_FEATURES)
+      pass(`routes: ${feats.length} train+tram features`);
+    else
+      fail(
+        `routes: expected ${EXPECTED_ROUTE_FEATURES} features, got ${feats.length}`,
+      );
     const modes = new Set(feats.map((g) => g.properties?.MODE));
-    const stray = [...modes].filter((m) => m && m.indexOf("TRAIN") < 0 && m.indexOf("TRAM") < 0);
-    if (stray.length === 0) pass("every route is a train or tram mode (no bus/coach leaked in)");
+    const stray = [...modes].filter(
+      (m) => m && m.indexOf("TRAIN") < 0 && m.indexOf("TRAM") < 0,
+    );
+    if (stray.length === 0)
+      pass("every route is a train or tram mode (no bus/coach leaked in)");
     else fail(`routes: unexpected non-rail/tram modes: ${stray.join(", ")}`);
   }
 } catch (e) {
@@ -171,8 +228,12 @@ for (const [name, { object, features }] of Object.entries(MELBOURNE_TOPO)) {
   try {
     const t = JSON.parse(readFileSync(join(DATA_DIR, name), "utf8"));
     const geoms = t.objects?.[object]?.geometries;
-    if (!geoms) { fail(`${name}: missing object '${object}'`); continue; }
-    if (geoms.length === features) pass(`${name}: ${geoms.length} features (object '${object}')`);
+    if (!geoms) {
+      fail(`${name}: missing object '${object}'`);
+      continue;
+    }
+    if (geoms.length === features)
+      pass(`${name}: ${geoms.length} features (object '${object}')`);
     else fail(`${name}: expected ${features} features, got ${geoms.length}`);
   } catch (e) {
     fail(`${name}: ${e.message}`);
@@ -187,10 +248,20 @@ try {
   if (!geoms) fail(`${HEX_TOPO.name}: missing object '${HEX_TOPO.object}'`);
   else if (geoms.length === 0) fail(`${HEX_TOPO.name}: no hex geometries`);
   else {
-    pass(`${HEX_TOPO.name}: ${geoms.length} hexes (object '${HEX_TOPO.object}')`);
-    const bad = geoms.filter((g) => !Number.isInteger(g.properties?.count) || g.properties.count < HEX_TOPO.minCount);
-    if (bad.length === 0) pass(`every hex has an integer count >= ${HEX_TOPO.minCount}`);
-    else fail(`${bad.length} hex(es) with a missing/non-integer/below-threshold count`);
+    pass(
+      `${HEX_TOPO.name}: ${geoms.length} hexes (object '${HEX_TOPO.object}')`,
+    );
+    const bad = geoms.filter(
+      (g) =>
+        !Number.isInteger(g.properties?.count) ||
+        g.properties.count < HEX_TOPO.minCount,
+    );
+    if (bad.length === 0)
+      pass(`every hex has an integer count >= ${HEX_TOPO.minCount}`);
+    else
+      fail(
+        `${bad.length} hex(es) with a missing/non-integer/below-threshold count`,
+      );
   }
 } catch (e) {
   fail(`${HEX_TOPO.name}: ${e.message}`);
@@ -211,7 +282,8 @@ try {
   const manifest = new Map();
   const manifestRe = /"(chart-[\w-]+)":\s*"(specs\/[^"]+\.vl\.json)"/g;
   let mm;
-  while ((mm = manifestRe.exec(html)) !== null) manifest.set(mm[1], basename(mm[2]));
+  while ((mm = manifestRe.exec(html)) !== null)
+    manifest.set(mm[1], basename(mm[2]));
 
   // Companion sub-specs must be in the manifest (else they never embed) — check
   // that, then drop them so the parity totals count charts only.
@@ -242,13 +314,19 @@ try {
   // a) all three totals agree on the expected count
   manifest.size === EXPECTED_CHART_COUNT
     ? pass(`manifest lists ${manifest.size} charts`)
-    : fail(`manifest lists ${manifest.size} charts, expected ${EXPECTED_CHART_COUNT}`);
+    : fail(
+        `manifest lists ${manifest.size} charts, expected ${EXPECTED_CHART_COUNT}`,
+      );
   mounts.length === EXPECTED_CHART_COUNT
     ? pass(`${mounts.length} mounted chart elements`)
-    : fail(`${mounts.length} mounted chart elements, expected ${EXPECTED_CHART_COUNT}`);
+    : fail(
+        `${mounts.length} mounted chart elements, expected ${EXPECTED_CHART_COUNT}`,
+      );
   diskSpecs.size === EXPECTED_CHART_COUNT
     ? pass(`${diskSpecs.size} spec files on disk`)
-    : fail(`${diskSpecs.size} spec files on disk, expected ${EXPECTED_CHART_COUNT}`);
+    : fail(
+        `${diskSpecs.size} spec files on disk, expected ${EXPECTED_CHART_COUNT}`,
+      );
 
   // b) no duplicate mount ids (the collision guard)
   const dupes = mounts.filter((id, i) => mounts.indexOf(id) !== i);
@@ -260,20 +338,32 @@ try {
   const noMount = [...manifestIds].filter((id) => !mountSet.has(id));
   const noManifest = [...mountSet].filter((id) => !manifestIds.has(id));
   if (noMount.length === 0 && noManifest.length === 0) {
-    pass("every manifest id has exactly one mount, and every mount is in the manifest");
+    pass(
+      "every manifest id has exactly one mount, and every mount is in the manifest",
+    );
   } else {
-    if (noMount.length) fail(`manifest ids with no mount: ${noMount.join(", ")}`);
-    if (noManifest.length) fail(`mounted ids missing from manifest: ${noManifest.join(", ")}`);
+    if (noMount.length)
+      fail(`manifest ids with no mount: ${noMount.join(", ")}`);
+    if (noManifest.length)
+      fail(`mounted ids missing from manifest: ${noManifest.join(", ")}`);
   }
 
   // d) manifest specs ↔ spec files on disk, exactly (no orphan spec either way)
   const missingOnDisk = [...manifestSpecs].filter((f) => !diskSpecs.has(f));
   const orphanOnDisk = [...diskSpecs].filter((f) => !manifestSpecs.has(f));
   if (missingOnDisk.length === 0 && orphanOnDisk.length === 0) {
-    pass("every manifest spec exists on disk, and every spec file is in the manifest");
+    pass(
+      "every manifest spec exists on disk, and every spec file is in the manifest",
+    );
   } else {
-    if (missingOnDisk.length) fail(`manifest references missing spec file(s): ${missingOnDisk.join(", ")}`);
-    if (orphanOnDisk.length) fail(`orphan spec file(s) on disk (not in manifest): ${orphanOnDisk.join(", ")}`);
+    if (missingOnDisk.length)
+      fail(
+        `manifest references missing spec file(s): ${missingOnDisk.join(", ")}`,
+      );
+    if (orphanOnDisk.length)
+      fail(
+        `orphan spec file(s) on disk (not in manifest): ${orphanOnDisk.join(", ")}`,
+      );
   }
 } catch (e) {
   fail(`structural parity check failed: ${e.message}`);
@@ -291,9 +381,13 @@ if (failures === 0) {
 
 // ---- helpers ----------------------------------------------------------------
 function collectUrls(node, out) {
-  if (Array.isArray(node)) { node.forEach((n) => collectUrls(n, out)); return; }
+  if (Array.isArray(node)) {
+    node.forEach((n) => collectUrls(n, out));
+    return;
+  }
   if (node && typeof node === "object") {
-    if (typeof node.url === "string" && node.url.startsWith("data/")) out.add(node.url);
+    if (typeof node.url === "string" && node.url.startsWith("data/"))
+      out.add(node.url);
     for (const v of Object.values(node)) collectUrls(v, out);
   }
 }
@@ -306,19 +400,24 @@ function parseCsv(path) {
   return lines.slice(1).map((line) => {
     const cells = splitCsvLine(line);
     const row = {};
-    header.forEach((h, i) => { row[h] = cells[i] ?? ""; });
+    header.forEach((h, i) => {
+      row[h] = cells[i] ?? "";
+    });
     return row;
   });
 }
 
 function splitCsvLine(line) {
   const out = [];
-  let cur = "", inQ = false;
+  let cur = "",
+    inQ = false;
   for (let i = 0; i < line.length; i++) {
     const c = line[i];
     if (c === '"') inQ = !inQ;
-    else if (c === "," && !inQ) { out.push(cur); cur = ""; }
-    else cur += c;
+    else if (c === "," && !inQ) {
+      out.push(cur);
+      cur = "";
+    } else cur += c;
   }
   out.push(cur);
   return out.map((s) => s.trim());
@@ -326,6 +425,7 @@ function splitCsvLine(line) {
 
 function scanBadTokens(rows) {
   let n = 0;
-  for (const row of rows) for (const v of Object.values(row)) if (BAD_TOKENS.has(v)) n++;
+  for (const row of rows)
+    for (const v of Object.values(row)) if (BAD_TOKENS.has(v)) n++;
   return n;
 }
