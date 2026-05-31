@@ -48,7 +48,7 @@
       },
       "transform": [
         {
-          "calculate": "datum.properties.count < 5 ? '<5' : datum.properties.count < 20 ? '5-19' : datum.properties.count < 50 ? '20-49' : datum.properties.count < 100 ? '50-99' : '100+'",
+          "calculate": "datum.properties.count < 10 ? '<10' : datum.properties.count < 50 ? '10-50' : datum.properties.count < 200 ? '50-200' : '200+'",
           "as": "count_band"
         }
       ],
@@ -63,13 +63,13 @@
           "type": "ordinal",
           "title": "Venues per hex cell",
           "scale": {
-            "domain": ["<5", "5-19", "20-49", "50-99", "100+"],
-            "range": ["#bdbdbd", "#fed976", "#fd8d3c", "#e31a1c", "#800026"]
+            "domain": ["<10", "10-50", "50-200", "200+"],
+            "range": ["#bdbdbd", "#fed976", "#e31a1c", "#800026"]
           },
           "legend": {
             "orient": "bottom",
             "direction": "horizontal",
-            "columns": 5,
+            "columns": 4,
             "symbolType": "square",
             "symbolSize": 100
           }
@@ -103,7 +103,8 @@
         "type": "geoshape",
         "filled": false,
         "strokeWidth": 1.5,
-        "strokeCap": "round"
+        "strokeCap": "round",
+        "interactive": false
       },
       "encoding": {
         "color": {
@@ -143,7 +144,8 @@
         "filled": true,
         "stroke": "#26384f",
         "strokeWidth": 0.45,
-        "opacity": 0.92
+        "opacity": 0.92,
+        "interactive": false
       },
       "encoding": {
         "longitude": {
@@ -170,14 +172,7 @@
             "symbolStrokeColor": "#26384f",
             "symbolStrokeWidth": 1
           }
-        },
-        "tooltip": [
-          {
-            "field": "MODE",
-            "type": "nominal",
-            "title": "Stop mode"
-          }
-        ]
+        }
       }
     },
     {

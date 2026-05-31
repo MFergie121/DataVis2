@@ -4,8 +4,8 @@
   "title": {
     "text": "Melbourne's venues are far more likely to sit near transport",
     "subtitle": [
-      "Each dot is an SA2 with at least 10 venues, placed by the share of its venues within 400 m of a stop.",
-      "Metro areas crowd up against 100%; regional Victoria trails well behind."
+      "Each dot is an SA2 with at least 10 venues, placed by the share of its venues within",
+      "400 m of a stop. Metro areas crowd up against 100%; regional Victoria trails well behind."
     ],
     "anchor": "start",
     "subtitleFontStyle": "italic"

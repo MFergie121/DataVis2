@@ -86,7 +86,7 @@
         "color": {
           "field": "access_class",
           "type": "ordinal",
-          "title": ["Venues within", "400 m of a stop"],
+          "title": ["Venues within 400 m of a stop"],
           "scale": {
             "domain": [
               "0–20%",
