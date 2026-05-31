@@ -49,7 +49,7 @@
       },
       "transform": [
         {
-          "calculate": "datum.properties.count < 10 ? '<10' : datum.properties.count < 50 ? '10-50' : datum.properties.count < 200 ? '50-200' : '200+'",
+          "calculate": "datum.properties.count < 5 ? '<5' : datum.properties.count < 20 ? '5-20' : datum.properties.count < 100 ? '20-100' : '100+'",
           "as": "count_band"
         }
       ],
@@ -64,7 +64,7 @@
           "type": "ordinal",
           "title": "Venues per hex cell",
           "scale": {
-            "domain": ["<10", "10-50", "50-200", "200+"],
+            "domain": ["<5", "5-20", "20-100", "100+"],
             "range": ["#bdbdbd", "#fed976", "#e31a1c", "#800026"]
           },
           "legend": {
